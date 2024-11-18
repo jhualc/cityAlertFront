@@ -11,7 +11,8 @@ export class AppLoginComponent implements OnInit {
   loginForm!: FormGroup;
   hasError: boolean = false;
   hasErrorText: string = '';
-
+  dark: boolean;
+  
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

@@ -1,17 +1,17 @@
-<div class="login-body" >
+<div class="login-body" [ngClass]="{'layout-dark': dark, 'layout-light': !dark}">
 
     <div class="login-content">
         <div class="login-panel">
             <div class="login-panel-content">
                 <div class="logo">
-                    <img src="assets/layout/images/logo_hidro.svg" alt="mirage-layout" />
+                    <img src="assets/layout/images/Logo_City_Alert.svg" alt="mirage-layout" />
                 </div>
                 <h1>Iniciar Sesión</h1>
-                <p>Reporte fácil y rápido, </p>
+                <p>Reporte fácil y rápido!</p>
 
                 <form class="forms" [formGroup]="loginForm">
                     <div class="login-input-wrapper">
-                        <input type="email" formControlName= "email" pInputText id="email" placeholder="Correo / email">
+                        <input type="email" formControlName= "email" pInputText id="email" placeholder="Correo / Email">
                         <i class="pi pi-at"></i>
                     </div>
                     <div class="login-input-wrapper">
@@ -33,7 +33,6 @@
                 </form>                
             </div>
         </div>
-
         <div class="desert"></div>
     </div>
 </div>
