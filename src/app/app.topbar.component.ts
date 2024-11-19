@@ -279,9 +279,9 @@ export class AppTopBarComponent {
 		  this.user = userString
 			? JSON.parse(userString)
 			: { avatar: "users/non-avatar.svg" }; // Valor predeterminado
-		  if (!this.user.avatar) {
+		/*  if (!this.user.avatar) {
 			this.user.avatar = "users/non-avatar.svg"; // Validación del avatar
-		  }
+		  }*/
 		} catch (error) {
 		  console.error("Error parsing user data:", error);
 		  this.user = { avatar: "users/non-avatar.svg" }; // Objeto predeterminado en caso de error
