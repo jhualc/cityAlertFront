@@ -63,9 +63,9 @@ export class AppLoginComponent implements OnInit {
           console.log(resp);
           if (resp && !resp.error) {
             // Guardar el token y redirigir
-            let response = this.authService.setToken(resp.token);
+            let response = this.authService.setToken(resp.Token);
             console.log("REsponse::", response);
-            this.router.navigate(['/dashboard']); // Redirigir después del login exitoso
+            this.router.navigate(['/inicio']); // Redirigir después del login exitoso
           } else {
             this.hasError = true;
             this.hasErrorText = 'Usuario o contraseña incorrectos.';

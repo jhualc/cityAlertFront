@@ -17,7 +17,7 @@ interface Report {
 export class ReportListComponent implements OnInit {
 
   reports: Report[] = []; // Inicialmente vacío
-  private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/geo/geomarks?userid=1';
+  private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/geo/geomarks';
 
   constructor(private http: HttpClient) {}
 
@@ -26,9 +26,9 @@ export class ReportListComponent implements OnInit {
   }
 
   getReports(): void {
-    this.http.get<Report[]>(this.apiUrl).subscribe(
-      (data) => {
-        this.reports = data; // Asigna los datos recibidos a la variable 'reports'
+    this.http.get<{ GeoMarks: Array<{ UserId: number, Latitude: number, Longitude: number, Address: string, Comments: string }> }>(this.apiUrl).subscribe(
+      (response) => {
+        this.reports = response.GeoMarks; // Accedemos a la propiedad GeoMarks para obtener el arreglo
       },
       (error) => {
         console.error('Error al obtener los reportes:', error);

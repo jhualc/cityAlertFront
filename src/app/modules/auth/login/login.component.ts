@@ -21,7 +21,7 @@ export class LoginComponent {
                 private router: ActivatedRoute){
                 
     if(this.authService.isLogin()){
-      this.route.navigate(['/dash']);
+      this.route.navigate(['/inicio']);
     }
                 
   }
