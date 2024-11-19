@@ -131,7 +131,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 						<li #profile class="topbar-item profile-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === profile}">
 							<a href="#" (click)="appMain.onTopbarItemClick($event,profile)">
                             <span class="profile-image-wrapper">
-								<div class="avatar avatar-online mr-2"><img src="{{back}}{{user.avatar}}" alt="mirage-layout" /></div>
+								<div class="avatar avatar-online mr-2"><img src="assets/layout/images/non-avatar.svg" alt="mirage-layout" /></div>
                             </span>
 								<span class="profile-info-wrapper">
                                 <h3>{{user.name}}</h3>

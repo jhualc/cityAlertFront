@@ -8,7 +8,7 @@ import { PersonaDataService } from './demo/service/persona-data.service';
         <div class="layout-footer">
 			<div >
 				<a href="#/dash">
-					<img src="assets/layout/images/Logos_hidro_wec2.png" alt="mirage-layout" height="40" />
+					<img src="assets/layout/images/logo_texto.svg" alt="mirage-layout" height="40" />
 				</a>
 				<div class="text">
 				</div>
