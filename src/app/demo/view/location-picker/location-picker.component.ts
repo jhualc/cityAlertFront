@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as L from 'leaflet';
 import { SaveAddresService } from 'src/app/modules/auth/_services/save-addres.service';
+import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-location-picker',
@@ -17,7 +20,7 @@ export class LocationPickerComponent implements OnInit {
   userLng: number;
   data: any = {};  // Aseguramos que 'data' esté inicializado como un objeto
 
-  constructor(private http: HttpClient, private saveAddresService: SaveAddresService) {}
+  constructor(private http: HttpClient, private saveAddresService: SaveAddresService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initializeMap();
@@ -52,60 +55,103 @@ export class LocationPickerComponent implements OnInit {
   }
 
   loadMapTiles(): void {
+    if (!this.map) {
+      console.error("El mapa no está inicializado.");
+      return;
+    }
+  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19,
+      minZoom: 5,
     }).addTo(this.map);
-
+  
     this.map.on('click', (e: any) => {
+      const { lat, lng } = e.latlng;
+  
       this.addMarker(e.latlng);
-      this.getAddressFromCoordinates(e.latlng.lat, e.latlng.lng);
+  
+      this.getAddressFromCoordinates(lat, lng).subscribe({
+        next: (address) => {
+          this.address = address; // Actualiza la dirección seleccionada
+          console.log("Dirección:", this.address);
+          L.marker(e.latlng).addTo(this.map).bindPopup(address).openPopup();
+        },
+        error: (err) => {
+          console.error("Error obteniendo la dirección:", err);
+          this.address = "Dirección no disponible"; // Manejo en caso de error
+          L.marker(e.latlng).addTo(this.map).bindPopup(this.address).openPopup();
+        }
+      });
+      
     });
   }
+  
 
   addMarker(latlng: any): void {
+    // Si ya existe un marcador, elimínalo del mapa
     if (this.marker) {
       this.map.removeLayer(this.marker);
     }
+  
+    // Agrega un nuevo marcador
     this.marker = L.marker(latlng).addTo(this.map);
   }
-
-  getAddressFromCoordinates(lat: number, lng: number): void {
-    const url = `https://cityalertapi-dev.azurewebsites.net/geo/addresses?lat=${lat}&lon=${lng}`;
   
-    // No es necesario especificar 'responseType' si deseas que Angular maneje la respuesta como JSON por defecto
-    this.http.get<{ Address: string }>(url).subscribe(
-      (response) => {
-        // Accedemos a la propiedad 'Address' de la respuesta JSON
-        this.address = response.Address;
-      },
-      (error) => {
+
+  getAddressFromCoordinates(lat: number, lng: number): Observable<string> {
+    const url = `https://cityalertapi-dev.azurewebsites.net/geo/addresses?lat=${lat}&lon=${lng}`;
+    const token = this.authService.getToken();
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.get<{ Success: boolean; Data: { Address: string } }>(url, { headers }).pipe(
+      map((response) => {
+        if (response.Success && response.Data && response.Data.Address) {
+          return response.Data.Address;
+        } else {
+          console.warn('Respuesta inesperada:', response);
+          return 'Dirección no disponible';
+        }
+      }),
+      catchError((error) => {
         console.error('Error fetching address:', error);
-        this.address = 'Unable to retrieve address';
-      }
+        return of('Unable to retrieve address'); // Retorna un valor por defecto en caso de error
+      })
     );
   }
   
+  
+  
+  
   onSubmit(): void {
+    if (!this.address || this.address === 'Dirección no disponible') {
+      alert('Por favor selecciona una ubicación válida en el mapa antes de guardar.');
+      return;
+    }
+  
     this.data = {
-      UserId: 1,
+      UserId: 1, // Cambia esto según tu lógica de usuario
       Latitude: this.userLat,
       Longitude: this.userLng,
       Address: this.address,
       Comments: this.observations
-      
     };
-
-    // Logueamos los datos para depuración
+  
     console.log('Data to save:', this.data);
-
-    // Llamamos al servicio para guardar la dirección
+  
     this.saveAddresService.saveAddress(this.data).subscribe(
       (response) => {
         console.log('Address saved successfully:', response);
+        alert('Dirección guardada exitosamente');
       },
       (error) => {
         console.error('Error saving address:', error);
+        alert('Error al guardar la dirección. Intenta nuevamente.');
       }
     );
   }
+  
 }

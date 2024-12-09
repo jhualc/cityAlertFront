@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class SaveAddresService {
 
-  private saveAddresUrl = 'https://cityalertapi-dev.azurewebsites.net/geo/geomarks';
+  private saveAddresUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts';
 
   constructor(private http: HttpClient ) { }
 

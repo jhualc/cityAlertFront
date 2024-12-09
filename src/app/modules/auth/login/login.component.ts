@@ -28,7 +28,7 @@ export class LoginComponent {
 
   ngOnInit(): void {
       this.initForm();
-      this.loginForm.controls.password.setValue('123456');
+      //this.loginForm.controls.password.setValue('123456');
   }
 
 

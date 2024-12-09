@@ -13,8 +13,9 @@ export class RegisterComponent {
     registerForm: FormGroup;
     get email() { return this.registerForm.get('email'); };
     get name() { return this.registerForm.get('name'); };
-    get usr_empresa() { return this.registerForm.get('usr_empresa'); };
-    get usr_cargo() { return this.registerForm.get('usr_cargo'); };
+    get phone() { return this.registerForm.get('phone'); };
+    get password() { return this.registerForm.get('password'); };
+  
   
     hasError: Boolean= false;
     hasErrorText: any = '';
@@ -37,8 +38,8 @@ export class RegisterComponent {
          this.registerForm = this.fb.group({
             email:[null, [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(100)]],
             name:[null, [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-            usr_empresa:[null, [Validators.required, Validators.maxLength(200)]],
-            usr_cargo:[null, [Validators.required, Validators.maxLength(200)]]
+            phone:[null, [Validators.required, Validators.maxLength(200)]],
+            password:[null, [Validators.required, Validators.maxLength(20)]],
           }) 
         }
         
@@ -46,11 +47,10 @@ export class RegisterComponent {
           this.hasError= false;
         //  console.log(this.loginForm.value);
         const data = {
-          email: this.registerForm.value.email,
-          password: this.generica,
           name: this.registerForm.value.name,
-          usr_empresa: this.registerForm.value.usr_empresa,
-          usr_cargo: this.registerForm.value.usr_cargo
+          email: this.registerForm.value.email,
+          phone: this.registerForm.value.phone,
+          password: this.registerForm.value.password,
         }
         
           this.authService.register(data)

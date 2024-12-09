@@ -36,26 +36,26 @@
                 </div>                    
                 <div class="grid formgrid">
                     <div class="col-12 mb-2 lg:col-6 lg:mb-0">
-                        <div [ngClass]="{'invalid': usr_empresa.invalid && (usr_empresa.dirty || usr_empresa.touched), 'valid': usr_empresa.valid}">
-                            <small><span *ngIf="usr_empresa.hasError('required')" class="text-danger">Este campo es requerido </span></small>
-                            <small><span *ngIf="usr_empresa.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
+                        <div [ngClass]="{'invalid': phone.invalid && (phone.dirty || phone.touched), 'valid': phone.valid}">
+                            <small><span *ngIf="phone.hasError('required')" class="text-danger">Este campo es requerido </span></small>
+                            <small><span *ngIf="phone.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
                         </div> 
                         <span class="p-input-icon-left">
                             <i class="pi pi-building"></i>
-                            <input type="text" formControlName= "usr_empresa" pInputText id="usr_empresa" placeholder="Empresa">
+                            <input type="text" formControlName= "phone" pInputText id="phone" placeholder="Phone">
                         </span> 
                         <br>                         
                     </div>                 
                 </div>
                 <div class="grid formgrid">
                     <div class="col-12 mb-2 lg:col-6 lg:mb-0">
-                        <div [ngClass]="{'invalid': usr_cargo.invalid && (usr_cargo.dirty || usr_cargo.touched), 'valid': usr_cargo.valid}">
-                            <small><span *ngIf="usr_cargo.hasError('required')" class="text-danger">Este campo es requerido </span></small>
-                            <small><span *ngIf="usr_cargo.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
+                        <div [ngClass]="{'invalid': password.invalid && (password.dirty || password.touched), 'valid': password.valid}">
+                            <small><span *ngIf="password.hasError('required')" class="text-danger">Este campo es requerido </span></small>
+                            <small><span *ngIf="password.hasError('maxlength')" class="text-danger">Máximo 20 caracteres </span></small>
                         </div>
                         <span class="p-input-icon-left">
                             <i class="pi pi-users"></i>
-                            <input type="text" formControlName= "usr_cargo" pInputText id="usr_cargo" placeholder="Cargo">
+                            <input type="text" formControlName= "password" pInputText id="password" placeholder="Password">
                         </span>
                         <br>                     
                     </div>

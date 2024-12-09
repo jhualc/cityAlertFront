@@ -45,11 +45,15 @@ import { PerfilComponent } from './demo/view/perfil.component';
 import { SponsorsViewComponent } from './demo/view/sponsors-view/sponsors-view.component';
 import { LocationPickerComponent } from './demo/view/location-picker/location-picker.component';
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
+import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
 
 
 export const routes: Routes = [
     {path: 'login', component: AppLoginComponent},
     {path: 'register', component: AppRegisterComponent},
+    {path: 'inicio', component: LocationPickerComponent},
+    {path: 'reporte', component: ReportListComponent},
+    {path: 'heat-map', component: HeatmapComponent},
     
 /*
     {
@@ -75,8 +79,7 @@ export const routes: Routes = [
         path: '', component: AppMainComponent,
         children: [
             {path: '', component: DashboardDemoComponent},
-            {path: 'inicio', component: LocationPickerComponent},
-            {path: 'reporte', component: ReportListComponent},
+           
             {path: 'dash', component: DashboardDemoComponent},
             {path: 'uikit/register', component: FormLayoutDemoComponent},
             {path: 'uikit/floatlabel', component: FloatLabelDemoComponent},

@@ -87,8 +87,8 @@ export class AppFooterComponent implements OnInit {
             return;
           }
       
-          console.log("USERID:::", this.user);
-      
+          console.log("USERID:::", this.user.id);
+      /*
           // Realiza la solicitud para obtener información adicional del usuario
           this.PersonaDataService.getUser(this.user.id).subscribe({
             next: (respuesta) => {
@@ -118,7 +118,7 @@ export class AppFooterComponent implements OnInit {
               }
             },
           });
-          
+          */
         } catch (error) {
           console.error("Error en ngOnInit:", error);
           this.authService.logout();

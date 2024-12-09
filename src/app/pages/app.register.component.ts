@@ -41,9 +41,8 @@ initForm(){
  this.registerForm = this.fb.group({
     email:[null, [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(100)]],
     name:[null, [Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
-    usr_empresa:[null, [Validators.required, Validators.maxLength(200)]],
-    usr_password:[null, [Validators.required, Validators.maxLength(200)]],
-    usr_password_confirm:[null, [Validators.required, Validators.maxLength(200)]],
+    usr_password:[null, [ Validators.maxLength(200)]],
+    usr_password_confirm:[null, [ Validators.maxLength(200)]],
     phone:[null, [Validators.required, Validators.maxLength(200)]]
   }) 
 }
@@ -58,6 +57,7 @@ const data = {
   Password: this.registerForm.value.usr_password,
   Email: this.registerForm.value.email,
   Phone: this.registerForm.value.phone,
+  PAssword_confirm: this.registerForm.value.usr_password_confirm,
 }
 
 console.log("data::", data);

@@ -47,8 +47,8 @@
 
                     <!-- Contraseña -->
                     <div fxLayout="row">
-                        <div [ngClass]="{'invalid': usr_password.invalid && (usr_password.dirty || usr_password.touched), 'valid': usr_password.valid}">
-                            <small><span *ngIf="usr_password.hasError('required')" class="text-danger">Este campo es requerido </span></small>
+                        <div [ngClass]="">
+                            
                             <small><span *ngIf="usr_password.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
                         </div>                         
                         <div class="login-input-wrapper">
@@ -59,8 +59,8 @@
 
                     <!-- Confirmar Contraseña -->
                     <div fxLayout="row">
-                        <div [ngClass]="{'invalid': usr_password_confirm.invalid && (usr_password_confirm.dirty || usr_password_confirm.touched), 'valid': usr_password_confirm.valid}">
-                            <small><span *ngIf="usr_password_confirm.hasError('required')" class="text-danger">Este campo es requerido </span></small>
+                        <div [ngClass]="">
+                            
                             <small><span *ngIf="usr_password_confirm.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
                         </div>                         
                         <div class="login-input-wrapper">
@@ -71,7 +71,7 @@
 
                     <!-- Botones -->
                     <div class="buttons">
-                        <button pButton type="submit" class="btn font-weight-semibold" [disabled]="registerForm.valid">Registrar</button>
+                        <button pButton type="submit" class="btn font-weight-semibold" [disabled]="!registerForm.valid">Registrar</button>
                         <a href="#/login" class="secondary-button">Inicia sesión Aquí</a>
                     </div>
                 </form>                

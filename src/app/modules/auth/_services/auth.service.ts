@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/auth'; 
-  private registryUrl = 'https://cityalertapi-dev.azurewebsites.net/api/user';// URL base de la API
+  private registryUrl = 'https://cityalertapi-dev.azurewebsites.net/users';// URL base de la API
   private tokenKey = 'auth_token'; // Clave para almacenar el token
   private userKey= 'user';
 
@@ -54,6 +54,6 @@ export class AuthService {
   // Método para registrar nuevos usuarios
   register(data: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.registryUrl}/register`, data, { headers });
+    return this.http.post(`${this.registryUrl}`, data, { headers });
   }
 }

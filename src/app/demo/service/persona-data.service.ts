@@ -21,6 +21,7 @@ export class PersonaDataService {
   }
 
   getUser(id: any) {
+    console.log("usuario", id);
     let url = `${URL_SERVICIOS}/getUser/${id}`;
     return     this.http.get(url); 
   }
