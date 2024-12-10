@@ -9,6 +9,14 @@
         <label for="address">Dirección</label>
         <input type="text" id="address" [(ngModel)]="address" name="address" class="form-control" placeholder="Selected address" readonly />
       </div>
+
+      <label for="fruta">Selecciona un tipo de alerta:</label>
+      <select [(ngModel)]="alertTypeId" name="alertTypeId" id="alertTypeId">
+        <option value="1">Huecos</option>
+        <option value="2">Iluminación</option>
+        <option value="3">Peligro</option>
+      </select>
+  
   
       <div class="form-group">
         <label for="observations">Comentarios</label>

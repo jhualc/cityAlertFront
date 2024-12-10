@@ -19,6 +19,7 @@ export class LocationPickerComponent implements OnInit {
   userLat: number;
   userLng: number;
   data: any = {};  // Aseguramos que 'data' esté inicializado como un objeto
+  alertTypeId: string;
 
   constructor(private http: HttpClient, private saveAddresService: SaveAddresService, private authService: AuthService) {}
 
@@ -102,7 +103,7 @@ export class LocationPickerComponent implements OnInit {
   getAddressFromCoordinates(lat: number, lng: number): Observable<string> {
     const url = `https://cityalertapi-dev.azurewebsites.net/geo/addresses?lat=${lat}&lon=${lng}`;
     const token = this.authService.getToken();
-  
+    
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -127,17 +128,21 @@ export class LocationPickerComponent implements OnInit {
   
   
   onSubmit(): void {
+
+    const user = this.authService.getUser();
+  
     if (!this.address || this.address === 'Dirección no disponible') {
       alert('Por favor selecciona una ubicación válida en el mapa antes de guardar.');
       return;
     }
   
     this.data = {
-      UserId: 1, // Cambia esto según tu lógica de usuario
+      UserId: user, // Cambia esto según tu lógica de usuario
       Latitude: this.userLat,
       Longitude: this.userLng,
       Address: this.address,
-      Comments: this.observations
+      Comments: this.observations,
+      AlertTypeId: this.alertTypeId,
     };
   
     console.log('Data to save:', this.data);

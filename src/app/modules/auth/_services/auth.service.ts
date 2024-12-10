@@ -35,12 +35,16 @@ export class AuthService {
     localStorage.setItem(this.userKey, JSON.stringify(jsonObject));
   }
 
-  // Obtener el token desde el localStorage
+
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // Verificar si el usuario está autenticado (existe token)
+  getUser (): string | null {
+    return localStorage.getItem(this.userKey);
+  }
+
+
   isLogin(): boolean {
     return !!this.getToken();
   }

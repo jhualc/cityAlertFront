@@ -60,3 +60,32 @@
     font-size: 0.85rem;
   }
 }
+
+/* Estilo general para el select */
+select {
+  width: 200px;  /* Tamaño del select */
+  padding: 10px;  /* Espaciado interno */
+  font-size: 16px;  /* Tamaño de fuente */
+  border: 2px solid #4CAF50;  /* Borde verde */
+  border-radius: 5px;  /* Bordes redondeados */
+  background-color: #f8f8f8;  /* Color de fondo claro */
+  color: #333;  /* Color de texto */
+  appearance: none;  /* Quitar estilo predeterminado del navegador */
+  -webkit-appearance: none;  /* Para Safari */
+  -moz-appearance: none;  /* Para Firefox */
+  outline: none;  /* Eliminar el borde cuando está enfocado */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Sombra sutil */
+  cursor: pointer;  /* Cambiar el cursor a mano */
+}
+
+/* Estilo del contorno del select cuando se enfoca */
+select:focus {
+  border-color: #4CAF50;  /* Borde verde cuando está enfocado */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);  /* Sombra verde al enfocar */
+}
+
+/* Estilo para las opciones del select */
+option {
+  padding: 10px;  /* Espaciado interno de las opciones */
+  font-size: 16px;  /* Tamaño de fuente de las opciones */
+}

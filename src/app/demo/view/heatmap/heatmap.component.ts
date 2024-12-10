@@ -1,37 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.heat'; // Importar el complemento de mapas de calor
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 
 @Component({
   selector: 'app-heatmap',
   templateUrl: './heatmap.component.html',
-
 })
 export class HeatmapComponent implements OnInit {
   private map!: L.Map;
+  private heatmapData: [number, number, number][] = []; // Array vacío que se llenará con los datos de la API
+  private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/all'; // URL del endpoint
 
-  // Datos de ejemplo (latitud, longitud, intensidad)
-  private heatmapData: [number, number, number][] = [
-    [4.70778, -74.2328, 0.5], // San Francisco
-    [4.70758, -74.2328, 0.6],
-    [4.70708, -74.2328, 70.7],
-    [4.70378, -74.2328, 0.8],
-    [4.70478, -74.2328, 0.9],
-    [4.70578, -74.2328, 80.1],  // Chicago
-    [4.70678, -74.2328, 0.5],
-    [4.70978, -74.2328, 0.5],
-    [4.70578, -74.2428, 0.5],
-    [4.70578, -74.2528, 20.5],
-    [4.70578, -74.2228, 30.5],
-  ];
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initMap();
-    this.addHeatmapLayer();
+    this.getHeatmapData(); 
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([4.70778, -74.2328], 15); // Centrado en San Francisco
+    this.map = L.map('map').setView([4.70778, -74.2328], 15); 
 
     // Añadir capa de mapa base
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -39,12 +29,47 @@ export class HeatmapComponent implements OnInit {
     }).addTo(this.map);
   }
 
-  private addHeatmapLayer(): void {
-    const heatLayer = (L as any).heatLayer(this.heatmapData, {
-      radius: 25,       // Radio del área de calor
-      blur: 15,         // Nivel de desenfoque
-      maxZoom: 17,      // Máximo nivel de zoom
+  private getHeatmapData(): void {
+    // Obtener el token de autorización
+    const token = this.authService.getToken();
+
+    // Crear los encabezados con el token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`, // Token en formato Bearer
     });
-    heatLayer.addTo(this.map);
+
+    // Realizar la solicitud GET
+    this.http.get<{ Data: any[] }>(this.apiUrl, { headers })
+      .subscribe(
+        (response) => {
+          console.log("Datos obtenidos para el mapa de calor:", response.Data);
+
+          // Iterar sobre los datos y poblar el array heatmapData
+          this.heatmapData = response.Data.map(item => {
+            const latitude = item.Latitude;
+            const longitude = item.Longitude;
+            const intensity = item.AlertStatusId === 1 ? 0.5 : 0.8; // Ajustar según tu lógica
+            return [latitude, longitude, intensity];
+          });
+
+          this.addHeatmapLayer(); // Agregar la capa de mapa de calor después de cargar los datos
+        },
+        (error) => {
+          console.error('Error al obtener los datos para el mapa de calor:', error);
+        }
+      );
+  }
+
+  private addHeatmapLayer(): void {
+    if (this.heatmapData.length > 0) {
+      const heatLayer = (L as any).heatLayer(this.heatmapData, {
+        radius: 25,       // Radio del área de calor
+        blur: 15,         // Nivel de desenfoque
+        maxZoom: 17,      // Máximo nivel de zoom
+      });
+      heatLayer.addTo(this.map);
+    } else {
+      console.error('No hay datos para el mapa de calor');
+    }
   }
 }

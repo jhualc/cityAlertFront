@@ -31,23 +31,31 @@ export class ReportListComponent implements OnInit {
   }
 
   getReports(): void {
-
-       // Tu token (deberías obtenerlo de una fuente segura)
-   const token = this.authService.getToken();
+    // Obtener el token de autorización
+    const token = this.authService.getToken();
+  
     // Crear los encabezados con el token
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Token en formato Bearer
     });
-
-    this.http.get<{ GeoMarks: Array<{ UserId: number, Latitude: number, Longitude: number, Address: string, Comments: string }> }>(this.apiUrl, { headers })
+  
+    // Realizar la solicitud GET para obtener los reportes
+    this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(this.apiUrl, { headers })
       .subscribe(
         (response) => {
-          this.reports = response.GeoMarks; // Accedemos a la propiedad GeoMarks para obtener el arreglo
+          // Verificamos si la respuesta es exitosa
+          if (response.Success) {
+            // Asignamos los reportes al arreglo 'reports'
+            this.reports = response.Data;
+          } else {
+            console.error('No se pudieron obtener los reportes:', response.Message);
+          }
         },
         (error) => {
           console.error('Error al obtener los reportes:', error);
         }
       );
   }
+  
 
 }

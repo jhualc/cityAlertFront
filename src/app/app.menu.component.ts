@@ -20,7 +20,7 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             {label: 'Registrar Alerta', icon: 'pi pi-fw pi-home', routerLink: ['/inicio']},
             {label: 'Reporte Alertas', icon: 'pi pi-fw pi-calendar', routerLink: ['/reporte']},
-            {label: 'Otros Reportes', icon: 'pi pi-fw pi-megaphone', routerLink: ['pages/acerca']},
+            {label: 'Mapa de Calor', icon: 'pi pi-fw pi-megaphone', routerLink: ['/heat-map']},
             {label: 'Acerca de', icon: 'pi pi-fw pi-send', routerLink: ['pages/acerca']},
            // {label: 'Patrocinadores', icon: 'pi pi-fw pi-bars', routerLink: ['pages/sponsors']},
 /*             {

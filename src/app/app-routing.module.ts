@@ -51,9 +51,7 @@ import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
 export const routes: Routes = [
     {path: 'login', component: AppLoginComponent},
     {path: 'register', component: AppRegisterComponent},
-    {path: 'inicio', component: LocationPickerComponent},
-    {path: 'reporte', component: ReportListComponent},
-    {path: 'heat-map', component: HeatmapComponent},
+
     
 /*
     {
@@ -79,7 +77,9 @@ export const routes: Routes = [
         path: '', component: AppMainComponent,
         children: [
             {path: '', component: DashboardDemoComponent},
-           
+            {path: 'inicio', component: LocationPickerComponent},
+            {path: 'reporte', component: ReportListComponent},
+            {path: 'heat-map', component: HeatmapComponent},
             {path: 'dash', component: DashboardDemoComponent},
             {path: 'uikit/register', component: FormLayoutDemoComponent},
             {path: 'uikit/floatlabel', component: FloatLabelDemoComponent},
