@@ -21,6 +21,12 @@ export class LocationPickerComponent implements OnInit {
   data: any = {};  // Aseguramos que 'data' esté inicializado como un objeto
   alertTypeId: string;
 
+  tiposAlerta: { id: string; descripcion: string }[] = [
+    { id: '1', descripcion: 'Huecos' },
+    { id: '2', descripcion: 'Iluminación' },
+    { id: '3', descripcion: 'Peligro' }
+  ];
+
   constructor(private http: HttpClient, private saveAddresService: SaveAddresService, private authService: AuthService) {}
 
   ngOnInit(): void {

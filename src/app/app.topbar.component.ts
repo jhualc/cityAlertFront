@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
                 <div class="layout-topbar-left">
 					<div class="layout-topbar-logo-wrapper" >
 						<a (click)="irAPaginaDestino('dash')">
-							<img src="assets/layout/images/logo_texto.svg" alt="mirage-layout" height="50" />
+							<img src="assets/layout/images/logo_city_alert_red_horizontal.svg" alt="mirage-layout" height="50" />
 						</a>
 					</div>
 
