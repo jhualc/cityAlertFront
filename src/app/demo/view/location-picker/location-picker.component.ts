@@ -69,9 +69,13 @@ export class LocationPickerComponent implements OnInit {
   
     this.map.on('click', (e: any) => {
       const { lat, lng } = e.latlng;
-  
+    
+      // Actualiza las coordenadas seleccionadas
+      this.userLat = lat;
+      this.userLng = lng;
+    
       this.addMarker(e.latlng);
-  
+    
       this.getAddressFromCoordinates(lat, lng).subscribe({
         next: (address) => {
           this.address = address; // Actualiza la dirección seleccionada
@@ -84,8 +88,8 @@ export class LocationPickerComponent implements OnInit {
           L.marker(e.latlng).addTo(this.map).bindPopup(this.address).openPopup();
         }
       });
-      
     });
+    
   }
   
 
@@ -150,7 +154,7 @@ export class LocationPickerComponent implements OnInit {
     this.saveAddresService.saveAddress(this.data).subscribe(
       (response) => {
         console.log('Address saved successfully:', response);
-        alert('Dirección guardada exitosamente');
+        alert('Dirección guardada exitosamente' );
       },
       (error) => {
         console.error('Error saving address:', error);
