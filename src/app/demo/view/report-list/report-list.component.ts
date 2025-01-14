@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+import { ReportServiceService } from '../../service/report-service.service';
 
 interface Report {
   UserId: number;
@@ -8,6 +9,14 @@ interface Report {
   Longitude: number;
   Address: string;
   Comments: string;
+  AlertStatusId: number;
+  AlertStatusDescription?: string;
+  Id: number; // ID del reporte para la eliminación
+}
+
+interface Status {
+  Id: number;
+  Name: string;
 }
 
 @Component({
@@ -16,46 +25,80 @@ interface Report {
   styleUrls: ['./report-list.component.scss']
 })
 export class ReportListComponent implements OnInit {
+  reports: Report[] = [];
+  status: Status[] = [];
+  isCurrentUserAdmin = false;
+  private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
+  private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+  private statusUrl = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
+  private deleteUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts'; // URL base para eliminar alertas
 
-  reports: Report[] = []; // Inicialmente vacío
-  private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
-
- 
-
-  constructor(private http: HttpClient, private authService: AuthService) {}
-
-
+  constructor(private http: HttpClient, private authService: AuthService, private reportService: ReportServiceService) {}
 
   ngOnInit(): void {
-    this.getReports();
+    const userId = this.authService.getUser(); 
+    this.isCurrentUserAdmin = userId === '{"id":26}';
+    this.loadData();
   }
 
-  getReports(): void {
-    // Obtener el token de autorización
+  loadData(): void {
     const token = this.authService.getToken();
-  
-    // Crear los encabezados con el token
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}` // Token en formato Bearer
+      'Authorization': `Bearer ${token}`
     });
-  
-    // Realizar la solicitud GET para obtener los reportes
-    this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(this.apiUrl, { headers })
-      .subscribe(
-        (response) => {
-          // Verificamos si la respuesta es exitosa
-          if (response.Success) {
-            // Asignamos los reportes al arreglo 'reports'
-            this.reports = response.Data;
-          } else {
-            console.error('No se pudieron obtener los reportes:', response.Message);
-          }
-        },
-        (error) => {
-          console.error('Error al obtener los reportes:', error);
-        }
-      );
-  }
-  
 
+    // Obtener el UserId del token de autenticación
+    const userId = this.authService.getUser(); // Ajusta según cómo recuperes el UserId del token
+    console.log("USer_id::", userId);
+    const apiUrl = userId === '{"id":26}' ? this.apiUrlAll : this.apiUrlUser;
+
+    // Ejecutar las solicitudes al endpoint correspondiente
+    Promise.all([
+      this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(apiUrl, { headers }).toPromise(),
+      this.http.get<{ Success: boolean, Message: string, Data: Status[] }>(this.statusUrl, { headers }).toPromise()
+    ])
+    .then(([reportsResponse, statusResponse]) => {
+      if (reportsResponse?.Success && statusResponse?.Success) {
+        this.reports = this.mapStatusesToAlerts(reportsResponse.Data, statusResponse.Data);
+      } else {
+        console.error('Error al obtener datos:', reportsResponse?.Message, statusResponse?.Message);
+      }
+    })
+    .catch((error) => {
+      console.error('Error al cargar datos:', error);
+    });
+  }
+
+  // Función para mapear AlertStatusId a su descripción
+  private mapStatusesToAlerts(reports: Report[], statuses: Status[]): Report[] {
+    return reports.map((report) => {
+      const status = statuses.find((s) => s.Id === report.AlertStatusId);
+      return {
+        ...report,
+        AlertStatusDescription: status ? status.Name : 'Desconocido'
+      };
+    });
+  }
+
+  // Método para eliminar un reporte
+  deleteReport(reportId: number): void {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.http.delete(`${this.deleteUrl}/${reportId}`, {
+      headers,
+      body: { reason: 'Eliminación solicitada' } // Reemplaza con los datos que el API espera
+    }).subscribe({
+      next: () => {
+        this.reports = this.reports.filter(report => report.Id !== reportId);
+        alert('Reporte eliminado correctamente');
+      },
+      error: (err) => {
+        console.error('Error al eliminar el reporte:', err);
+        alert(`No se pudo eliminar el reporte: ${err.error.Message || 'Error desconocido'}`);
+      }
+    });
+  }
 }

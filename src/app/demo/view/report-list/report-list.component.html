@@ -1,13 +1,17 @@
 <div class="report-list-container">
-    <h2>Reportes de Usuario</h2>
-    <ul class="report-list">
-      <li *ngFor="let report of reports" class="report-item">
-        <h3>Dirección: {{ report.Address }}</h3>
-        <p><strong>Usuario ID:</strong> {{ report.UserId }}</p>
-        <p><strong>Latitud:</strong> {{ report.Latitude }}</p>
-        <p><strong>Longitud:</strong> {{ report.Longitude }}</p>
-        <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
-      </li>
-    </ul>
-  </div>
-  
+  <h2>Reportes de Usuario</h2>
+  <ul class="report-list">
+    <li *ngFor="let report of reports" class="report-item">
+      <h3>Dirección: {{ report.Address }}</h3>
+      <p><strong>Nombre Usuario:</strong> {{ report.Notifier }}</p>
+      <p><strong>Estado:</strong> {{ report.AlertStatusDescription }}</p>
+      <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
+      
+      <!-- Botón Actualizar si el UserId es 26 -->
+      <button *ngIf="isCurrentUserAdmin" (click)="updateReport(report.Id)">Actualizar</button>
+      
+      <!-- Botón Eliminar para otros usuarios -->
+      <button *ngIf="!isCurrentUserAdmin" (click)="deleteReport(report.Id)">Eliminar</button>
+    </li>
+  </ul>
+</div>
