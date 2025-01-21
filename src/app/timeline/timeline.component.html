@@ -1,0 +1,18 @@
+<div class="container py-4">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-center">Timeline</h2>
+        <ul class="timeline">
+          <li *ngFor="let event of events" class="timeline-item">
+            <span class="timeline-icon"></span>
+            <div class="timeline-content">
+              <h4>{{ event.title }}</h4>
+              <p>{{ event.description }}</p>
+              <small>{{ event.date | date: 'shortDate' }}</small>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  

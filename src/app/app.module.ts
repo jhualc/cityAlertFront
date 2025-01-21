@@ -182,6 +182,7 @@ import { SponsorsViewComponent } from './demo/view/sponsors-view/sponsors-view.c
 import { LocationPickerComponent } from './demo/view/location-picker/location-picker.component';
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 
 
@@ -349,7 +350,8 @@ import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
         SponsorsViewComponent,
         LocationPickerComponent,
         ReportListComponent,
-        HeatmapComponent
+        HeatmapComponent,
+        TimelineComponent
     ],
     providers: [authInterceptorProviders,
         {provide: LocationStrategy, useClass: HashLocationStrategy},
