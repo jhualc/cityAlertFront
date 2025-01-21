@@ -3,12 +3,33 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+  styleUrls: ['./timeline.component.scss'],
 })
 export class TimelineComponent {
   events = [
-    { title: 'Evento 1', description: 'Descripción del evento 1', date: new Date() },
-    { title: 'Evento 2', description: 'Descripción del evento 2', date: new Date('2025-01-01') },
-    { title: 'Evento 3', description: 'Descripción del evento 3', date: new Date('2025-01-10') }
+    {
+      title: 'Registrado',
+      date: '2025-01-15',
+      time: '10:30',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Inventore sed consequatur.',
+      icon: 'fas fa-shopping-cart',
+    },
+    {
+      title: 'En Revisión',
+      date: '2025-01-15',
+      time: '14:00',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Inventore sed consequatur.',
+      icon: 'fas fa-cogs',
+    },
+    {
+      title: 'Finalizado',
+      date: '2025-01-15',
+      time: '16:15',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Inventore sed consequatur.',
+      icon: 'fas fa-truck',
+    },
   ];
 }

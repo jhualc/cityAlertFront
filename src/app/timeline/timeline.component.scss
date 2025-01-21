@@ -1,39 +1,70 @@
+/* Contenedor principal del timeline */
 .timeline {
-    list-style: none;
-    padding: 0;
     position: relative;
+    padding: 20px 0;
+    width: 100%;
   }
   
+  /* Línea central */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background-color: #007bff;
+  }
+  
+  /* Item de la línea de tiempo */
   .timeline-item {
-    margin-bottom: 20px;
     position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
   }
   
-  .timeline-icon {
-    width: 20px;
-    height: 20px;
+  /* Alternar la alineación */
+  .timeline-content {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    max-width: 40%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .align-left {
+    margin-right: auto;
+  }
+  
+  .align-right {
+    margin-left: auto;
+  }
+  
+  /* Icono o marcador en la línea */
+  .timeline-marker {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25px;
+    height: 25px;
     background-color: #007bff;
     border-radius: 50%;
-    position: absolute;
-    left: -10px;
-    top: 10px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
   }
   
-  .timeline-content {
-    margin-left: 30px;
-    padding: 10px 15px;
-    background: #f8f9fa;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
-  
-  .timeline-content h4 {
-    margin-top: 0;
-    font-size: 1.2rem;
-  }
-  
-  .timeline-content p {
-    margin-bottom: 5px;
-    color: #6c757d;
+  /* Hover en el contenido */
+  .timeline-content:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
   }
   
