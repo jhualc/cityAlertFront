@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { ReportServiceService } from '../../service/report-service.service';
+import { Table} from 'primeng/table';
+import { ConfirmationService, MessageService} from 'primeng/api';
 
 interface Report {
   UserId: number;
@@ -11,6 +13,7 @@ interface Report {
   Comments: string;
   AlertStatusId: number;
   AlertStatusDescription?: string;
+  CreatedAt: Date;
   Id: number; // ID del reporte para la eliminación
 }
 
@@ -22,18 +25,28 @@ interface Status {
 @Component({
   selector: 'app-report-list',
   templateUrl: './report-list.component.html',
-  styleUrls: ['./report-list.component.scss']
+  styleUrls: ['./report-list.component.scss'],
+  providers: [MessageService, ConfirmationService]
 })
 export class ReportListComponent implements OnInit {
   reports: Report[] = [];
+  selectedRows: Report[] = [];
   status: Status[] = [];
+  cols: any[] = [];
   isCurrentUserAdmin = false;
+  carga: boolean = true;
+  roleid: number = 2;
+
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
   private statusUrl = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
   private deleteUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts'; // URL base para eliminar alertas
 
-  constructor(private http: HttpClient, private authService: AuthService, private reportService: ReportServiceService) {}
+  constructor(private http: HttpClient, 
+              private authService: AuthService, 
+              private reportService: ReportServiceService, 
+              private messageService: MessageService,
+              private confirmationService: ConfirmationService) {}
 
   ngOnInit(): void {
     const userId = this.authService.getUser(); 
@@ -42,6 +55,8 @@ export class ReportListComponent implements OnInit {
   }
 
   loadData(): void {
+    this.carga = true;
+    
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -63,6 +78,7 @@ export class ReportListComponent implements OnInit {
       } else {
         console.error('Error al obtener datos:', reportsResponse?.Message, statusResponse?.Message);
       }
+      this.carga = false;
     })
     .catch((error) => {
       console.error('Error al cargar datos:', error);
@@ -101,4 +117,19 @@ export class ReportListComponent implements OnInit {
       }
     });
   }
+
+  deleteData(reporte: Report) {
+    //this.deleteDataDialog = true;
+    //this.equipo = { ...equipo };
+  }
+
+  editData(reporte: Report) {
+    //this.equipo = { ...equipo };
+    //this.dataDialog = true;
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+}
+
 }
