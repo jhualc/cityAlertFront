@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BreadcrumbService} from '../breadcrumb.service';
 import {PrimeIcons} from 'primeng/api';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 
 @Component({
     templateUrl: './app.timelinedemo.component.html',
@@ -48,11 +49,12 @@ import {PrimeIcons} from 'primeng/api';
 })
 export class AppTimelineDemoComponent implements OnInit {
 
-    customEvents: any[];
+    customEvents: any[] = [];
+    alertStatuses: any[] = [];
 
     horizontalEvents: any[];
 
-    constructor(private breadcrumbService: BreadcrumbService) {
+    constructor(private breadcrumbService: BreadcrumbService, private http: HttpClient ) {
         this.breadcrumbService.setItems([
             {label: 'Pages'},
             {label: 'Timeline', routerLink: ['/pages/timeline']}
@@ -60,21 +62,44 @@ export class AppTimelineDemoComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.customEvents = [
-            {
-                status: 'Ordered',
-                date: '15/10/2020 10:30',
-                icon: PrimeIcons.SHOPPING_CART,
-                color: '#9C27B0',
-                image: 'game-controller.jpg'
-            },
-            {status: 'Processing', date: '15/10/2020 14:00', icon: PrimeIcons.COG, color: '#673AB7'},
-            {status: 'Shipped', date: '15/10/2020 16:15', icon: PrimeIcons.ENVELOPE, color: '#FF9800'},
-            {status: 'Delivered', date: '16/10/2020 10:00', icon: PrimeIcons.CHECK, color: '#607D8B'}
-        ];
-
-        this.horizontalEvents = [
-            '2020', '2021', '2022', '2023'
-        ];
-    }
+        this.fetchTimelineData();
+      }
+    
+      fetchTimelineData() {
+        const alertsEndpoint = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+        const statusesEndpoint = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
+    
+        // Primero obtener los estados de alerta
+        this.http.get<any>(statusesEndpoint).subscribe(statusesResponse => {
+          if (statusesResponse.Success && statusesResponse.Data.length > 0) {
+            // Almacenar los estados en un arreglo
+            this.alertStatuses = statusesResponse.Data;
+    
+            // Luego, obtener las alertas
+            this.http.get<any>(alertsEndpoint).subscribe(alertsResponse => {
+              if (alertsResponse.Success && alertsResponse.Data.length > 0) {
+                // Mapear las alertas y los eventos de `Tracking`
+                this.customEvents = alertsResponse.Data[0].Tracking.map((tracking: any) => {
+                  // Buscar el nombre del estado según el AlertStatusId
+                  const statusName = this.getAlertStatusName(tracking.AlertStatusId);
+    
+                  return {
+                    status: `${tracking.Tracker} (${statusName})`, // Mostrar el nombre del estado
+                    date: new Date(tracking.RegistrationDate).toLocaleString(),
+                    icon: PrimeIcons.CLOCK, // Icono predeterminado
+                    color: '#9C27B0', // Color predeterminado
+                    comments: tracking.Comments
+                  };
+                });
+              }
+            });
+          }
+        });
+      }
+    
+      // Método auxiliar para obtener el nombre del estado según el AlertStatusId
+      getAlertStatusName(alertStatusId: number): string {
+        const status = this.alertStatuses.find(s => s.Id === alertStatusId);
+        return status ? status.Name : 'Estado desconocido'; // Devuelve el nombre o un valor predeterminado
+      }
 }

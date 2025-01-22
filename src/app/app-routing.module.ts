@@ -48,6 +48,7 @@ import { ReportListComponent } from './demo/view/report-list/report-list.compone
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
 
 
+
 export const routes: Routes = [
     {path: 'login', component: AppLoginComponent},
     {path: 'register', component: AppRegisterComponent},

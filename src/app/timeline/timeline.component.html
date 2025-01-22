@@ -1,0 +1,23 @@
+<div class="container py-4">
+    <h2 class="text-center">Avance de Gestión</h2>
+    <div class="timeline">
+      <div *ngFor="let event of events; let i = index" class="timeline-item">
+        <!-- Icono o punto en la línea -->
+        <div class="timeline-marker">
+          <i [ngClass]="event.icon"></i>
+        </div>
+  
+        <!-- Contenido del evento -->
+        <div
+          class="timeline-content"
+          [ngClass]="{ 'align-left': i % 2 === 0, 'align-right': i % 2 !== 0 }"
+        >
+          <h4>{{ event.title }}</h4>
+          <small>{{ event.date | date: 'shortDate' }} {{ event.time }}</small>
+          <p>{{ event.description }}</p>
+          <a href="#" class="btn btn-link">Read more</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
