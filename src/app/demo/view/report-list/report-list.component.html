@@ -1,4 +1,24 @@
-<div class="grid" *ngIf="roleid==2">
+<div class="grid" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <div class="report-list-container">
+                <h2>Reportes de Usuario</h2>
+                <ul class="report-list">
+                  <li *ngFor="let report of reports" class="report-item">
+                    <h3>Dirección: {{ report.Address }}</h3>
+                    <p><strong>Nombre Usuario:</strong> {{ report.Notifier }}</p>
+                    <p><strong>Estado:</strong> {{ report.AlertStatusDescription }}</p>
+                    <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
+                    <!-- Botón Eliminar para otros usuarios -->
+                    <button (click)="deleteReport(report.Id)">Eliminar</button>
+                  </li>
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid" *ngIf="roleid=='2'"> <!--2 Analista-->
   <div class="col-12">
       <div class="card px-6 py-6">
           <p-toast></p-toast>
@@ -45,8 +65,11 @@
                       </td>
                       <td style="text-align: rigth;">
                           <div class="flex" style="margin-left: auto; width: fit-content;">
-                              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(equipo)"></button>
+                            <!--
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(equipo)"></button>
                               <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(equipo)"></button>
+                            -->
+                                <button pButton pRipple type="button" icon="pi pi-clock" class="p-button-rounded p-button-info mr-2 mb-2" (click)="redirect(report)"></button>
                           </div>
                       </td>
                   </tr>

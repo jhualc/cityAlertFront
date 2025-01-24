@@ -11,6 +11,7 @@ export class AuthService {
   private registryUrl = 'https://cityalertapi-dev.azurewebsites.net/users';// URL base de la API
   private tokenKey = 'auth_token'; // Clave para almacenar el token
   private userKey= 'user';
+  private roleKey= 'role';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -25,14 +26,15 @@ export class AuthService {
   }
 
   // Guardar el token en el localStorage
-  setToken(token: string, user: string): void {
+  setToken(token: string, user: string, role: string): void {
 
     const jsonObject: { id: number | string } = {
-      id: user,
+      id: user
     };
 
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.userKey, JSON.stringify(jsonObject));
+    localStorage.setItem(this.roleKey, role);
   }
 
 
@@ -42,6 +44,10 @@ export class AuthService {
 
   getUser (): string | null {
     return localStorage.getItem(this.userKey);
+  }
+
+  getRole (): string | null {
+    return localStorage.getItem(this.roleKey);
   }
 
 
