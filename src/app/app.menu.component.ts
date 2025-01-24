@@ -135,6 +135,7 @@ export class AppMenuComponent implements OnInit {
         if (this.authService.isLogin()) {
             try {
               const userString = localStorage.getItem("user");
+              const role = localStorage.getItem("role");
               this.user = userString ? JSON.parse(userString) : null;
           
               if (this.user?.perfil === null || this.user?.perfil === "Invitado") {
@@ -142,6 +143,26 @@ export class AppMenuComponent implements OnInit {
                   const index = this.model.findIndex(p => p.label === "Registrar Usuario");
                   if (index !== -1) {
                     this.model.splice(index, 1); // Elimina la opción "Registrar Usuario"
+                  }
+                } else {
+                  console.warn("El modelo de menú (this.model) no está inicializado o no es un array.");
+                }
+              }
+              if (role == "2") {
+                if (Array.isArray(this.model)) {
+                  const index = this.model.findIndex(p => p.label === "Registrar Alerta");
+                  if (index !== -1) {
+                    this.model.splice(index, 1); // Elimina la opción "Registrar Alerta"
+                  }
+                } else {
+                  console.warn("El modelo de menú (this.model) no está inicializado o no es un array.");
+                }
+              }
+              else if (role == "3") {
+                if (Array.isArray(this.model)) {
+                  const index = this.model.findIndex(p => p.label === "Mapa de Calor");
+                  if (index !== -1) {
+                    this.model.splice(index, 1); // Elimina la opción "Mapa de Calor"
                   }
                 } else {
                   console.warn("El modelo de menú (this.model) no está inicializado o no es un array.");
