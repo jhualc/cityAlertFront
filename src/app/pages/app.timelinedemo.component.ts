@@ -128,10 +128,10 @@ export class AppTimelineDemoComponent implements OnInit {
 
       getIconColor(alertstatusType: string): string {
         const iconMapColor: { [key: string]: string } = {
-          'Registrado': '#0046ff',
-          'En revisión': '#ff8b00',
-          'Finalizado': '#4de724',
-          'Rechazado': '#ff0000'
+          'Registrado': '#14A2B8',
+          'En revisión': '#ffe082',
+          'Finalizado': '#9fdaa8',
+          'Rechazado': '#f19ea6'
         };
 
         console.log (iconMapColor[alertstatusType] );

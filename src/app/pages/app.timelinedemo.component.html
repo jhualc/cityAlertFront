@@ -1,9 +1,10 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <h4>Timeline</h4>
+          
 
-            <h5>Custom Timeline</h5>
+            <h4>Linea de tiempo de la alerta</h4 >
+         
             <p-timeline [value]="customEvents" align="alternate" class="customized-timeline">
                 <ng-template pTemplate="content" let-event>
                   <p-card>
@@ -25,15 +26,7 @@
               </p-timeline>
               
 
-            <h5 style="margin-top: 5em">Horizontal - Alternate Align</h5>
-            <p-timeline [value]="horizontalEvents" layout="horizontal" align="alternate">
-                <ng-template pTemplate="content" let-event>
-                    {{event}}
-                </ng-template>
-                <ng-template pTemplate="opposite" let-event>
-                    &nbsp;
-                </ng-template>
-            </p-timeline>
+            
         </div>
     </div>
 </div>
