@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { ReportServiceService } from '../../service/report-service.service';
 import { Table} from 'primeng/table';
 import { ConfirmationService, MessageService} from 'primeng/api';
+import { Router } from '@angular/router';
 
 interface Report {
   UserId: number;
@@ -35,7 +36,7 @@ export class ReportListComponent implements OnInit {
   cols: any[] = [];
   isCurrentUserAdmin = false;
   carga: boolean = true;
-  roleid: number = 2;
+  roleid: string = this.authService.getRole();
 
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
@@ -46,7 +47,8 @@ export class ReportListComponent implements OnInit {
               private authService: AuthService, 
               private reportService: ReportServiceService, 
               private messageService: MessageService,
-              private confirmationService: ConfirmationService) {}
+              private confirmationService: ConfirmationService,
+              private router: Router) {}
 
   ngOnInit(): void {
     const userId = this.authService.getUser(); 
@@ -124,6 +126,12 @@ export class ReportListComponent implements OnInit {
   }
 
   editData(reporte: Report) {
+    //this.equipo = { ...equipo };
+    //this.dataDialog = true;
+  }
+
+  redirect(reporte: Report) {
+    this.router.navigate(['/pages/timeline/' + reporte.Id]); // Redirige al login después de cerrar sesión
     //this.equipo = { ...equipo };
     //this.dataDialog = true;
   }
