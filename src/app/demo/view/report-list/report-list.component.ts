@@ -14,6 +14,7 @@ interface Report {
   Comments: string;
   AlertStatusId: number;
   AlertStatusDescription?: string;
+  AlertTypeId:  string,
   CreatedAt: Date;
   Id: number; // ID del reporte para la eliminación
 }
