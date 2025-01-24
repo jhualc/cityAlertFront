@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BreadcrumbService} from '../breadcrumb.service';
 import {PrimeIcons} from 'primeng/api';
 import { HttpClient, HttpRequest } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     templateUrl: './app.timelinedemo.component.html',
@@ -54,7 +55,7 @@ export class AppTimelineDemoComponent implements OnInit {
 
     horizontalEvents: any[];
 
-    constructor(private breadcrumbService: BreadcrumbService, private http: HttpClient ) {
+    constructor(private breadcrumbService: BreadcrumbService, private http: HttpClient, private route: ActivatedRoute ) {
         this.breadcrumbService.setItems([
             {label: 'Pages'},
             {label: 'Timeline', routerLink: ['/pages/timeline']}
@@ -62,11 +63,16 @@ export class AppTimelineDemoComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.fetchTimelineData();
+        this.route.params.subscribe(params => {
+            const alertId = +params['id']; // Convertir a número
+            if (alertId) {
+              this.fetchTimelineData(alertId);
+            }
+          });
       }
     
-      fetchTimelineData() {
-        const alertsEndpoint = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+      fetchTimelineData(alertId: number) {
+        const alertsEndpoint = `https://cityalertapi-dev.azurewebsites.net/alerts/'${alertId}`;
         const statusesEndpoint = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
     
         // Primero obtener los estados de alerta
