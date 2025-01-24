@@ -102,7 +102,7 @@ export const routes: Routes = [
             {path: 'pages/empty', component: EmptyDemoComponent},
             {path: 'pages/crud', component: AppCrudComponent},
             {path: 'pages/calendar', component: AppCalendarComponent},
-            {path: 'pages/timeline', component: AppTimelineDemoComponent},
+            {path: 'pages/timeline/:id', component: AppTimelineDemoComponent},
             {path: 'components/charts', component: ChartsDemoComponent},
             {path: 'components/file', component: FileDemoComponent},
             {path: 'documentation', component: DocumentationComponent},
