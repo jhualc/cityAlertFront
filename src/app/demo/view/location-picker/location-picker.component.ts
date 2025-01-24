@@ -46,17 +46,17 @@ export class LocationPickerComponent implements OnInit {
         (position) => {
           this.userLat = position.coords.latitude;
           this.userLng = position.coords.longitude;
-          this.map = L.map('map').setView([this.userLat, this.userLng], 13);
+          this.map = L.map('map').setView([this.userLat, this.userLng], 17);
           this.loadMapTiles();
         },
         () => {
-          this.map = L.map('map').setView([4.7110, -74.0721], 13);
+          this.map = L.map('map').setView([4.7110, -74.0721], 17);
           this.loadMapTiles();
         }
       );
     } else {
       alert('Geolocation is not supported by this browser.');
-      this.map = L.map('map').setView([4.7110, -74.0721], 13);
+      this.map = L.map('map').setView([4.7110, -74.0721], 17);
       this.loadMapTiles();
     }
   }

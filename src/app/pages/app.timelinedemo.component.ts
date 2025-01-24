@@ -117,6 +117,12 @@ export class AppTimelineDemoComponent implements OnInit {
         let icon: any ;
         if (alertstatusType === 'Registrado'){
             icon = PrimeIcons.CLOCK;
+        } else if (alertstatusType === 'En revisión'){
+            icon = PrimeIcons.SEARCH;
+        }else if (alertstatusType === 'Finalizado'){
+            icon = PrimeIcons.CHECK;
+        }else if (alertstatusType === 'Rechazado'){
+            icon = PrimeIcons.TIMES_CIRCLE;
         }
 
         return icon;
