@@ -92,11 +92,14 @@ export class AppTimelineDemoComponent implements OnInit {
                 // Mapear los datos de Tracking para customEvents
                 this.customEvents = trackingData.map((tracking: any) => {
                   const statusName = this.getAlertStatusName(tracking.AlertStatusId); // Obtener el nombre del estado
+                  const color = this.getIconColor(statusName);
+
+                  console.log("Color::", color);
                   return {
                     status: `${tracking.Tracker} (${statusName})`, // Mostrar Tracker y Estado
                     date: new Date(tracking.RegistrationDate).toLocaleString(), // Formato de fecha
-                    icon: this.getIcon(statusName), // Icono predeterminado
-                    color: '#9C27B0', // Color predeterminado
+                    icon: this.getIcon(statusName), 
+                    color: color, 
                     comments: tracking.Comments // Comentarios
                   };
                 });
@@ -112,21 +115,30 @@ export class AppTimelineDemoComponent implements OnInit {
         });
       }
       
-      getIcon(alertstatusType: string){
-
-        let icon: any ;
-        if (alertstatusType === 'Registrado'){
-            icon = PrimeIcons.CLOCK;
-        } else if (alertstatusType === 'En revisión'){
-            icon = PrimeIcons.SEARCH;
-        }else if (alertstatusType === 'Finalizado'){
-            icon = PrimeIcons.CHECK;
-        }else if (alertstatusType === 'Rechazado'){
-            icon = PrimeIcons.TIMES_CIRCLE;
-        }
-
-        return icon;
+      getIcon(alertstatusType: string): string {
+        const iconMap: { [key: string]: string } = {
+          'Registrado': PrimeIcons.CLOCK,
+          'En revisión': PrimeIcons.SEARCH,
+          'Finalizado': PrimeIcons.CHECK,
+          'Rechazado': PrimeIcons.TIMES_CIRCLE
+        };
+      
+        return iconMap[alertstatusType] || PrimeIcons.QUESTION; // Devuelve un icono predeterminado si no se encuentra
       }
+
+      getIconColor(alertstatusType: string): string {
+        const iconMapColor: { [key: string]: string } = {
+          'Registrado': '#0046ff',
+          'En revisión': '#ff8b00',
+          'Finalizado': '#4de724',
+          'Rechazado': '#ff0000'
+        };
+
+        console.log (iconMapColor[alertstatusType] );
+      
+        return iconMapColor[alertstatusType] || '#ff0000'; // Devuelve un icono predeterminado si no se encuentra
+      }
+      
     
       // Método auxiliar para obtener el nombre del estado según el AlertStatusId
       getAlertStatusName(alertStatusId: number): string {
