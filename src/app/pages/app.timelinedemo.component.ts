@@ -72,35 +72,54 @@ export class AppTimelineDemoComponent implements OnInit {
       }
     
       fetchTimelineData(alertId: number) {
-        const alertsEndpoint = `https://cityalertapi-dev.azurewebsites.net/alerts/'${alertId}`;
+        const alertsEndpoint = `https://cityalertapi-dev.azurewebsites.net/alerts/${alertId}`;
         const statusesEndpoint = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
-    
-        // Primero obtener los estados de alerta
+      
+        console.log("Calling endpoint:", alertsEndpoint);
+      
+        // Obtener los estados de alerta
         this.http.get<any>(statusesEndpoint).subscribe(statusesResponse => {
           if (statusesResponse.Success && statusesResponse.Data.length > 0) {
-            // Almacenar los estados en un arreglo
             this.alertStatuses = statusesResponse.Data;
-    
-            // Luego, obtener las alertas
+      
+            // Obtener los datos de la alerta
             this.http.get<any>(alertsEndpoint).subscribe(alertsResponse => {
-              if (alertsResponse.Success && alertsResponse.Data.length > 0) {
-                // Mapear las alertas y los eventos de `Tracking`
-                this.customEvents = alertsResponse.Data[0].Tracking.map((tracking: any) => {
-                  // Buscar el nombre del estado según el AlertStatusId
-                  const statusName = this.getAlertStatusName(tracking.AlertStatusId);
-    
+              console.log("alertsResponse::", alertsResponse);
+      
+              if (alertsResponse.Success && alertsResponse.Data) {
+                const trackingData = alertsResponse.Data.Tracking; // Acceder al array de Tracking
+      
+                // Mapear los datos de Tracking para customEvents
+                this.customEvents = trackingData.map((tracking: any) => {
+                  const statusName = this.getAlertStatusName(tracking.AlertStatusId); // Obtener el nombre del estado
                   return {
-                    status: `${tracking.Tracker} (${statusName})`, // Mostrar el nombre del estado
-                    date: new Date(tracking.RegistrationDate).toLocaleString(),
-                    icon: PrimeIcons.CLOCK, // Icono predeterminado
+                    status: `${tracking.Tracker} (${statusName})`, // Mostrar Tracker y Estado
+                    date: new Date(tracking.RegistrationDate).toLocaleString(), // Formato de fecha
+                    icon: this.getIcon(statusName), // Icono predeterminado
                     color: '#9C27B0', // Color predeterminado
-                    comments: tracking.Comments
+                    comments: tracking.Comments // Comentarios
                   };
                 });
+      
+                console.log("customEvents:", this.customEvents); // Imprime los eventos procesados
               }
+            }, error => {
+              console.error("Error fetching alert details:", error);
             });
           }
+        }, error => {
+          console.error("Error fetching alert statuses:", error);
         });
+      }
+      
+      getIcon(alertstatusType: string){
+
+        let icon: any ;
+        if (alertstatusType === 'Registrado'){
+            icon = PrimeIcons.CLOCK;
+        }
+
+        return icon;
       }
     
       // Método auxiliar para obtener el nombre del estado según el AlertStatusId
