@@ -90,3 +90,21 @@ option {
   padding: 10px;  /* Espaciado interno de las opciones */
   font-size: 16px;  /* Tamaño de fuente de las opciones */
 }
+
+.map-button {
+  position: absolute;
+  top: 320px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.map-button:hover {
+  background-color: #f1f1f1;
+}

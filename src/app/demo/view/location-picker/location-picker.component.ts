@@ -48,12 +48,22 @@ export class LocationPickerComponent implements OnInit {
           this.userLng = position.coords.longitude;
           this.map = L.map('map').setView([this.userLat, this.userLng], 17);
           this.loadMapTiles();
+          const ltln = {
+            lat: this.userLat,
+            lng: this.userLng
+        };
+        console.log("ltln::", ltln);
+    
+            this.addMarker(ltln);
         },
         () => {
           this.map = L.map('map').setView([4.7110, -74.0721], 17);
           this.loadMapTiles();
         }
       );
+     
+
+
     } else {
       alert('Geolocation is not supported by this browser.');
       this.map = L.map('map').setView([4.7110, -74.0721], 17);
@@ -134,6 +144,20 @@ export class LocationPickerComponent implements OnInit {
     );
   }
   
+
+  centerMap() {
+    if (this.map) {
+      this.map.setView([this.userLat, this.userLng], 17); // Mueve la vista sin inicializar nuevamente
+  
+      // Mueve el marcador a la ubicación original
+      if (this.marker) {
+        this.marker.setLatLng([this.userLat, this.userLng]);
+      } else {
+        // Si no hay un marcador, agrégalo
+        this.marker = L.marker([this.userLat, this.userLng]).addTo(this.map);
+      }
+    }
+  }
   
   
   

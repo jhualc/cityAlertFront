@@ -53,7 +53,7 @@ export class ReportListComponent implements OnInit {
 
   ngOnInit(): void {
     const userId = this.authService.getUser(); 
-    this.isCurrentUserAdmin = userId === '{"id":26}';
+
     this.loadData();
   }
 
@@ -68,7 +68,7 @@ export class ReportListComponent implements OnInit {
     // Obtener el UserId del token de autenticación
     const userId = this.authService.getUser(); // Ajusta según cómo recuperes el UserId del token
     console.log("USer_id::", userId);
-    const apiUrl = userId === '{"id":26}' ? this.apiUrlAll : this.apiUrlUser;
+    const apiUrl = this.roleid === '2' ? this.apiUrlAll : this.apiUrlUser;
 
     // Ejecutar las solicitudes al endpoint correspondiente
     Promise.all([

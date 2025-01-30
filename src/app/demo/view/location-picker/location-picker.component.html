@@ -1,27 +1,50 @@
 <div class="content-wrapper">
-<div class="location-picker">
-    <!-- Map container -->
-    <div id="map" style="height: 400px;"></div>
-  
-    <!-- Form for address and observations -->
+  <div class="location-picker">
+    <!-- Contenedor del mapa -->
+    <div id="map-container" style="position: relative;">
+      <div id="map" style="height: 400px;"></div>
+
+      <!-- Botón para volver a la ubicación original -->
+      <button id="center-button" (click)="centerMap()" class="map-button">
+        
+        📍 Centrar
+      </button>
+    </div>
+
+    <!-- Formulario -->
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="address">Dirección</label>
-        <input type="text" id="address" [(ngModel)]="address" name="address" class="form-control" placeholder="Selected address" readonly />
+        <input
+          type="text"
+          id="address"
+          [(ngModel)]="address"
+          name="address"
+          class="form-control"
+          placeholder="Selected address"
+          readonly
+        />
       </div>
 
-      <label for="fruta">Selecciona un tipo de alerta:</label><br>
+      <label for="alertTypeId">Selecciona un tipo de alerta:</label><br />
       <select [(ngModel)]="alertTypeId" name="alertTypeId" id="alertTypeId">
         <option value="1">Huecos</option>
         <option value="2">Iluminación</option>
         <option value="3">Peligro</option>
       </select>
- 
-       <div class="form-group">
+
+      <div class="form-group">
         <label for="observations">Comentarios</label>
-        <textarea id="observations" [(ngModel)]="observations" name="observations" class="form-control" rows="3" placeholder="Escriba sus observaciones"></textarea>
+        <textarea
+          id="observations"
+          [(ngModel)]="observations"
+          name="observations"
+          class="form-control"
+          rows="3"
+          placeholder="Escriba sus observaciones"
+        ></textarea>
       </div>
-  
+
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
   </div>
