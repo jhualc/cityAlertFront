@@ -18,7 +18,8 @@
                     <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
                     <!-- Botón Eliminar para otros usuarios -->
                     <div style="display: flex; justify-content: flex-end;">
-                        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2 mb-2" (click)="deleteReport(report.Id)" pTooltip="Eliminar" tooltipPosition="top" *ngIf="report.CanBeDeleted"></button> 
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2 mb-2" (click)="editReport(report.Id)" pTooltip="Editar" tooltipPosition="top" ></button> 
+                        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2 mb-2" (click)="deleteReport(report.Id)" pTooltip="Eliminar" tooltipPosition="top" ></button> 
                         <button pButton pRipple type="button" icon="pi pi-clock" class="p-button-rounded p-button-info mr-2 mb-2" (click)="redirect(report)" pTooltip="Historia" tooltipPosition="top"></button> 
                     </div>
                 </li>
@@ -86,6 +87,20 @@
               </ng-template>
           </p-table>
       </div>
+      <p-dialog (visible)=true [style]="{width: '450px'}" header="Editar Reporte" [modal]="true">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="edit-comments">Comentarios</label>
+            <textarea id="edit-comments" pInputText [(ngModel)]="editComments" rows="3" 
+              placeholder="Ingrese sus comentarios de actualización"></textarea>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="editDialog = false"></button>
+          <button pButton label="Guardar" icon="pi pi-check" class="p-button-text" (click)="updateReport()"></button>
+        </ng-template>
+      </p-dialog>
+      
       <!--
       <p-dialog [(visible)]="dataDialog" [style]="{width: '450px'}" header="Guardar Equipo" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
           <ng-template pTemplate="content">
