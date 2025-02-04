@@ -1,69 +1,71 @@
 <div class="grid layout-dashboard">
-    <div class="col-12 xl:col-3 md:col-6">
-        <a href="#/pages/agenda/1">
+    <div class="col-12 xl:col-3 md:col-6" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
+        <a href="#/inicio">
             <div class="grid grid-nogutter widget-overview-box overview-box-1hidrogeno" >
                 <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/agenda.svg" alt="mirage-layout" />
+                    <img src="assets/layout/images/dashboard/alerta.svg" alt="mirage-layout" />
                 </div>
                 <div class="col-6 overview-box-text">
-                    <h5>Agenda</h5>
-                    <span>Detalle del evento</span>
+                    <h5>Reportar Alerta</h5>
+                    <span>Huecos y otros</span>
                 </div>
                  <div class="col-3 overview-box-status">
-                    2024
+                    
                 </div> 
             </div>
         </a>    
     </div>
     <div class="col-12 xl:col-3 md:col-6">
-        <a href="#/pages/participantes">
+        <a href="#/reporte">
             <div class="grid grid-nogutter widget-overview-box overview-box-2hidrogeno">
                 <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/conferencistas.svg" alt="mirage-layout" />
+                    <img src="assets/layout/images/dashboard/reportes.svg" alt="mirage-layout" />
                 </div>
                 <div class="col-6 overview-box-text">
-                    <h5>Conferencistas</h5>
-                    <span>Speakers</span>
+                    <h5>Reportes</h5>
+                    <span>Gestión de Alertas</span>
                 </div>
                 <div class="col-3 overview-box-status">
-                    {{cantPersonas}}
-                </div>
-            </div>
-        </a>
-
-    </div>
-    <div class="col-12 xl:col-3 md:col-6">
-        <a href="#/chat">
-            <div class="grid grid-nogutter widget-overview-box overview-box-3hidrogeno">
-                <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/networking.svg" alt="mirage-layout" />
-                </div>
-                <div class="col-6 overview-box-text">
-                    <h5>Networking</h5>
-                    <span>Chat con asistentes</span>
-                </div>
-                <div class="col-3 overview-box-status">
-                    {{cantUsuarios}}
+                    
                 </div>
             </div>
         </a>
     </div>
-    <div class="col-12 xl:col-3 md:col-6">
-        <a href="#/pages/sponsors">
+    <div class="col-12 xl:col-3 md:col-6" *ngIf="roleid=='2'"> <!--3 Ciudadano-->
+        <a href="#/heat-map">
             <div class="grid grid-nogutter widget-overview-box overview-box-4hidrogeno">
                 <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/sponsors.svg" alt="mirage-layout" />
+                    <img src="assets/layout/images/dashboard/mapa.svg" alt="mirage-layout" />
                 </div>
                 <div class="col-6 overview-box-text">
-                    <h5>Patrocinadores</h5>
-                    <span>Sponsors & Allies</span>
+                    <h5>Mapa de Calor</h5>
+                    <span>Anáisis de Alertas</span>
                 </div>
                 <div class="col-3 overview-box-status">
-                    {{cantPatrocinadores}}
+                    
+                </div>
+            </div>
+        </a>
+    </div>     
+    <div class="col-12 xl:col-3 md:col-6">
+        <a href="" (click)="signout()">
+            <div class="grid grid-nogutter widget-overview-box overview-box-3hidrogeno">
+                <div class="col-3 overview-box-icon">
+                    <img src="assets/layout/images/dashboard/salir.svg" alt="mirage-layout" />
+                </div>
+                <div class="col-6 overview-box-text">
+                    <h5>Cerrar Sesión</h5>
+                    <span>Salir de la App</span>
+                </div>
+                <div class="col-3 overview-box-status">
+                    
                 </div>
             </div>
         </a>
     </div>
+    <!--
+   
+    -->
     <div class="col-12 lg:col-12 ">
         <div class="grid flex-column grid-nogutter">
             <!--<img src="assets/media/images/banner_news5.png" width="100%" style="border-radius: 0.5%;"/>-->
