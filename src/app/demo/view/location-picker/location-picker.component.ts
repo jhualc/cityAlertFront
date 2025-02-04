@@ -40,36 +40,51 @@ export class LocationPickerComponent implements OnInit {
       iconUrl: 'assets/marker-icon.png',
       shadowUrl: 'assets/marker-shadow.png'
     });
-
+  
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.userLat = position.coords.latitude;
           this.userLng = position.coords.longitude;
-          this.map = L.map('map').setView([this.userLat, this.userLng], 17);
+          this.map = L.map('map').setView([this.userLat, this.userLng], 20);
           this.loadMapTiles();
-          const ltln = {
-            lat: this.userLat,
-            lng: this.userLng
-        };
-        console.log("ltln::", ltln);
-    
-            this.addMarker(ltln);
+  
+          // Agregar marcador inicial
+          this.addMarker({ lat: this.userLat, lng: this.userLng });
+  
+          // Obtener la dirección inicial
+          this.getAddressFromCoordinates(this.userLat, this.userLng).subscribe({
+            next: (address) => {
+              this.address = address;
+              console.log("Dirección inicial:", this.address);
+  
+              // Asignar la dirección al marcador inicial
+              if (this.marker) {
+                this.marker.bindPopup(this.address).openPopup();
+              }
+            },
+            error: (err) => {
+              console.error("Error obteniendo la dirección inicial:", err);
+              this.address = "Dirección no disponible";
+  
+              if (this.marker) {
+                this.marker.bindPopup(this.address).openPopup();
+              }
+            }
+          });
         },
         () => {
-          this.map = L.map('map').setView([4.7110, -74.0721], 17);
+          this.map = L.map('map').setView([4.7110, -74.0721], 20);
           this.loadMapTiles();
         }
       );
-     
-
-
     } else {
       alert('Geolocation is not supported by this browser.');
-      this.map = L.map('map').setView([4.7110, -74.0721], 17);
+      this.map = L.map('map').setView([4.7110, -74.0721], 20);
       this.loadMapTiles();
     }
   }
+  
 
   loadMapTiles(): void {
     if (!this.map) {
@@ -85,39 +100,48 @@ export class LocationPickerComponent implements OnInit {
   
     this.map.on('click', (e: any) => {
       const { lat, lng } = e.latlng;
-    
+  
       // Actualiza las coordenadas seleccionadas
       this.userLat = lat;
       this.userLng = lng;
-    
+  
+      // Llamamos a la función para actualizar el marcador en la nueva ubicación
       this.addMarker(e.latlng);
-    
+  
+      // Obtener la dirección basada en las coordenadas
       this.getAddressFromCoordinates(lat, lng).subscribe({
         next: (address) => {
-          this.address = address; // Actualiza la dirección seleccionada
+          this.address = address;
           console.log("Dirección:", this.address);
-          L.marker(e.latlng).addTo(this.map).bindPopup(address).openPopup();
+  
+          // Actualiza solo el popup del marcador existente, sin agregar más marcadores
+          if (this.marker) {
+            this.marker.bindPopup(address).openPopup();
+          }
         },
         error: (err) => {
           console.error("Error obteniendo la dirección:", err);
-          this.address = "Dirección no disponible"; // Manejo en caso de error
-          L.marker(e.latlng).addTo(this.map).bindPopup(this.address).openPopup();
+          this.address = "Dirección no disponible";
+  
+          if (this.marker) {
+            this.marker.bindPopup(this.address).openPopup();
+          }
         }
       });
     });
-    
   }
   
-
   addMarker(latlng: any): void {
-    // Si ya existe un marcador, elimínalo del mapa
+    // Si ya existe un marcador, elimínalo antes de agregar uno nuevo
     if (this.marker) {
       this.map.removeLayer(this.marker);
     }
   
-    // Agrega un nuevo marcador
+    // Crea un nuevo marcador y asígnalo a la variable global
     this.marker = L.marker(latlng).addTo(this.map);
   }
+  
+  
   
 
   getAddressFromCoordinates(lat: number, lng: number): Observable<string> {
@@ -147,7 +171,7 @@ export class LocationPickerComponent implements OnInit {
 
   centerMap() {
     if (this.map) {
-      this.map.setView([this.userLat, this.userLng], 17); // Mueve la vista sin inicializar nuevamente
+      this.map.setView([this.userLat, this.userLng], 20); // Mueve la vista sin inicializar nuevamente
   
       // Mueve el marcador a la ubicación original
       if (this.marker) {

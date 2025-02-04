@@ -5,6 +5,8 @@ import { ReportServiceService } from '../../service/report-service.service';
 import { Table} from 'primeng/table';
 import { ConfirmationService, MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs'; // Importamos lastValueFrom para convertir el Observable en una Promesa
+
 
 interface Report {
   UserId: number;
@@ -32,6 +34,9 @@ interface Status {
 })
 export class ReportListComponent implements OnInit {
   reports: Report[] = [];
+  editDialog: boolean = false; // Controla la visibilidad del modal
+  selectedReportId: number | null = null; // ID del reporte seleccionado
+  editComments: string = ''; // Comentario ingresado por el usuario
   selectedRows: Report[] = [];
   status: Status[] = [];
   cols: any[] = [];
@@ -43,6 +48,7 @@ export class ReportListComponent implements OnInit {
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
   private statusUrl = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
   private deleteUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts'; // URL base para eliminar alertas
+  private updateUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/tracking'
 
   constructor(private http: HttpClient, 
               private authService: AuthService, 
@@ -56,6 +62,8 @@ export class ReportListComponent implements OnInit {
 
     this.loadData();
   }
+
+  
 
   loadData(): void {
     this.carga = true;
@@ -106,6 +114,8 @@ export class ReportListComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     });
 
+      // Método para editar un reporte
+
     this.http.delete(`${this.deleteUrl}/${reportId}`, {
       headers,
       body: { reason: 'Eliminación solicitada' } // Reemplaza con los datos que el API espera
@@ -120,6 +130,75 @@ export class ReportListComponent implements OnInit {
       }
     });
   }
+
+
+
+  // Método para actualizar un reporte
+  async editReport(reportId: number): Promise<void> {
+    console.log("Ingresando al Update::", reportId);
+    this.selectedReportId = reportId;
+    this.editComments = ''; // Limpiar campo de comentarios
+    this.editDialog = true; // Mostrar el modal
+    
+  
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  
+    // Obtener el estado del reporte antes de enviarlo
+    const alertStatusId = await this.getStatus(reportId);
+    console.log("Estado obtenido:", alertStatusId);
+  
+    // Construcción del body con los datos que el API espera
+    const body = {
+      "TrakerId": 31,
+      "AlertId": reportId,
+      "AlertStatusId": alertStatusId,  // Ahora realmente obtenemos el status
+      "Comments": "Gestión de actualización por el usuario"
+    };
+  
+    try {
+      // Usamos PUT para actualizar el reporte
+      await lastValueFrom(this.http.post(`${this.updateUrl}`, body, { headers }));
+      alert('Reporte actualizado correctamente');
+    } catch (err: any) {
+      console.error('Error al actualizar el reporte:', err);
+      alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
+    }
+  }
+  
+  // Método para obtener el estado de un reporte de forma asíncrona
+  async getStatus(reportId: number): Promise<number | null> {
+    console.log("Ingresando al getStatus::", reportId);
+  
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  
+    try {
+      const response: any = await lastValueFrom(
+        this.http.get(`${this.apiUrlUser}/${reportId}`, { headers })
+      );
+  
+      console.log("Respuesta completa del servidor:", response);
+  
+      // Extraer el AlertStatusId dentro de response.Data
+      return response?.Data?.AlertStatusId ?? null;  // Retorna el valor o null si no existe
+  
+    } catch (err: any) {
+      console.error('Error al obtener el estado del reporte:', err);
+      return null; // Retorna null si hay error
+    }
+  }
+  
+
+
+
+
 
   deleteData(reporte: Report) {
     //this.deleteDataDialog = true;
@@ -142,3 +221,7 @@ export class ReportListComponent implements OnInit {
 }
 
 }
+  function editReport(reportId: number, number: any) {
+    throw new Error('Function not implemented.');
+  }
+
