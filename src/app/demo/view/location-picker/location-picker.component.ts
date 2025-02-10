@@ -6,6 +6,8 @@ import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { ConfirmationService, MessageService} from 'primeng/api';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import swal from 'sweetalert2'
 
 @Component({
@@ -33,6 +35,8 @@ export class LocationPickerComponent implements OnInit {
   constructor(private http: HttpClient, private saveAddresService: SaveAddresService, private authService: AuthService,
               private messageService: MessageService,
               private confirmationService: ConfirmationService,
+              private location: Location,
+              private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -197,6 +201,10 @@ export class LocationPickerComponent implements OnInit {
     }
   }
   
+  GoBack()
+  {
+    this.location.back(); 
+  }
   
   
   onSubmit(): void {
@@ -238,6 +246,7 @@ export class LocationPickerComponent implements OnInit {
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#5E81AC'
         });
+        this.router.navigate(['/reporte']); 
         //alert('Dirección guardada exitosamente' );
       },
       (error) => {
