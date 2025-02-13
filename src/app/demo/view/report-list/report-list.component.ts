@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { ReportServiceService } from '../../service/report-service.service';
-import { Table} from 'primeng/table';
-import { ConfirmationService, MessageService} from 'primeng/api';
+import { Table } from 'primeng/table';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs'; // Importamos lastValueFrom para convertir el Observable en una Promesa
-
+import { lastValueFrom } from 'rxjs'; // Para convertir Observable en Promesa
 
 interface Report {
   UserId: number;
@@ -16,9 +15,9 @@ interface Report {
   Comments: string;
   AlertStatusId: number;
   AlertStatusDescription?: string;
-  AlertTypeId:  string,
+  AlertTypeId: string;
   CreatedAt: Date;
-  Id: number; // ID del reporte para la eliminación
+  Id: number; // ID del reporte
 }
 
 interface Status {
@@ -34,9 +33,9 @@ interface Status {
 })
 export class ReportListComponent implements OnInit {
   reports: Report[] = [];
-  editDialog: boolean = false; // Controla la visibilidad del modal
-  selectedReportId: number | null = null; // ID del reporte seleccionado
-  editComments: string = ''; // Comentario ingresado por el usuario
+  editDialog: boolean = false; // Controla el modal de edición
+  selectedReportId: number | null = null; // Reporte seleccionado para edición
+  editComments: string = ''; // Comentario del usuario
   selectedRows: Report[] = [];
   status: Status[] = [];
   cols: any[] = [];
@@ -47,38 +46,41 @@ export class ReportListComponent implements OnInit {
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
   private statusUrl = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
-  private deleteUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts'; // URL base para eliminar alertas
-  private updateUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/tracking'
+  private deleteUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+  private updateUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/tracking';
 
-  constructor(private http: HttpClient, 
-              private authService: AuthService, 
-              private reportService: ReportServiceService, 
-              private messageService: MessageService,
-              private confirmationService: ConfirmationService,
-              private router: Router) {}
+  // 📌 Definir las opciones del select en el componente TypeScript
+  statusOptions = [
+    { label: 'Registrado', value: '1' },
+    { label: 'En revisión', value: '2' },
+    { label: 'Finalizado', value: '3' },
+    { label: 'Rechazado', value: '5' },
+  ];
+  
+  selectedStatus: string = ''; // Estado seleccionado en el modal
+
+  constructor(
+    private http: HttpClient, 
+    private authService: AuthService, 
+    private reportService: ReportServiceService, 
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    const userId = this.authService.getUser(); 
-
     this.loadData();
   }
 
-  
-
   loadData(): void {
     this.carga = true;
-    
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    // Obtener el UserId del token de autenticación
-    const userId = this.authService.getUser(); // Ajusta según cómo recuperes el UserId del token
-    console.log("USer_id::", userId);
     const apiUrl = this.roleid === '2' ? this.apiUrlAll : this.apiUrlUser;
 
-    // Ejecutar las solicitudes al endpoint correspondiente
     Promise.all([
       this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(apiUrl, { headers }).toPromise(),
       this.http.get<{ Success: boolean, Message: string, Data: Status[] }>(this.statusUrl, { headers }).toPromise()
@@ -96,7 +98,6 @@ export class ReportListComponent implements OnInit {
     });
   }
 
-  // Función para mapear AlertStatusId a su descripción
   private mapStatusesToAlerts(reports: Report[], statuses: Status[]): Report[] {
     return reports.map((report) => {
       const status = statuses.find((s) => s.Id === report.AlertStatusId);
@@ -107,18 +108,15 @@ export class ReportListComponent implements OnInit {
     });
   }
 
-  // Método para eliminar un reporte
   deleteReport(reportId: number): void {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-      // Método para editar un reporte
-
     this.http.delete(`${this.deleteUrl}/${reportId}`, {
       headers,
-      body: { reason: 'Eliminación solicitada' } // Reemplaza con los datos que el API espera
+      body: { reason: 'Eliminación solicitada' }
     }).subscribe({
       next: () => {
         this.reports = this.reports.filter(report => report.Id !== reportId);
@@ -131,97 +129,78 @@ export class ReportListComponent implements OnInit {
     });
   }
 
-
-
-  // Método para actualizar un reporte
-  async editReport(reportId: number): Promise<void> {
-    console.log("Ingresando al Update::", reportId);
-    this.selectedReportId = reportId;
-    this.editComments = ''; // Limpiar campo de comentarios
+  // 📌 Método para abrir el modal con el reporte seleccionado
+  openEditDialog(report: Report): void {
+    this.selectedReportId = report.Id;
+    this.editComments = report.Comments || ''; // Precargar comentario existente si hay
+    this.selectedStatus = ''; // Resetear el estado al abrir el modal
     this.editDialog = true; // Mostrar el modal
-    
-  
+  }
+
+  // 📌 Método para actualizar un reporte
+  async editReport(): Promise<void> {
+    if (!this.selectedReportId) {
+      alert("No se ha seleccionado un reporte válido.");
+      return;
+    }
+
+    console.log("Actualizando reporte:", this.selectedReportId, "con comentarios:", this.editComments, "y estado:", this.selectedStatus);
+
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-  
-    // Obtener el estado del reporte antes de enviarlo
-    const alertStatusId = await this.getStatus(reportId);
-    console.log("Estado obtenido:", alertStatusId);
-  
-    // Construcción del body con los datos que el API espera
+
+    // Obtener el estado actual del reporte
+    const alertStatusId = await this.getStatus(this.selectedReportId);
+    console.log("Estado obtenido:", this.selectedStatus);
+
     const body = {
       "TrakerId": 31,
-      "AlertId": reportId,
-      "AlertStatusId": alertStatusId,  // Ahora realmente obtenemos el status
-      "Comments": "Gestión de actualización por el usuario"
+      "AlertId": this.selectedReportId,
+      "AlertStatusId": this.selectedStatus ? this.selectedStatus : '8',
+      "Comments": this.editComments,
+      "Status": this.selectedStatus // Incluir el estado seleccionado en la petición
     };
-  
+
     try {
-      // Usamos PUT para actualizar el reporte
       await lastValueFrom(this.http.post(`${this.updateUrl}`, body, { headers }));
       alert('Reporte actualizado correctamente');
+      this.editDialog = false; // Cerrar modal después de actualizar
     } catch (err: any) {
       console.error('Error al actualizar el reporte:', err);
       alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
     }
   }
-  
-  // Método para obtener el estado de un reporte de forma asíncrona
+
   async getStatus(reportId: number): Promise<number | null> {
     console.log("Ingresando al getStatus::", reportId);
-  
+
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-  
+
     try {
       const response: any = await lastValueFrom(
         this.http.get(`${this.apiUrlUser}/${reportId}`, { headers })
       );
-  
-      console.log("Respuesta completa del servidor:", response);
-  
-      // Extraer el AlertStatusId dentro de response.Data
-      return response?.Data?.AlertStatusId ?? null;  // Retorna el valor o null si no existe
-  
+
+      console.log("Respuesta del servidor:", response);
+      return response?.Data?.AlertStatusId ?? null;
     } catch (err: any) {
       console.error('Error al obtener el estado del reporte:', err);
-      return null; // Retorna null si hay error
+      return null;
     }
-  }
-  
-
-
-
-
-
-  deleteData(reporte: Report) {
-    //this.deleteDataDialog = true;
-    //this.equipo = { ...equipo };
-  }
-
-  editData(reporte: Report) {
-    //this.equipo = { ...equipo };
-    //this.dataDialog = true;
   }
 
   redirect(reporte: Report) {
-    this.router.navigate(['/pages/timeline/' + reporte.Id]); // Redirige al login después de cerrar sesión
-    //this.equipo = { ...equipo };
-    //this.dataDialog = true;
+    this.router.navigate(['/pages/timeline/' + reporte.Id]);
   }
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-}
-
-}
-  function editReport(reportId: number, number: any) {
-    throw new Error('Function not implemented.');
   }
-
+}

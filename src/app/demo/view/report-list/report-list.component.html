@@ -5,7 +5,7 @@
                 <h2>Reportes de Usuario</h2>
                 <ul class="report-list">
                   <li *ngFor="let report of reports" class="report-item">
-                    <div >
+                    <div>
                         <p-tag styleClass="mr-2" severity="info" *ngIf="report.AlertTypeId=='1'" value="Hueco o bache"></p-tag>
                         <p-tag styleClass="mr-2" severity="Primary" *ngIf="report.AlertTypeId=='2'" value="Semáforo dañado"></p-tag>
                         <p-tag styleClass="mr-2" severity="warning" *ngIf="report.AlertTypeId=='3'" value="Luminaria Dañada"></p-tag>
@@ -16,162 +16,131 @@
                     <p><strong>Nombre Usuario:</strong> {{ report.Notifier }}</p>
                     <p><strong>Estado:</strong> {{ report.AlertStatusDescription }}</p>
                     <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
-                    <!-- Botón Eliminar para otros usuarios -->
+                    <!-- Botones de acciones -->
                     <div style="display: flex; justify-content: flex-end;">
-                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2 mb-2" (click)="editReport(report.Id)" pTooltip="Editar" tooltipPosition="top" ></button> 
-                        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger mr-2 mb-2" (click)="deleteReport(report.Id)" pTooltip="Eliminar" tooltipPosition="top" ></button> 
-                        <button pButton pRipple type="button" icon="pi pi-clock" class="p-button-rounded p-button-info mr-2 mb-2" (click)="redirect(report)" pTooltip="Historia" tooltipPosition="top"></button> 
+                        <button pButton pRipple type="button" icon="pi pi-pencil" 
+                        class="p-button-rounded p-button-primary mr-2 mb-2" 
+                        (click)="openEditDialog(report)" 
+                        pTooltip="Editar" tooltipPosition="top">
+                    </button>
+                    
+                        <button pButton pRipple type="button" icon="pi pi-times" 
+                            class="p-button-rounded p-button-danger mr-2 mb-2" 
+                            (click)="deleteReport(report.Id)" 
+                            pTooltip="Eliminar" tooltipPosition="top">
+                        </button> 
+                        <button pButton pRipple type="button" icon="pi pi-clock" 
+                            class="p-button-rounded p-button-info mr-2 mb-2" 
+                            (click)="redirect(report)" 
+                            pTooltip="Historia" tooltipPosition="top">
+                        </button> 
                     </div>
                 </li>
                 </ul>
-              </div>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- Analista - Tabla de Reportes -->
 <div class="grid" *ngIf="roleid=='2'"> <!--2 Analista-->
-  <div class="col-12">
-      <div class="card px-6 py-6">
-          <p-toast></p-toast>
-          <p-table #dt [value]="reports" [columns]="cols" responsiveLayout="scroll" [rows]="10" 
-                  [globalFilterFields]="['name','country.name','representative.name','status']" [rows]="10" 
-                  [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
-                  [(selection)]="selectedRows" selectionMode="multiple" [rowHover]="true" dataKey="Id"
-                  [loading]="carga" loadingIcon="pi pi-spin pi-spinner">
-              <ng-template pTemplate="caption">
-                  <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                      <h5 class="m-0">Reporte Alertas</h5>
-                      <span class="block mt-2 md:mt-0 p-input-icon-left">
-                          <i class="pi pi-search"></i>
-                          <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
-                      </span>
-                  </div>
-              </ng-template>
-              <ng-template pTemplate="header">
-                  <tr>
-                      <th style="width: 3rem">
-                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                      </th>
-                      <th pSortableColumn="CreatedAt">Fecha Creación <p-sortIcon field="CreatedAt"></p-sortIcon></th>
-                      <th pSortableColumn="Address">Dirección <p-sortIcon field="Address"></p-sortIcon></th>
-                      <th pSortableColumn="Comments">Observaciones <p-sortIcon field="Comments"></p-sortIcon></th>
-                      <th></th>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-report>
-                  <tr>
-                      <td>
-                          <p-tableCheckbox [value]="report"></p-tableCheckbox>
-                      </td>
-                      <td style="width:14%; min-width:10rem;"><span class="p-column-title">Fecha Creación</span>
-                          {{report.CreatedAt | date: 'yyyy/MM/dd HH:mm'}}
-                      </td>
-                      <td style="width:20%; min-width:10rem;">
-                          <span class="p-column-title">Dirección</span>
-                          {{report.Address}}
-                      </td>                        
-                      <td style="width:20%; min-width:10rem;">
-                          <span class="p-column-title">Observaciones</span>
-                          {{report.Comments}}
-                      </td>
-                      <td style="text-align: rigth;">
-                          <div class="flex" style="margin-left: auto; width: fit-content;">
-                            <!--
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(equipo)"></button>
-                              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(equipo)"></button>
-                            -->
-                                <button pButton pRipple type="button" icon="pi pi-clock" class="p-button-rounded p-button-info mr-2 mb-2" (click)="redirect(report)"></button>
-                          </div>
-                      </td>
-                  </tr>
-              </ng-template>
-          </p-table>
-      </div>
-      <p-dialog (visible)=true [style]="{width: '450px'}" header="Editar Reporte" [modal]="true">
-        <ng-template pTemplate="content">
-          <div class="field">
-            <label for="edit-comments">Comentarios</label>
-            <textarea id="edit-comments" pInputText [(ngModel)]="editComments" rows="3" 
-              placeholder="Ingrese sus comentarios de actualización"></textarea>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="footer">
-          <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="editDialog = false"></button>
-          <button pButton label="Guardar" icon="pi pi-check" class="p-button-text" (click)="updateReport()"></button>
-        </ng-template>
-      </p-dialog>
-      
-      <!--
-      <p-dialog [(visible)]="dataDialog" [style]="{width: '450px'}" header="Guardar Equipo" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
-          <ng-template pTemplate="content">
-              <div class="field">
-                  <label for="marca">Marca</label>
-                  <p-dropdown [(ngModel)]="equipo.mar_id" optionValue="mar_id" filter="true" optionLabel="mar_descripcion" [options]="marcas" placeholder="Seleccione..." [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.mar_id}">
-                  </p-dropdown>
-                  <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.mar_id">Requerido.</small>
-              </div>     
-              <div class="field">
-                  <label for="tipoequipo">Tipo Equipo</label>
-                  <p-dropdown [(ngModel)]="equipo.teq_id" optionValue="teq_id" filter="true" optionLabel="teq_descripcion" [options]="tiposequipo" placeholder="Seleccione..." [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.teq_id}">
-                  </p-dropdown>
-                  <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.teq_id">Requerido.</small>
-              </div>                  
-              <div class="field">
-                  <label for="equ_modelo">Modelo</label>
-                  <input type="text" pInputText id="equ_modelo" [(ngModel)]="equipo.equ_modelo" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.equ_modelo}"/>
-                  <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.equ_modelo">Requerido.</small>
-              </div>
-              <div class="field">
-                  <label for="equ_serial">Serial</label>
-                  <input type="text" pInputText id="equ_serial" [(ngModel)]="equipo.equ_serial" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.equ_serial}"/>
-                  <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.equ_serial">Requerido.</small>
-              </div>
-              <div class="formgrid grid">
-                  <div class="field col">
-                      <label for="equ_cant_baterias">Cantidad Baterías</label>
-                      <input type="number" pInputText id="equ_cant_baterias" [(ngModel)]="equipo.equ_cant_baterias" [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.equ_cant_baterias}" />
-                      <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.equ_cant_baterias">Requerido.</small>
-                  </div>
-                  <div class="field col">
-                      <label for="equ_potencia">Potencia</label>
-                      <input type="text" pInputText id="equ_potencia" [(ngModel)]="equipo.equ_potencia" [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.equ_potencia}" />
-                      <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.equ_potencia">Requerido.</small>
-                  </div>                    
-              </div>                
-              <div class="field">
-                  <label for="equ_qr_code">Código QR</label>
-                  <input type="text" pInputText id="equ_qr_code" [(ngModel)]="equipo.equ_qr_code" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !equipo.equ_qr_code}"/>
-                  <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipo.equ_qr_code">Requerido.</small>
-              </div>  
-          </ng-template>
-          <ng-template pTemplate="footer">
-              <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-              <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveData()"></button>            
-          </ng-template>
-      </p-dialog>      
-      -->
-    <!--
-      <p-dialog [(visible)]="deleteDataDialog" header="Confirmación" [modal]="true" [style]="{width:'450px'}">
-          <div class="flex align-items-center justify-content-center">
-              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-              <span *ngIf="equipo">Seguro que desea eliminar el registro, modelo <b>{{equipo.equ_modelo}}</b>, serial <b>{{equipo.equ_serial}}</b>?</span>
-          </div>
-          <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteDataDialog = false"></button>
-              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDelete()"></button>
-          </ng-template>
-      </p-dialog>
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-table #dt [value]="reports" [columns]="cols" responsiveLayout="scroll" 
+                [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']"
+                [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
+                [(selection)]="selectedRows" selectionMode="multiple" [rowHover]="true" dataKey="Id"
+                [loading]="carga" loadingIcon="pi pi-spin pi-spinner">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Reporte Alertas</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
 
-      <p-dialog [(visible)]="deleteRowsDialog" header="Confirmación" [modal]="true" [style]="{width:'450px'}">
-          <div class="flex align-items-center justify-content-center">
-              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-              <span>Seguro que desea eliminar los registros seleccionados?</span>
-          </div>
-          <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteRowsDialog = false"></button>
-              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
-          </ng-template>
-      </p-dialog>      
-    -->
-  </div>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="CreatedAt">Fecha Creación <p-sortIcon field="CreatedAt"></p-sortIcon></th>
+                        <th pSortableColumn="Address">Dirección <p-sortIcon field="Address"></p-sortIcon></th>
+                        <th pSortableColumn="Comments">Observaciones <p-sortIcon field="Comments"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-report>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="report"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Fecha Creación</span>
+                            {{ report.CreatedAt | date: 'yyyy/MM/dd HH:mm' }}
+                        </td>
+                        <td style="width:20%; min-width:10rem;">
+                            <span class="p-column-title">Dirección</span>
+                            {{ report.Address }}
+                        </td>                        
+                        <td style="width:20%; min-width:10rem;">
+                            <span class="p-column-title">Observaciones</span>
+                            {{ report.Comments }}
+                        </td>
+                        <td style="text-align: right;">
+                            <div class="flex" style="margin-left: auto; width: fit-content;">
+                                <button pButton pRipple type="button" icon="pi pi-pencil" 
+                                class="p-button-rounded p-button-primary mr-2 mb-2" 
+                                (click)="openEditDialog(report)" 
+                                pTooltip="Editar" tooltipPosition="top">
+                                </button>
+                                <button pButton pRipple type="button" icon="pi pi-clock" 
+                                    class="p-button-rounded p-button-info mr-2 mb-2" 
+                                    (click)="redirect(report)" pTooltip="Historia" tooltipPosition="top">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
 </div>
+<p-dialog [(visible)]="editDialog" [style]="{width: '450px', height: '450px' }" header="Editar Reporte" [modal]="true">
+    <ng-template pTemplate="content">
+        <div class="field" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+            <!-- Campo de Comentarios -->
+            <label for="edit-comments" style="align-self: flex-start; font-weight: bold; margin-bottom: 8px;">Comentarios</label>
+            <textarea id="edit-comments" pInputText [(ngModel)]="editComments" rows="3" 
+                placeholder="Ingrese sus comentarios de actualización"
+                style="width: 90%; max-width: 90%; min-width: 90%;">
+            </textarea>
+        </div>
+
+        <!-- Mostrar solo si el rol es '2' (Analista) -->
+        <div class="field" *ngIf="roleid === '2'" style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 15px;">
+            <label for="edit-status" style="align-self: flex-start; font-weight: bold; margin-bottom: 8px;">Estado</label>
+            <p-dropdown id="edit-status" [(ngModel)]="selectedStatus" [options]="statusOptions" 
+            optionLabel="label" optionValue="value"
+            placeholder="Seleccione el estado" [ngStyle]="{'width': '90%'}">
+        </p-dropdown>
+        
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <div style="display: flex; justify-content: flex-end; width: 100%;">
+            <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="editDialog = false"></button>
+            <button pButton label="Guardar" icon="pi pi-check" class="p-button-text" (click)="editReport()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+
+  
