@@ -6,7 +6,6 @@
 
       <!-- Botón para volver a la ubicación original -->
       <button id="center-button" (click)="centerMap()" class="map-button">
-        
         📍 Centrar
       </button>
     </div>
@@ -25,12 +24,12 @@
           readonly
         />
       </div>
-
       <label for="alertTypeId">Selecciona un tipo de alerta:</label><br />
-      <select [(ngModel)]="alertTypeId" name="alertTypeId" id="alertTypeId">
-        <option value="1">Huecos</option>
-        <option value="2">Iluminación</option>
-        <option value="3">Peligro</option>
+      <select [(ngModel)]="alertTypeId" name="alertTypeId" id="alertTypeId" class="form-control">
+        <option value="1">Hueco o Bache</option>
+        <option value="2">Semáforo Dañado</option>
+        <option value="3">Luminaria Dañada</option>
+        <option value="4">Alerta de Seguridad</option>
       </select>
 
       <div class="form-group">
@@ -44,8 +43,10 @@
           placeholder="Escriba sus observaciones"
         ></textarea>
       </div>
-
-      <button type="submit" class="btn btn-primary">Enviar</button>
+      <span class="p-buttonset">
+				<button pButton pRipple label="Enviar" icon="pi pi-check" type="submit"></button>
+				<button pButton pRipple label="Cancelar" icon="pi pi-times" type="button" (click)="GoBack()"></button>
+			</span>
     </form>
   </div>
 </div>

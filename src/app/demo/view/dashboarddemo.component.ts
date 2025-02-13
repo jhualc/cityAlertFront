@@ -49,6 +49,7 @@ export class DashboardDemoComponent implements OnInit {
 
     listaPatrocinadores: any = [];
     cantPatrocinadores: number = 0;
+    roleid = localStorage.getItem("role");
 
     constructor(
         private productService: ProductService, 
@@ -335,4 +336,7 @@ export class DashboardDemoComponent implements OnInit {
         this.subscription.unsubscribe();
     }
 
+    signout() {
+        this.authService.logout();
+      }
 }

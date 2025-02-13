@@ -3,13 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as L from 'leaflet';
 import { SaveAddresService } from 'src/app/modules/auth/_services/save-addres.service';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+import { ConfirmationService, MessageService} from 'primeng/api';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import swal from 'sweetalert2'
 
 @Component({
   selector: 'app-location-picker',
   templateUrl: './location-picker.component.html',
-  styleUrls: ['./location-picker.component.scss']
+  styleUrls: ['./location-picker.component.scss'],
+  providers: [MessageService, ConfirmationService],
 })
 export class LocationPickerComponent implements OnInit {
   map: any;
@@ -27,7 +32,12 @@ export class LocationPickerComponent implements OnInit {
     { id: '3', descripcion: 'Peligro' }
   ];
 
-  constructor(private http: HttpClient, private saveAddresService: SaveAddresService, private authService: AuthService) {}
+  constructor(private http: HttpClient, private saveAddresService: SaveAddresService, private authService: AuthService,
+              private messageService: MessageService,
+              private confirmationService: ConfirmationService,
+              private location: Location,
+              private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.initializeMap();
@@ -79,8 +89,16 @@ export class LocationPickerComponent implements OnInit {
         }
       );
     } else {
-      alert('Geolocation is not supported by this browser.');
-      this.map = L.map('map').setView([4.7110, -74.0721], 20);
+      //alert('Geolocation is not supported by this browser.');
+      //this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Geolocation is not supported by this browser.', life: 3000 })
+      swal.fire({
+        title: 'Registrar Alerta!', 
+        text: 'Geolocalización no es soportada por este navegador.', 
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#5E81AC'
+      });
+      this.map = L.map('map').setView([4.7110, -74.0721], 17);
       this.loadMapTiles();
     }
   }
@@ -183,6 +201,10 @@ export class LocationPickerComponent implements OnInit {
     }
   }
   
+  GoBack()
+  {
+    this.location.back(); 
+  }
   
   
   onSubmit(): void {
@@ -190,7 +212,15 @@ export class LocationPickerComponent implements OnInit {
     const user = this.authService.getUser();
   
     if (!this.address || this.address === 'Dirección no disponible') {
-      alert('Por favor selecciona una ubicación válida en el mapa antes de guardar.');
+      //this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Por favor selecciona una ubicación válida en el mapa antes de guardar.', life: 3000 })
+      //alert('Por favor selecciona una ubicación válida en el mapa antes de guardar.');
+      swal.fire({
+        title: 'Registrar Alerta!', 
+        text: 'Por favor selecciona una ubicación válida en el mapa antes de guardar.', 
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#5E81AC'
+      });
       return;
     }
   
@@ -208,11 +238,28 @@ export class LocationPickerComponent implements OnInit {
     this.saveAddresService.saveAddress(this.data).subscribe(
       (response) => {
         console.log('Address saved successfully:', response);
-        alert('Dirección guardada exitosamente' );
+        this.messageService.add({ severity: 'success', summary: 'Exitoso!', detail: 'Dirección guardada exitosamente', life: 3000 });
+        swal.fire({
+          title: 'Registrar Alerta!', 
+          text: 'Alerta registrada exitosamente!', 
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#5E81AC'
+        });
+        this.router.navigate(['/reporte']); 
+        //alert('Dirección guardada exitosamente' );
       },
       (error) => {
         console.error('Error saving address:', error);
-        alert('Error al guardar la dirección. Intenta nuevamente.');
+        //this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Error al guardar la dirección. Intenta nuevamente.', life: 3000 })
+        swal.fire({
+          title: 'Registrar Alerta!', 
+          text: 'Error al guardar la dirección. Intenta nuevamente.', 
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#5E81AC'
+        });
+        //alert('Error al guardar la dirección. Intenta nuevamente.');
       }
     );
   }

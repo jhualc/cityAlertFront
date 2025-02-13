@@ -18,6 +18,7 @@ interface Report {
   AlertTypeId: string;
   CreatedAt: Date;
   Id: number; // ID del reporte
+  CanBeDeleted: boolean;
 }
 
 interface Status {
