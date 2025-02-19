@@ -43,6 +43,7 @@ export class ReportListComponent implements OnInit {
   isCurrentUserAdmin = false;
   carga: boolean = true;
   roleid: string = this.authService.getRole();
+  isSaving: boolean = false;
 
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
@@ -52,13 +53,14 @@ export class ReportListComponent implements OnInit {
 
   // 📌 Definir las opciones del select en el componente TypeScript
   statusOptions = [
-    { label: 'Registrado', value: '1' },
-    { label: 'En revisión', value: '2' },
-    { label: 'Finalizado', value: '3' },
-    { label: 'Rechazado', value: '5' },
+
+    { label: 'En revisión', value: 2 },
+    { label: 'Finalizado', value: 3 },
+    { label: 'Rechazado', value: 5 },
   ];
   
-  selectedStatus: string = ''; // Estado seleccionado en el modal
+  filteredStatusOptions: any[] = [];
+  selectedStatus: number = 0; // Estado seleccionado en el modal
 
   constructor(
     private http: HttpClient, 
@@ -72,6 +74,8 @@ export class ReportListComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
+
+
 
   loadData(): void {
     this.carga = true;
@@ -133,8 +137,9 @@ export class ReportListComponent implements OnInit {
   // 📌 Método para abrir el modal con el reporte seleccionado
   openEditDialog(report: Report): void {
     this.selectedReportId = report.Id;
-    this.editComments = report.Comments || ''; // Precargar comentario existente si hay
-    this.selectedStatus = ''; // Resetear el estado al abrir el modal
+    this.editComments = ''; // Precargar comentario existente si hay
+    this.selectedStatus = report.AlertStatusId; // Resetear el estado al abrir el modal
+    this.filteredStatusOptions = this.statusOptions.filter(option => option.value >= report.AlertStatusId);
     this.editDialog = true; // Mostrar el modal
   }
 
@@ -145,7 +150,7 @@ export class ReportListComponent implements OnInit {
       return;
     }
 
-    console.log("Actualizando reporte:", this.selectedReportId, "con comentarios:", this.editComments, "y estado:", this.selectedStatus);
+    this.isSaving = true; // 🔴 Deshabilitar botón mientras se ejecuta la actualización
 
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -155,7 +160,7 @@ export class ReportListComponent implements OnInit {
 
     // Obtener el estado actual del reporte
     const alertStatusId = await this.getStatus(this.selectedReportId);
-    console.log("Estado obtenido:", this.selectedStatus);
+
 
     const body = {
       "TrakerId": 31,
@@ -172,7 +177,9 @@ export class ReportListComponent implements OnInit {
     } catch (err: any) {
       console.error('Error al actualizar el reporte:', err);
       alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
-    }
+    }finally {
+      this.isSaving = false; // 🔵 Rehabilitar el botón después de la respuesta
+  }
   }
 
   async getStatus(reportId: number): Promise<number | null> {
