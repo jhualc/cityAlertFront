@@ -92,7 +92,7 @@ export class ReportListComponent implements OnInit {
       'Authorization': `Bearer ${token}`
     });
 
-    const apiUrl = this.roleid === '2' && tipo === 1 ? this.apiUrlAll : this.apiUrlUser;
+    const apiUrl = this.roleid === '2' && (tipo === 1 || tipo === 3) ? this.apiUrlAll : this.apiUrlUser;
 
     Promise.all([
       this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(apiUrl, { headers }).toPromise(),
@@ -103,7 +103,7 @@ export class ReportListComponent implements OnInit {
         this.reports = this.mapStatusesToAlerts(reportsResponse.Data, statusResponse.Data);
         if (this.roleid == '2' && tipo == 1)
         {
-          this.reports = this.reports.filter(x => x.AlertStatusId == tipo);
+          this.reports = this.reports.filter(x => x.AlertStatusId == tipo || x.AlertStatusId == 8);
           this.isRegistrado=false;
           this.isAsignado=true;
           this.isFinalizado=true;
