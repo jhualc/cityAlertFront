@@ -1,6 +1,9 @@
 <div class="grid" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
     <div class="col-12">
         <div class="card px-6 py-6">
+            <span class="p-buttonset">
+                <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
+			</span>
             <div class="report-list-container">
                 <!--<h2>Reportes de Usuario</h2>-->
                 <ul class="report-list">
@@ -46,13 +49,20 @@
 <div class="grid" *ngIf="roleid=='2'"> <!--2 Analista-->
     <div class="col-12">
         <div class="card px-6 py-6">
+            <span class="p-buttonset">
+                <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
+				<button pButton pRipple label="Registrados" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
+				<button pButton pRipple label="Asignados" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
+			</span>
+            <br>
             <p-toast></p-toast>
             <p-table #dt [value]="reports" [columns]="cols" responsiveLayout="scroll" 
                 [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']"
                 [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [showCurrentPageReport]="true" 
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
                 [(selection)]="selectedRows" selectionMode="multiple" [rowHover]="true" dataKey="Id"
-                [loading]="carga" loadingIcon="pi pi-spin pi-spinner">
+                [loading]="carga" loadingIcon="pi pi-spin pi-spinner"
+                [sortField]="'CreatedAt'" [sortOrder]="-1">
                 
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">

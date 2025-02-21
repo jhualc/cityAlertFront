@@ -6,6 +6,8 @@ import { Table } from 'primeng/table';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs'; // Para convertir Observable en Promesa
+import { Location } from '@angular/common';
+import swal from 'sweetalert2'
 
 interface Report {
   UserId: number;
@@ -44,6 +46,8 @@ export class ReportListComponent implements OnInit {
   carga: boolean = true;
   roleid: string = this.authService.getRole();
   isSaving: boolean = false;
+  isRegistrado: boolean = false;
+  isAsignado: boolean = true;
 
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
@@ -68,16 +72,17 @@ export class ReportListComponent implements OnInit {
     private reportService: ReportServiceService, 
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadData(1); //Registrados
   }
 
 
 
-  loadData(): void {
+  loadData(tipo: number): void {
     this.carga = true;
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -86,6 +91,7 @@ export class ReportListComponent implements OnInit {
 
     const apiUrl = this.roleid === '2' ? this.apiUrlAll : this.apiUrlUser;
 
+
     Promise.all([
       this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(apiUrl, { headers }).toPromise(),
       this.http.get<{ Success: boolean, Message: string, Data: Status[] }>(this.statusUrl, { headers }).toPromise()
@@ -93,6 +99,18 @@ export class ReportListComponent implements OnInit {
     .then(([reportsResponse, statusResponse]) => {
       if (reportsResponse?.Success && statusResponse?.Success) {
         this.reports = this.mapStatusesToAlerts(reportsResponse.Data, statusResponse.Data);
+        if (this.roleid == '2' && tipo == 1)
+        {
+          this.reports = this.reports.filter(x => x.AlertStatusId == tipo);
+          this.isRegistrado=false;
+          this.isAsignado=true;
+        }
+        else if (this.roleid == '2' && tipo == 2)
+        {
+          this.reports = this.reports.filter(x => x.AlertStatusId != tipo);
+          this.isRegistrado=true;
+          this.isAsignado=false;
+        }
       } else {
         console.error('Error al obtener datos:', reportsResponse?.Message, statusResponse?.Message);
       }
@@ -175,11 +193,25 @@ export class ReportListComponent implements OnInit {
 
     try {
       await lastValueFrom(this.http.post(`${this.updateUrl}`, body, { headers }));
-      alert('Reporte actualizado correctamente');
+              swal.fire({
+                title: 'Seguimiento Alerta!', 
+                text: 'Alerta actualizada correctamente!', 
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#5E81AC'
+              });
+      //alert('Reporte actualizado correctamente');
       this.editDialog = false; // Cerrar modal después de actualizar
     } catch (err: any) {
       console.error('Error al actualizar el reporte:', err);
-      alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
+              swal.fire({
+                title: 'Registrar Alerta!', 
+                text: "'No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}", 
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#5E81AC'
+              });
+      //alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
     }finally {
       this.isSaving = false; // 🔵 Rehabilitar el botón después de la respuesta
   }
@@ -214,4 +246,15 @@ export class ReportListComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+
+  GoBack()
+  {
+    this.location.back(); 
+  }
+
+  LoadReport(tipo: number)
+  {
+    this.loadData(tipo);
+  }
+
 }

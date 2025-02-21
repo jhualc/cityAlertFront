@@ -238,7 +238,7 @@ export class LocationPickerComponent implements OnInit {
     this.saveAddresService.saveAddress(this.data).subscribe(
       (response) => {
         console.log('Address saved successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'Exitoso!', detail: 'Dirección guardada exitosamente', life: 3000 });
+        //this.messageService.add({ severity: 'success', summary: 'Exitoso!', detail: 'Dirección guardada exitosamente', life: 3000 });
         swal.fire({
           title: 'Registrar Alerta!', 
           text: 'Alerta registrada exitosamente!', 
