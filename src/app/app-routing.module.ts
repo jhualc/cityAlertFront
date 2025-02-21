@@ -21,11 +21,7 @@ import {FileDemoComponent} from './demo/view/filedemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
 import {IconsComponent} from './utilities/icons.component';
 import {RegisterComponent} from './demo/view/register.component';
-import {AgendaComponent} from './demo/view/agenda.component';
-import {ParticipantesComponent} from './demo/view/participantes.component';
-import {ParticipanteInfoComponent} from './demo/view/participanteinfo.component';
-import {EventoComponent} from './demo/view/evento.component';
-import {SponsorsComponent} from './demo/view/sponsors.component';
+
 
 import {AppMainComponent} from './app.main.component';
 import {AppNotfoundComponent} from './pages/app.notfound.component';
@@ -38,11 +34,8 @@ import {AppCalendarComponent} from './pages/app.calendar.component';
 import {AppTimelineDemoComponent} from './pages/app.timelinedemo.component';
 import {BlocksComponent} from './blocks/blocks/blocks.component';
 import {AuthGuard} from './modules/auth/_services/auth.guard';
-import { AuthComponent } from './modules/auth/auth.component';
-import { ChatPanelComponent } from './modules/chat-panel/chat-panel.component';
 import { AcercadeComponent } from './demo/view/acercade.component';
 import { PerfilComponent } from './demo/view/perfil.component';
-import { SponsorsViewComponent } from './demo/view/sponsors-view/sponsors-view.component';
 import { LocationPickerComponent } from './demo/view/location-picker/location-picker.component';
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
@@ -107,17 +100,9 @@ export const routes: Routes = [
             {path: 'components/file', component: FileDemoComponent},
             {path: 'documentation', component: DocumentationComponent},
             {path: 'blocks', component: BlocksComponent},
-            {path: 'chat/:id', loadChildren: () => import('src/app/modules/chat-panel/chat-panel.module').then(m => m.ChatPanelModule)},
-            {path: 'chat', loadChildren: () => import('src/app/modules/chat-panel/chat-panel.module').then(m => m.ChatPanelModule)},
             {path: 'pages/register', component: RegisterComponent},
-            {path: 'pages/agenda/:id', component: AgendaComponent},
-            {path: 'pages/participantes', component: ParticipantesComponent},
-            {path: 'pages/participanteinfo/:id', component: ParticipanteInfoComponent},
-            {path: 'pages/evento/:id', component: EventoComponent},
-            {path: 'pages/sponsors', component: SponsorsComponent},
             {path: 'pages/acerca', component: AcercadeComponent},
             {path: 'pages/perfil', component: PerfilComponent},
-            {path: 'pages/sponsors-view/:id', component: SponsorsViewComponent},
         ], canActivate: [AuthGuard]
     },
     {path: 'error', component: AppErrorComponent},
