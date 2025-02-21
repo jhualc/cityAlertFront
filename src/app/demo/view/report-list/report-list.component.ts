@@ -48,6 +48,8 @@ export class ReportListComponent implements OnInit {
   isSaving: boolean = false;
   isRegistrado: boolean = false;
   isAsignado: boolean = true;
+  isFinalizado: boolean = true;
+  tipo: number;
 
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
@@ -83,14 +85,14 @@ export class ReportListComponent implements OnInit {
 
 
   loadData(tipo: number): void {
+    this.tipo = tipo;
     this.carga = true;
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    const apiUrl = this.roleid === '2' ? this.apiUrlAll : this.apiUrlUser;
-
+    const apiUrl = this.roleid === '2' && tipo === 1 ? this.apiUrlAll : this.apiUrlUser;
 
     Promise.all([
       this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(apiUrl, { headers }).toPromise(),
@@ -104,13 +106,22 @@ export class ReportListComponent implements OnInit {
           this.reports = this.reports.filter(x => x.AlertStatusId == tipo);
           this.isRegistrado=false;
           this.isAsignado=true;
+          this.isFinalizado=true;
         }
         else if (this.roleid == '2' && tipo == 2)
         {
-          this.reports = this.reports.filter(x => x.AlertStatusId != tipo);
+          this.reports = this.reports.filter(x => x.AlertStatusId != 3); //3 Finalizado
           this.isRegistrado=true;
           this.isAsignado=false;
+          this.isFinalizado=true;
         }
+        else if (this.roleid == '2' && tipo == 3)
+          {
+            this.reports = this.reports.filter(x => x.AlertStatusId == tipo);
+            this.isRegistrado=true;
+            this.isAsignado=true;
+            this.isFinalizado=false;
+          }
       } else {
         console.error('Error al obtener datos:', reportsResponse?.Message, statusResponse?.Message);
       }
@@ -211,6 +222,7 @@ export class ReportListComponent implements OnInit {
       //alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
     }finally {
       this.isSaving = false; // 🔵 Rehabilitar el botón después de la respuesta
+      this.loadData(this.tipo); 
   }
   }
 
