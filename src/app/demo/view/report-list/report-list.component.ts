@@ -190,6 +190,9 @@ export class ReportListComponent implements OnInit {
     // Obtener el estado actual del reporte
     const alertStatusId = await this.getStatus(this.selectedReportId);
 
+    if(this.roleid == '3'){
+      this.selectedStatus = 8
+    }
 
     const body = {
       "TrakerId": 31,

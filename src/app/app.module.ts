@@ -138,7 +138,7 @@ import { AgendaComponent } from './demo/view/agenda.component';
 import { ParticipantesComponent } from './demo/view/participantes.component';
 import { ParticipanteInfoComponent } from './demo/view/participanteinfo.component';
 import { EventoComponent } from './demo/view/evento.component';
-import { SponsorsComponent } from './demo/view/sponsors.component';
+
 import { AcercadeComponent } from './demo/view/acercade.component';
 import { PerfilComponent } from './demo/view/perfil.component';
 
@@ -178,7 +178,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ScheduleContentPanelComponent } from './chat-panel/chat-panel-body/schedule-content-panel/schedule-content-panel.component';
-import { SponsorsViewComponent } from './demo/view/sponsors-view/sponsors-view.component';
 import { LocationPickerComponent } from './demo/view/location-picker/location-picker.component';
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
@@ -341,13 +340,11 @@ import { TimelineComponent } from './timeline/timeline.component';
         ParticipantesComponent,
         ParticipanteInfoComponent,
         EventoComponent,
-        SponsorsComponent,
         AcercadeComponent,
         PerfilComponent,
         FilterChatPipe,
         FilterContactsPipe,
         ScheduleContentPanelComponent,
-        SponsorsViewComponent,
         LocationPickerComponent,
         ReportListComponent,
         HeatmapComponent,
