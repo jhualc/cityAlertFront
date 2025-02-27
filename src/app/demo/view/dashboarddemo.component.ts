@@ -83,7 +83,7 @@ export class DashboardDemoComponent implements OnInit {
         }
         this.user = JSON.parse(localStorage.getItem("user") ?? '');
         console.log("USERID:::", this.user);
-        
+        /*
         this.PersonaDataService.getUser(this.user.id)
         .subscribe({
             next: (respuesta) =>{
@@ -99,11 +99,11 @@ export class DashboardDemoComponent implements OnInit {
             }
             
         })
-
+*/
         //this.displayModal = true;
-        this.cargarDatosParticipantes();
-        this.cargarDatosSponsors();
-        this.cargarDatosUsuarios();
+        //this.cargarDatosParticipantes();
+        //this.cargarDatosSponsors();
+        //this.cargarDatosUsuarios();
         this.productService.getProducts().then(data => this.products = data);
 
         this.lineChartData = {
