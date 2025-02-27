@@ -53,11 +53,12 @@
                 <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
 				<button pButton pRipple label="Registrados" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
 				<button pButton pRipple label="Asignados" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
+                <button pButton pRipple label="Finalizados" icon="pi pi-check" type="button" (click)="LoadReport(3)" [disabled]="!isFinalizado"></button>
 			</span>
             <br>
             <p-toast></p-toast>
             <p-table #dt [value]="reports" [columns]="cols" responsiveLayout="scroll" 
-                [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']"
+                [rows]="10" [globalFilterFields]="['CreatedAt','Address','Comments']"
                 [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [showCurrentPageReport]="true" 
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
                 [(selection)]="selectedRows" selectionMode="multiple" [rowHover]="true" dataKey="Id"
@@ -108,7 +109,7 @@
                                 <button pButton pRipple type="button" icon="pi pi-pencil" 
                                 class="p-button-rounded p-button-primary mr-2 mb-2" 
                                 (click)="openEditDialog(report)" 
-                                pTooltip="Editar" tooltipPosition="top">
+                                pTooltip="Editar" tooltipPosition="top" *ngIf="isFinalizado">
                                 </button>
                                 <button pButton pRipple type="button" icon="pi pi-clock" 
                                     class="p-button-rounded p-button-info mr-2 mb-2" 

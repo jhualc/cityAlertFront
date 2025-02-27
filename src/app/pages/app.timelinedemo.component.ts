@@ -120,7 +120,8 @@ export class AppTimelineDemoComponent implements OnInit {
           'Registrado': PrimeIcons.CLOCK,
           'En revisión': PrimeIcons.SEARCH,
           'Finalizado': PrimeIcons.CHECK,
-          'Rechazado': PrimeIcons.TIMES_CIRCLE
+          'Rechazado': PrimeIcons.TIMES_CIRCLE,
+          'Observación': PrimeIcons.INFO
         };
       
         return iconMap[alertstatusType] || PrimeIcons.QUESTION; // Devuelve un icono predeterminado si no se encuentra
@@ -131,7 +132,8 @@ export class AppTimelineDemoComponent implements OnInit {
           'Registrado': '#14A2B8',
           'En revisión': '#ffe082',
           'Finalizado': '#9fdaa8',
-          'Rechazado': '#f19ea6'
+          'Rechazado': '#f19ea6',
+          'Observación': '#ffaa4a'
         };
 
         console.log (iconMapColor[alertstatusType] );
