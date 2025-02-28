@@ -110,6 +110,7 @@ import {AppFooterComponent} from './app.footer.component';
 
 // Demo pages
 import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
+import {DashboardOldDemoComponent} from './demo/view/dashboard_old.component';
 import {FormLayoutDemoComponent} from './demo/view/formlayoutdemo.component';
 import {FloatLabelDemoComponent} from './demo/view/floatlabeldemo.component';
 import {InvalidStateDemoComponent} from './demo/view/invalidstatedemo.component';
@@ -308,6 +309,7 @@ import { TimelineComponent } from './timeline/timeline.component';
         AppTimelineDemoComponent,
         ChatContentPanelComponent,
         DashboardDemoComponent,
+        DashboardOldDemoComponent,
         FormLayoutDemoComponent,
         FloatLabelDemoComponent,
         InvalidStateDemoComponent,

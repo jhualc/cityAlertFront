@@ -3,6 +3,9 @@
         <div class="card px-6 py-6">
             <span class="p-buttonset">
                 <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
+                <button pButton pRipple label="Registrados" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
+				<button pButton pRipple label="Asignados" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
+                <button pButton pRipple label="Finalizados" icon="pi pi-check" type="button" (click)="LoadReport(3)" [disabled]="!isFinalizado"></button>
 			</span>
             <div class="report-list-container">
                 <!--<h2>Reportes de Usuario</h2>-->
@@ -19,6 +22,7 @@
                     <p><strong>Nombre Usuario:</strong> {{ report.Notifier }}</p>
                     <p><strong>Estado:</strong> {{ report.AlertStatusDescription }}</p>
                     <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
+                    <p><strong>Fecha:</strong> {{ report.CreatedAt | date: 'yyyy/MM/dd HH:mm' }}</p>
                     <!-- Botones de acciones -->
                     <div style="display: flex; justify-content: flex-end;">
                         <button pButton pRipple type="button" icon="pi pi-pencil" 
@@ -58,7 +62,7 @@
             <br>
             <p-toast></p-toast>
             <p-table #dt [value]="reports" [columns]="cols" responsiveLayout="scroll" 
-                [rows]="10" [globalFilterFields]="['CreatedAt','Address','Comments']"
+                [rows]="10" [globalFilterFields]="['CreatedAt','Address','AlertStatusDescription','Comments']"
                 [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [showCurrentPageReport]="true" 
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
                 [(selection)]="selectedRows" selectionMode="multiple" [rowHover]="true" dataKey="Id"
@@ -82,7 +86,9 @@
                         </th>
                         <th pSortableColumn="CreatedAt">Fecha Creación <p-sortIcon field="CreatedAt"></p-sortIcon></th>
                         <th pSortableColumn="Address">Dirección <p-sortIcon field="Address"></p-sortIcon></th>
+                        <th pSortableColumn="Notifier">Nombre Usuario <p-sortIcon field="Notifier"></p-sortIcon></th>
                         <th pSortableColumn="Comments">Observaciones <p-sortIcon field="Comments"></p-sortIcon></th>
+                        <th pSortableColumn="AlertStatusDescription">Estado <p-sortIcon field="AlertStatusDescription"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
@@ -99,11 +105,19 @@
                         <td style="width:20%; min-width:10rem;">
                             <span class="p-column-title">Dirección</span>
                             {{ report.Address }}
-                        </td>                        
+                        </td>
+                        <td style="width:20%; min-width:10rem;">
+                            <span class="p-column-title">Nombre Usuario</span>
+                            {{ report.Notifier }}
+                        </td>                     
                         <td style="width:20%; min-width:10rem;">
                             <span class="p-column-title">Observaciones</span>
                             {{ report.Comments }}
                         </td>
+                        <td style="width:10%; min-width:10rem;">
+                            <span class="p-column-title">Estado</span>
+                            <span [class]="'customer-badge'" [style.background-color]="obtenerColor(report.AlertStatusDescription)" style="font-size: 12px; font-weight: normal;">{{ report.AlertStatusDescription }}</span>
+                        </td> 
                         <td style="text-align: right;">
                             <div class="flex" style="margin-left: auto; width: fit-content;">
                                 <button pButton pRipple type="button" icon="pi pi-pencil" 

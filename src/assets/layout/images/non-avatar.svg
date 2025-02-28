@@ -13,8 +13,9 @@ viewBox="0 0 2578.92 2578.92"
    ]]>
   </style>
   <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="-0" y1="1289.46" x2="2578.92" y2="1289.46">
-   <stop offset="0" style="stop-opacity:1; stop-color:#00F190"/>
-   <stop offset="1" style="stop-opacity:1; stop-color:#00A1FC"/>
+   <stop offset="0" style="stop-opacity:1; stop-color:white"/>
+   <stop offset="0.0196078" style="stop-opacity:1; stop-color:#FF8080"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:red"/>
   </linearGradient>
  </defs>
  <g id="Capa_x0020_1">

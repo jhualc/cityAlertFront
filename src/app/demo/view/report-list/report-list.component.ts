@@ -31,7 +31,7 @@ interface Status {
 @Component({
   selector: 'app-report-list',
   templateUrl: './report-list.component.html',
-  styleUrls: ['./report-list.component.scss'],
+  styleUrls: ['./report-list.component.scss','../../../../assets/demo/badges.scss'],
   providers: [MessageService, ConfirmationService]
 })
 export class ReportListComponent implements OnInit {
@@ -50,6 +50,14 @@ export class ReportListComponent implements OnInit {
   isAsignado: boolean = true;
   isFinalizado: boolean = true;
   tipo: number;
+
+  StatusMapColor: { [key: string]: string } = {
+    'Registrado': '#14A2B8',
+    'En revisión': '#ffe082',
+    'Finalizado': '#9fdaa8',
+    'Rechazado': '#f19ea6',
+    'Observación': '#ffaa4a'
+  };
 
   private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
   private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
@@ -267,6 +275,10 @@ export class ReportListComponent implements OnInit {
   LoadReport(tipo: number)
   {
     this.loadData(tipo);
+  }
+
+  obtenerColor(estado: string): string {
+    return this.StatusMapColor[estado] || 'white'; // Color por defecto si no se encuentra
   }
 
 }
