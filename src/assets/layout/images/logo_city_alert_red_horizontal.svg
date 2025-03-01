@@ -6,7 +6,7 @@ viewBox="0 0 30777.1 11353.31"
  xmlns:xlink="http://www.w3.org/1999/xlink"
  xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
  <defs>
-  <font id="FontID0" horiz-adv-x="691" font-variant="normal" style="fill-rule:nonzero" font-style="normal" font-weight="400">
+  <font id="FontID0" horiz-adv-x="691" font-variant="normal" style="fill-rule:nonzero" font-weight="400">
 	<font-face 
 		font-family="Square721 BT">
 		<font-face-src>
@@ -25,10 +25,10 @@ viewBox="0 0 30777.1 11353.31"
   </font>
   <style type="text/css">
    <![CDATA[
-    @font-face { font-family:"Square721 BT";font-variant:normal;font-style:normal;font-weight:normal;src:url("#FontID0") format(svg)}
+    @font-face { font-family:"Square721 BT";font-variant:normal;font-weight:normal;src:url("#FontID0") format(svg)}
     .fil1 {fill:#FEFEFE}
     .fil3 {fill:#606062}
-    .fil0 {fill:#ED3237}
+    .fil0 {fill:#D80000}
     .fil2 {fill:#FEFEFE;fill-rule:nonzero}
     .fnt0 {font-weight:normal;font-size:3851.22px;font-family:'Square721 BT'}
    ]]>

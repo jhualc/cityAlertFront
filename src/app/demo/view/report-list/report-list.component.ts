@@ -43,13 +43,13 @@ export class ReportListComponent implements OnInit {
   status: Status[] = [];
   cols: any[] = [];
   isCurrentUserAdmin = false;
-  carga: boolean = true;
   roleid: string = this.authService.getRole();
   isSaving: boolean = false;
   isRegistrado: boolean = false;
   isAsignado: boolean = true;
   isFinalizado: boolean = true;
   tipo: number;
+  loading: boolean = false;
 
   StatusMapColor: { [key: string]: string } = {
     'Registrado': '#14A2B8',
@@ -94,13 +94,13 @@ export class ReportListComponent implements OnInit {
 
   loadData(tipo: number): void {
     this.tipo = tipo;
-    this.carga = true;
+    this.loading = true;
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    const apiUrl = this.roleid === '2' && (tipo === 1 || tipo === 3) ? this.apiUrlAll : this.apiUrlUser;
+    const apiUrl = this.roleid === '2' && (tipo === 1) ? this.apiUrlAll : this.apiUrlUser;
 
     Promise.all([
       this.http.get<{ Success: boolean, Message: string, Data: Report[] }>(apiUrl, { headers }).toPromise(),
@@ -109,21 +109,28 @@ export class ReportListComponent implements OnInit {
     .then(([reportsResponse, statusResponse]) => {
       if (reportsResponse?.Success && statusResponse?.Success) {
         this.reports = this.mapStatusesToAlerts(reportsResponse.Data, statusResponse.Data);
-        if (this.roleid == '2' && tipo == 1)
+        if (/*this.roleid == '2' &&*/ tipo == 1)
         {
           this.reports = this.reports.filter(x => x.AlertStatusId == tipo || x.AlertStatusId == 8);
           this.isRegistrado=false;
           this.isAsignado=true;
           this.isFinalizado=true;
         }
-        else if (this.roleid == '2' && tipo == 2)
+        else if (/*this.roleid == '2' &&*/ tipo == 2)
         {
-          this.reports = this.reports.filter(x => x.AlertStatusId != 3); //3 Finalizado
+          if (this.roleid == '2' )
+          {
+            this.reports = this.reports.filter(x => x.AlertStatusId != 3); //3 Finalizado
+          }
+          else
+          {
+            this.reports = this.reports.filter(x => x.AlertStatusId != 3 && x.AlertStatusId != 1 && x.AlertStatusId != 8); //3 Finalizado //1 Registrado //8 Observación
+          }
           this.isRegistrado=true;
           this.isAsignado=false;
           this.isFinalizado=true;
         }
-        else if (this.roleid == '2' && tipo == 3)
+        else if (/*this.roleid == '2' &&*/ tipo == 3)
           {
             this.reports = this.reports.filter(x => x.AlertStatusId == tipo);
             this.isRegistrado=true;
@@ -133,7 +140,7 @@ export class ReportListComponent implements OnInit {
       } else {
         console.error('Error al obtener datos:', reportsResponse?.Message, statusResponse?.Message);
       }
-      this.carga = false;
+      this.loading = false;
     })
     .catch((error) => {
       console.error('Error al cargar datos:', error);
@@ -151,6 +158,7 @@ export class ReportListComponent implements OnInit {
   }
 
   deleteReport(reportId: number): void {
+    this.loading = true;
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -162,13 +170,30 @@ export class ReportListComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.reports = this.reports.filter(report => report.Id !== reportId);
-        alert('Reporte eliminado correctamente');
+        //alert('Reporte eliminado correctamente');
+        swal.fire({
+          title: 'Seguimiento Alerta!', 
+          text: 'Alerta eliminada correctamente!', 
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#5E81AC'
+        });
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error al eliminar el reporte:', err);
-        alert(`No se pudo eliminar el reporte: ${err.error.Message || 'Error desconocido'}`);
+        //alert(`No se pudo eliminar el reporte: ${err.error.Message || 'Error desconocido'}`);
+        swal.fire({
+          title: 'Registrar Alerta!', 
+          text: "'No se pudo eliminar la alerta: ${err.error?.Message || 'Error desconocido'}", 
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#5E81AC'
+        });
+        this.loading = false;
       }
     });
+    
   }
 
   // 📌 Método para abrir el modal con el reporte seleccionado
@@ -182,6 +207,7 @@ export class ReportListComponent implements OnInit {
 
   // 📌 Método para actualizar un reporte
   async editReport(): Promise<void> {
+    this.loading = true;
     if (!this.selectedReportId) {
       alert("No se ha seleccionado un reporte válido.");
       return;
@@ -221,11 +247,12 @@ export class ReportListComponent implements OnInit {
               });
       //alert('Reporte actualizado correctamente');
       this.editDialog = false; // Cerrar modal después de actualizar
+      this.loading = false;
     } catch (err: any) {
       console.error('Error al actualizar el reporte:', err);
               swal.fire({
                 title: 'Registrar Alerta!', 
-                text: "'No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}", 
+                text: "'No se pudo actualizar la alerta: ${err.error?.Message || 'Error desconocido'}", 
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
                 confirmButtonColor: '#5E81AC'
@@ -233,6 +260,7 @@ export class ReportListComponent implements OnInit {
       //alert(`No se pudo actualizar el reporte: ${err.error?.Message || 'Error desconocido'}`);
     }finally {
       this.isSaving = false; // 🔵 Rehabilitar el botón después de la respuesta
+      this.loading = false;
       this.loadData(this.tipo); 
   }
   }

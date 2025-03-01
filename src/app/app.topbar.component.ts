@@ -278,6 +278,8 @@ export class AppTopBarComponent {
 	) {
 	  if (this.authService.isLogin()) {
 		try {
+			const username = authService.getUserName();
+			const perfil = authService.getRoleName();
 		/*
 		const userString = localStorage.getItem("user");
 		  	this.user = userString
@@ -286,7 +288,7 @@ export class AppTopBarComponent {
 		  if (!this.user.avatar) {
 			this.user.avatar = "users/non-avatar.svg"; // Validación del avatar
 		  }*/
-		 this.user =  { name: "Nombre de Usuario", perfil: "Perfil de Usuario", avatar: "non-avatar.svg"};
+		 this.user =  { name: username, perfil: perfil, avatar: "non-avatar.svg"};
 		} catch (error) {
 		  console.error("Error parsing user data:", error);
 		  //this.user = { avatar: "users/non-avatar.svg" }; // Objeto predeterminado en caso de error

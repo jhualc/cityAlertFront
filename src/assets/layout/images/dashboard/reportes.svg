@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Creator: CorelDRAW 2020 (64-Bit) -->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="20.6376mm" height="20.6376mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 108.38 108.38"
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="18.6046mm" height="18.6046mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 143.38 143.38"
  xmlns:xlink="http://www.w3.org/1999/xlink"
  xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
  <defs>
   <style type="text/css">
    <![CDATA[
-    .fil0 {fill:#FEFEFE}
-    .fil1 {fill:#ED3237}
+    .fil1 {fill:#D80000}
+    .fil0 {fill:#FEFEFE;fill-opacity:0.701961}
    ]]>
   </style>
  </defs>
  <g id="Capa_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <circle class="fil0" cx="54.19" cy="54.19" r="54.19"/>
-  <g id="_2273346137376">
-   <rect class="fil1" x="23.09" y="23.01" width="7.48" height="20.58"/>
-   <rect class="fil1" x="36.77" y="13.79" width="7.48" height="29.8"/>
-   <rect class="fil1" x="50.45" y="29.04" width="7.48" height="14.55"/>
-   <rect class="fil1" x="64.13" y="25.68" width="7.48" height="17.92"/>
-   <rect class="fil1" x="77.82" y="33.3" width="7.48" height="10.29"/>
-   <rect class="fil1" transform="matrix(1.49664E-14 0.121078 -0.818401 4.6441E-15 88.9659 50.0921)" width="30.87" height="84.99"/>
-   <path class="fil1" d="M64.07 87.63c-2.88,4.2 -7.71,6.96 -13.19,6.96 -8.83,0 -15.98,-7.16 -15.98,-15.98 0,-8.75 7.03,-15.85 15.75,-15.98l0 15.51 0.24 0 13.19 9.49z"/>
-   <path class="fil1" d="M72.26 77.88c0,0.16 0.01,0.31 0.01,0.47 0,3.35 -1.03,6.46 -2.79,9.02l-13.19 -9.49 15.97 0z"/>
-   <path class="fil1" d="M55.68 58.73c8.67,0 15.72,6.9 15.97,15.51l-16.21 0 0 -15.51c0.08,-0 0.16,-0 0.23,-0z"/>
+  <path class="fil0" d="M3.94 0l135.5 0c2.17,0 3.94,1.77 3.94,3.94l0 135.5c0,2.17 -1.77,3.94 -3.94,3.94l-135.5 0c-2.17,0 -3.94,-1.77 -3.94,-3.94l0 -135.5c0,-2.17 1.77,-3.94 3.94,-3.94z"/>
+  <g id="_1861061275616">
+   <rect class="fil1" x="26.05" y="25.94" width="10.97" height="30.2"/>
+   <rect class="fil1" x="46.13" y="12.4" width="10.97" height="43.74"/>
+   <rect class="fil1" x="66.21" y="34.78" width="10.97" height="21.35"/>
+   <rect class="fil1" x="86.28" y="29.85" width="10.97" height="26.29"/>
+   <rect class="fil1" x="106.36" y="41.04" width="10.97" height="15.1"/>
+   <rect class="fil1" transform="matrix(1.49664E-14 0.121078 -0.818401 4.6441E-15 122.723 65.6758)" width="45.31" height="124.72"/>
+   <path class="fil1" d="M86.18 120.76c-4.23,6.17 -11.32,10.21 -19.36,10.21 -12.95,0 -23.45,-10.5 -23.45,-23.45 0,-12.84 10.31,-23.26 23.11,-23.45l0 22.76 0.35 0 19.36 13.93z"/>
+   <path class="fil1" d="M98.21 106.45c0.01,0.23 0.01,0.46 0.01,0.69 0,4.91 -1.51,9.47 -4.1,13.24l-19.36 -13.93 23.44 0z"/>
+   <path class="fil1" d="M73.88 78.35c12.72,0 23.08,10.13 23.44,22.76l-23.79 0 0 -22.76c0.11,-0 0.23,-0 0.34,-0z"/>
   </g>
  </g>
 </svg>

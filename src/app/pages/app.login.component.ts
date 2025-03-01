@@ -63,9 +63,9 @@ export class AppLoginComponent implements OnInit {
           console.log(resp);
           if (resp && !resp.error) {
             // Guardar el token y redirigir
-            console.log("USEr:::", resp);
-            let response = this.authService.setToken(resp.Data.Token, resp.Data.UserId, resp.Data.RoleId);
-            console.log("REsponse::", response);
+            console.log("User:::", resp);
+            let response = this.authService.setToken(resp.Data);
+            console.log("Response::", response);
             this.router.navigate(['/dash']); // Redirigir después del login exitoso
           } else {
             this.hasError = true;

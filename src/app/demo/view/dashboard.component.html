@@ -1,5 +1,5 @@
 <div class="grid layout-dashboard">
-    <div class="col-12 xl:col-3 md:col-6" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
+    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
         <a href="#/inicio">
             <div class="grid grid-nogutter widget-overview-box overview-box-1hidrogeno" >
                 <div class="col-3 overview-box-icon">
@@ -10,12 +10,12 @@
                     <span>Huecos y otros</span>
                 </div>
                  <div class="col-3 overview-box-status">
-                    
+                    --
                 </div> 
             </div>
         </a>    
     </div>
-    <div class="col-12 xl:col-3 md:col-6">
+    <div class="col-12 xl:col-4 md:col-6">
         <a href="#/reporte">
             <div class="grid grid-nogutter widget-overview-box overview-box-2hidrogeno">
                 <div class="col-3 overview-box-icon">
@@ -26,12 +26,12 @@
                     <span>Gestión de Alertas</span>
                 </div>
                 <div class="col-3 overview-box-status">
-                    
+                    --
                 </div>
             </div>
         </a>
     </div>
-    <div class="col-12 xl:col-3 md:col-6" *ngIf="roleid=='2'"> <!--3 Ciudadano-->
+    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='2'"> <!--3 Ciudadano-->
         <a href="#/heat-map">
             <div class="grid grid-nogutter widget-overview-box overview-box-4hidrogeno">
                 <div class="col-3 overview-box-icon">
@@ -42,12 +42,12 @@
                     <span>Anáisis de Alertas</span>
                 </div>
                 <div class="col-3 overview-box-status">
-                    
+                    --
                 </div>
             </div>
         </a>
     </div>     
-    <div class="col-12 xl:col-3 md:col-6">
+    <div class="col-12 xl:col-4 md:col-6">
         <a href="" (click)="signout()">
             <div class="grid grid-nogutter widget-overview-box overview-box-3hidrogeno">
                 <div class="col-3 overview-box-icon">
@@ -58,7 +58,7 @@
                     <span>Salir de la App</span>
                 </div>
                 <div class="col-3 overview-box-status">
-                    
+                    --
                 </div>
             </div>
         </a>
@@ -137,15 +137,14 @@
     <p-dialog header="Autorización de Uso de Datos Personales" [(visible)]="displayModal" [modal]="true" [style]="{'width': '50vw', 'text-align': 'left'}" class="modal-autorizacion">
 
       <div class="content">
-        <p>En mi calidad de titular de datos personales, al aceptar de manera voluntaria este formulario, autorizo a los organizadores 
-            del evento 3er Congreso Internacional de Hidrógeno a utilizar la información que a continuación suministraré con el propósito 
-            de que sea usada para el desarrollo de la presente actividad, establecer contacto para envío de memorias o información 
-            pertinente al evento, entrega de certificados, adelantar la promoción y publicidad relacionada con productos y servicios 
-            que ofrecen las asociaciones, promoción y publicidad de la presente actividad y actividades futuras.
+        <p>En mi calidad de titular de datos personales, al aceptar de manera voluntaria este formulario, autorizo a Cityalert a utilizar la información que a continuación suministraré 
+            con el propósito de que sea usada para el desarrollo de la presente actividad, establecer contacto para envío de información 
+            pertinente al uso del mismo, actualizaciones y adelantar la promoción y publicidad relacionada con productos y servicios 
+            que ofrecen los asociados, promoción y publicidad de la presente actividad y actividades futuras.
 
             Conozco la Política de Tratamiento y Protección de Datos Personales la cual puede ser consultada en el 
             
-            <b><a href= "https://www.hidrogenocolombia.com/wp-content/uploads/2023/07/Politica-de-proteccion-de-datos-V-27042023.pdf">Siguiente enlace</a></b>
+            <b><a href= "#">Siguiente enlace</a></b>
         </p>
            
       </div>
