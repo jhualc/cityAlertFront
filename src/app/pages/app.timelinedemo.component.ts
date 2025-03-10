@@ -46,7 +46,8 @@ import { ActivatedRoute } from '@angular/router';
                 }
             }
         }
-    `]
+    `],
+    styleUrls: ['../../assets/demo/badges.scss']
 })
 export class AppTimelineDemoComponent implements OnInit {
 
@@ -54,6 +55,14 @@ export class AppTimelineDemoComponent implements OnInit {
     alertStatuses: any[] = [];
 
     horizontalEvents: any[];
+
+    StatusMapColor: { [key: string]: string } = {
+      'Registrado': '#14A2B8',
+      'En revisión': '#ffe082',
+      'Finalizado': '#9fdaa8',
+      'Rechazado': '#f19ea6',
+      'Observación': '#ffaa4a'
+    };
 
     constructor(private breadcrumbService: BreadcrumbService, private http: HttpClient, private route: ActivatedRoute ) {
         this.breadcrumbService.setItems([
@@ -96,7 +105,9 @@ export class AppTimelineDemoComponent implements OnInit {
 
                   console.log("Color::", color);
                   return {
-                    status: `${tracking.Tracker} (${statusName})`, // Mostrar Tracker y Estado
+                    //status: `${tracking.Tracker} (${statusName})`, // Mostrar Tracker y Estado
+                    status: `${tracking.Tracker}`, // Mostrar Tracker 
+                    statusonly: `${statusName}`, //Mostrar estado
                     date: new Date(tracking.RegistrationDate).toLocaleString(), // Formato de fecha
                     icon: this.getIcon(statusName), 
                     color: color, 
@@ -127,6 +138,10 @@ export class AppTimelineDemoComponent implements OnInit {
         return iconMap[alertstatusType] || PrimeIcons.QUESTION; // Devuelve un icono predeterminado si no se encuentra
       }
 
+      obtenerColor(estado: string): string {
+        return this.StatusMapColor[estado] || 'white'; // Color por defecto si no se encuentra
+      }
+
       getIconColor(alertstatusType: string): string {
         const iconMapColor: { [key: string]: string } = {
           'Registrado': '#14A2B8',
@@ -136,6 +151,8 @@ export class AppTimelineDemoComponent implements OnInit {
           'Observación': '#ffaa4a'
         };
 
+
+        
         console.log (iconMapColor[alertstatusType] );
       
         return iconMapColor[alertstatusType] || '#ff0000'; // Devuelve un icono predeterminado si no se encuentra

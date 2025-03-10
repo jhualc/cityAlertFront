@@ -18,7 +18,8 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-            {label: 'Registrar Alerta', icon: 'pi pi-fw pi-home', routerLink: ['/inicio']},
+            {label: 'Inicio', icon: 'pi pi-fw pi-home', routerLink: ['/dash']},
+            {label: 'Registrar Alerta', icon: 'pi pi-fw pi-plus-circle', routerLink: ['/inicio']},
             {label: 'Reporte Alertas', icon: 'pi pi-fw pi-chart-line', routerLink: ['/reporte']},
             {label: 'Mapa de Calor', icon: 'pi pi-fw pi-share-alt', routerLink: ['/heat-map']},
             {label: 'Acerca de', icon: 'pi pi-fw pi-info-circle', routerLink: ['pages/acerca']},

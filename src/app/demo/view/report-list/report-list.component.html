@@ -1,10 +1,12 @@
 <div class="content-wrapper" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
-    <span class="p-buttonset">
-        <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
-        <button pButton pRipple label="Registrados" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
-        <button pButton pRipple label="En Revisión" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
-        <button pButton pRipple label="Finalizados" icon="pi pi-check" type="button" (click)="LoadReport(3)" [disabled]="!isFinalizado"></button>
-    </span>
+    <div style="text-align: center;">
+        <span class="p-buttonset">
+            <button pButton pRipple class="button-xs" label="Atrás" icon="pi pi-times" type="button" (click)="GoBack()"></button>
+            <button pButton pRipple class="button-xs" label="Registrado" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
+            <button pButton pRipple class="button-xs" label="Revisión" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
+            <button pButton pRipple class="button-xs" label="Finalizado" icon="pi pi-check" type="button" (click)="LoadReport(3)" [disabled]="!isFinalizado"></button>
+        </span>
+    </div>
     <div class="report-list-container" >
         <!--<h2>Reportes de Usuario</h2>-->
         <ul class="report-list">
