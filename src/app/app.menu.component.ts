@@ -23,6 +23,7 @@ export class AppMenuComponent implements OnInit {
             {label: 'Mapa de Calor', icon: 'pi pi-fw pi-megaphone', routerLink: ['/heat-map']},
             {label: 'Acerca de', icon: 'pi pi-fw pi-send', routerLink: ['pages/acerca']},
             {label: 'Cerrar Sesión', icon: 'pi pi-fw pi-sign-out', routerLink: ['/login']},
+            {label: 'Registrar Usuario', icon: 'pi pi-fw pi-user-plus', routerLink: ['pages/register']},
            // 
 /*             {
                 label: 'Agenda', icon: 'pi pi-fw pi-star-fill', routerLink: ['/uikit'],

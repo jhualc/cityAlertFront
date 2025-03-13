@@ -60,6 +60,29 @@
                         <br>                     
                     </div>
                 </div>
+
+                <div class="grid formgrid">
+                    <div class="col-12 md:col-6">
+                        <div [ngClass]="{ 'has-error': usr_option.hasError('required') }">
+                            <small><span *ngIf="phone.hasError('required')" class="text-danger">Este campo es requerido </span></small>
+                            <small>
+                                <span *ngIf="usr_option.hasError('required')" class="text-danger">
+                                    Seleccione una opción
+                                </span>
+                            </small>
+                        </div>
+                        <div class="login-input-wrapper">
+                            <p-dropdown 
+                                formControlName="usr_option" 
+                                [options]="options" 
+                                placeholder="Seleccione una opción">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                
+                <br>
+
                 <div class="grid formgrid">
                     <div class="col-12 mb-2 lg:col-6 lg:mb-0">                
                         <span class="p-buttonset">
