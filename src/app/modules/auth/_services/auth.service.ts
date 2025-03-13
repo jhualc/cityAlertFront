@@ -10,8 +10,10 @@ export class AuthService {
   private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/auth'; 
   private registryUrl = 'https://cityalertapi-dev.azurewebsites.net/users';// URL base de la API
   private tokenKey = 'auth_token'; // Clave para almacenar el token
-  private userKey= 'user';
-  private roleKey= 'role';
+  private useridKey= 'user';
+  private roleidKey= 'role';
+  private usernameKey = 'username';
+  private rolenameKey = 'rolname';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -26,15 +28,18 @@ export class AuthService {
   }
 
   // Guardar el token en el localStorage
-  setToken(token: string, user: string, role: string): void {
+  //setToken(token: string, userid: string, roleid: string, user: string): void {
+    setToken(data: any): void {
 
     const jsonObject: { id: number | string } = {
-      id: user
+      id: data.UserId
     };
 
-    localStorage.setItem(this.tokenKey, token);
-    localStorage.setItem(this.userKey, JSON.stringify(jsonObject));
-    localStorage.setItem(this.roleKey, role);
+    localStorage.setItem(this.tokenKey, data.Token);
+    localStorage.setItem(this.useridKey, JSON.stringify(jsonObject));
+    localStorage.setItem(this.roleidKey, data.RoleId);
+    localStorage.setItem(this.usernameKey, data.User);
+    localStorage.setItem(this.rolenameKey, data.Role);
   }
 
 
@@ -43,13 +48,20 @@ export class AuthService {
   }
 
   getUser (): string | null {
-    return localStorage.getItem(this.userKey);
+    return localStorage.getItem(this.useridKey);
+  }
+
+  getUserName (): string | null {
+    return localStorage.getItem(this.usernameKey);
   }
 
   getRole (): string | null {
-    return localStorage.getItem(this.roleKey);
+    return localStorage.getItem(this.roleidKey);
   }
 
+  getRoleName (): string | null {
+    return localStorage.getItem(this.rolenameKey);
+  }
 
   isLogin(): boolean {
     return !!this.getToken();

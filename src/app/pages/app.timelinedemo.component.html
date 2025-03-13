@@ -8,6 +8,10 @@
             <p-timeline [value]="customEvents" align="alternate" class="customized-timeline">
                 <ng-template pTemplate="content" let-event>
                   <p-card>
+                    <div style="display: flex; justify-content: flex-end; margin-top: -15px;">
+                      <span [class]="'customer-badge'" [style.background-color]="obtenerColor(event.statusonly)" style="font-size: 12px; font-weight: normal;">{{ event.statusonly }}</span>
+                    </div>
+                    <br>
                     <ng-container *ngIf="event.comments">
                       <p>{{ event.status }}</p>
                       <p>{{ event.comments }}</p>

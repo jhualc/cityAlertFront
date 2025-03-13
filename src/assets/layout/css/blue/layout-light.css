@@ -204,6 +204,19 @@ p:last-child {
   transform: translate(-50%, -50%);
 }
 
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
 [class^=ball-] {
   position: absolute;
   display: block;
@@ -9246,19 +9259,22 @@ a {
   width: 50px;
 }
 .widget-overview-box .overview-box-text h5 {
-  color: #ffffff;
+  /*color: #ffffff;*/
+  color: #d80000;
   font-size: 16px;
   font-weight: 500;
   margin: 0;
 }
 .widget-overview-box .overview-box-text span {
-  color: #dcf2f9;
+  /*color: #dcf2f9;*/
+  color: #6c6c6c;
   font-size: 13px;
   font-weight: 500;
   margin: 0;
 }
 .widget-overview-box .overview-box-status {
-  color: #ffffff;
+  /*color: #ffffff;*/
+  color: #6c6c6c;
   font-weight: 500;
   font-size: 16px;
   width: 43px;
@@ -9293,24 +9309,28 @@ a {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
+  border: 1px solid #a0a0a0;
  }
  .widget-overview-box.overview-box-2hidrogeno {
   background-image: url('../../images/back2.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
+  border: 1px solid #a0a0a0;
  }
  .widget-overview-box.overview-box-3hidrogeno {
   background-image: url('../../images/back3.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
+  border: 1px solid #a0a0a0;
  }   
  .widget-overview-box.overview-box-4hidrogeno {
   background-image: url('../../images/back4.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
+  border: 1px solid #a0a0a0;
  }    
 .widget-overview-box.overview-box-1 .overview-box-text span {
   color: #dcf2f9;

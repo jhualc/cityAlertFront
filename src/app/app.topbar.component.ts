@@ -19,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 					<a href="#" class="sidebar-menu-button" (click)="appMain.onMenuButtonClick($event)">
 						<i class="pi pi-bars"></i>
 					</a>
-<!-- 
+<!--
 					<a href="#" class="megamenu-mobile-button" (click)="appMain.onMegaMenuMobileButtonClick($event)">
 						<i class="pi pi-align-right megamenu-icon"></i>
 					</a>
@@ -27,14 +27,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 					<a href="#" class="topbar-menu-mobile-button" (click)="appMain.onTopbarMobileMenuButtonClick($event)">
 						<i class="pi pi-ellipsis-v"></i>
 					</a>
-
 					<div class="layout-megamenu-wrapper">
-						<!--
+<!--					
 						<a class="layout-megamenu-button" href="#" (click)="appMain.onMegaMenuButtonClick($event)">
 							<i class="pi pi-comment"></i>
 							Mega Menu
 						</a>
--->
+-->						
 						<ul class="layout-megamenu" [ngClass]="{'layout-megamenu-active fadeInDown': appMain.megaMenuActive}"
                             (click)="appMain.onMegaMenuClick($event)">
 							<li [ngClass]="{'active-topmenuitem': activeItem === 1}" (click)="mobileMegaMenuItemClick(1)">
@@ -107,26 +106,30 @@ import { ActivatedRoute, Router } from '@angular/router';
                 </div>
                 <div class="layout-topbar-right fadeInDown">
 					<ul class="layout-topbar-actions">
-					<!--
-						<li #search class="search-item topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === search}">
-							<a href="#" class="topbar-search-mobile-button" (click)="appMain.onTopbarItemClick($event,search)">
-								<i class="topbar-icon pi pi-search"></i>
+						<li #calendar class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === calendar}">
+							<!-- <a href="#" (click)="appMain.onTopbarItemClick($event,calendar)"> -->
+							<a (click)="irAPaginaDestino('dash')">
+								<i class="topbar-icon pi pi-home"></i>
 							</a>
-							<ul class="search-item-submenu fadeInDown" (click)="appMain.topbarItemClick = true">
-								<li>
-                                    <span class="md-inputfield search-input-wrapper">
-                                        <input pInputText placeholder="Search..."/>
-                                        <i class="pi pi-search"></i>
-                                    </span>
-                                </li>
-                            </ul>
-                        </li>
-					-->
-						
-
-						
-
-						
+						</li>					
+						<li #message class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === message}">
+							<!-- <a href="#" (click)="appMain.onTopbarItemClick($event,message)"> -->
+							<a (click)="irAPaginaDestino('reporte')">
+								<i class="topbar-icon pi pi-chart-line"></i>
+							</a>
+						</li>
+						<li #gift class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === gift}">
+							<!-- <a href="#" (click)="appMain.onTopbarItemClick($event,gift)"> -->
+							<a (click)="irAPaginaDestino('/pages/acerca')">
+								<i class="topbar-icon pi pi-info-circle"></i>
+							</a>
+						</li>
+						<li #out class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === out}">
+							<!-- <a href="#" (click)="appMain.onTopbarItemClick($event,gift)"> -->
+							<a (click)="irAPaginaDestino('/login')">
+								<i class="topbar-icon pi pi-sign-out"></i>
+							</a>
+						</li>
 
 						<li #profile class="topbar-item profile-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === profile}">
 							<a href="#" (click)="appMain.onTopbarItemClick($event,profile)">
@@ -266,8 +269,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AppTopBarComponent {
 	activeItem: number;
 	user: any = null;
-	back: string = URL_FILESERVER + "/storage/";
-  
+	//back: string = URL_FILESERVER + "/storage/";
+	back: string = "/assets/layout/images/"
 	constructor(
 	  public appMain: AppMainComponent,
 	  private route: Router,
@@ -275,16 +278,21 @@ export class AppTopBarComponent {
 	) {
 	  if (this.authService.isLogin()) {
 		try {
-		  const userString = localStorage.getItem("user");
-		  this.user = userString
+			const username = authService.getUserName();
+			const perfil = authService.getRoleName();
+		/*
+		const userString = localStorage.getItem("user");
+		  	this.user = userString
 			? JSON.parse(userString)
 			: { avatar: "users/non-avatar.svg" }; // Valor predeterminado
-		/*  if (!this.user.avatar) {
+		  if (!this.user.avatar) {
 			this.user.avatar = "users/non-avatar.svg"; // Validación del avatar
 		  }*/
+		 this.user =  { name: username, perfil: perfil, avatar: "non-avatar.svg"};
 		} catch (error) {
 		  console.error("Error parsing user data:", error);
-		  this.user = { avatar: "users/non-avatar.svg" }; // Objeto predeterminado en caso de error
+		  //this.user = { avatar: "users/non-avatar.svg" }; // Objeto predeterminado en caso de error
+		  this.user = { avatar: "non-avatar.svg" }; // Objeto predeterminado en caso de error
 		}
 	  }
 	}

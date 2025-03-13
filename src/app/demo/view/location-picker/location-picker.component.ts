@@ -25,6 +25,7 @@ export class LocationPickerComponent implements OnInit {
   userLng: number;
   data: any = {};  // Aseguramos que 'data' esté inicializado como un objeto
   alertTypeId: string;
+  loading: boolean = false;
 
   tiposAlerta: { id: string; descripcion: string }[] = [
     { id: '1', descripcion: 'Huecos' },
@@ -44,6 +45,7 @@ export class LocationPickerComponent implements OnInit {
   }
 
   initializeMap(): void {
+    this.loading = true;
     // Sobrescribimos los íconos de Leaflet antes de inicializar el mapa
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/marker-icon-2x.png',
@@ -88,6 +90,7 @@ export class LocationPickerComponent implements OnInit {
           this.loadMapTiles();
         }
       );
+      this.loading = false;
     } else {
       //alert('Geolocation is not supported by this browser.');
       //this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Geolocation is not supported by this browser.', life: 3000 })
@@ -100,7 +103,9 @@ export class LocationPickerComponent implements OnInit {
       });
       this.map = L.map('map').setView([4.7110, -74.0721], 17);
       this.loadMapTiles();
+      this.loading = false;
     }
+    
   }
   
 
@@ -150,6 +155,7 @@ export class LocationPickerComponent implements OnInit {
   }
   
   addMarker(latlng: any): void {
+    this.loading = true;
     // Si ya existe un marcador, elimínalo antes de agregar uno nuevo
     if (this.marker) {
       this.map.removeLayer(this.marker);
@@ -157,12 +163,14 @@ export class LocationPickerComponent implements OnInit {
   
     // Crea un nuevo marcador y asígnalo a la variable global
     this.marker = L.marker(latlng).addTo(this.map);
+    this.loading = false;
   }
   
   
   
 
   getAddressFromCoordinates(lat: number, lng: number): Observable<string> {
+    this.loading = true;
     const url = `https://cityalertapi-dev.azurewebsites.net/geo/addresses?lat=${lat}&lon=${lng}`;
     const token = this.authService.getToken();
     
@@ -173,14 +181,17 @@ export class LocationPickerComponent implements OnInit {
     return this.http.get<{ Success: boolean; Data: { Address: string } }>(url, { headers }).pipe(
       map((response) => {
         if (response.Success && response.Data && response.Data.Address) {
+          this.loading = false;
           return response.Data.Address;
         } else {
           console.warn('Respuesta inesperada:', response);
+          this.loading = false;
           return 'Dirección no disponible';
         }
       }),
       catchError((error) => {
         console.error('Error fetching address:', error);
+        this.loading = false;
         return of('Unable to retrieve address'); // Retorna un valor por defecto en caso de error
       })
     );
@@ -208,6 +219,7 @@ export class LocationPickerComponent implements OnInit {
   
   
   onSubmit(): void {
+    this.loading = true;
 
     const user = this.authService.getUser();
   
@@ -221,7 +233,21 @@ export class LocationPickerComponent implements OnInit {
         confirmButtonText: 'Aceptar',
         confirmButtonColor: '#5E81AC'
       });
+      this.loading = false;
       return;
+    }
+
+    if (!this.alertTypeId)
+    {
+      swal.fire({
+        title: 'Registrar Alerta!', 
+        text: 'Por favor selecciona un tipo de alerta válido.', 
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#5E81AC'
+      });
+      this.loading = false;
+      return;   
     }
   
     this.data = {
@@ -246,6 +272,7 @@ export class LocationPickerComponent implements OnInit {
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#5E81AC'
         });
+        this.loading = false;
         this.router.navigate(['/reporte']); 
         //alert('Dirección guardada exitosamente' );
       },
@@ -254,14 +281,15 @@ export class LocationPickerComponent implements OnInit {
         //this.messageService.add({ severity: 'error', summary: 'Error!', detail: 'Error al guardar la dirección. Intenta nuevamente.', life: 3000 })
         swal.fire({
           title: 'Registrar Alerta!', 
-          text: 'Error al guardar la dirección. Intenta nuevamente.', 
+          text: 'Error al guardar la ubicación. Intenta nuevamente.', 
           icon: 'error',
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#5E81AC'
         });
+        this.loading = false;
         //alert('Error al guardar la dirección. Intenta nuevamente.');
       }
     );
   }
-  
+ 
 }

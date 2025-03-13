@@ -39,6 +39,7 @@ import { PerfilComponent } from './demo/view/perfil.component';
 import { LocationPickerComponent } from './demo/view/location-picker/location-picker.component';
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
+import { DashboardOldDemoComponent } from './demo/view/dashboard_old.component';
 
 
 
@@ -93,6 +94,7 @@ export const routes: Routes = [
             {path: 'uikit/file', component: FileDemoComponent},
             {path: 'utilities/icons', component: IconsComponent},
             {path: 'pages/empty', component: EmptyDemoComponent},
+            {path: 'pages/dashboard', component: DashboardOldDemoComponent},
             {path: 'pages/crud', component: AppCrudComponent},
             {path: 'pages/calendar', component: AppCalendarComponent},
             {path: 'pages/timeline/:id', component: AppTimelineDemoComponent},

@@ -1,112 +1,110 @@
 <div class="grid layout-dashboard">
-    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
-        <a href="#/inicio">
-            <div class="grid grid-nogutter widget-overview-box overview-box-1hidrogeno" >
-                <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/alerta.svg" alt="mirage-layout" />
-                </div>
-                <div class="col-6 overview-box-text">
-                    <h5>Reportar Alerta</h5>
-                    <span>Huecos y otros</span>
-                </div>
-                 <div class="col-3 overview-box-status">
-                    --
-                </div> 
+    <div class="col-12 xl:col-3 md:col-6">
+        <div class="grid grid-nogutter widget-overview-box overview-box-1">
+            <div class="col-3 overview-box-icon">
+                <img src="assets/layout/images/dashboard/icon-messages.svg" alt="mirage-layout" />
             </div>
-        </a>    
+            <div class="col-6 overview-box-text">
+                <h5>Messages</h5>
+                <span>24 new since last visit</span>
+            </div>
+            <div class="col-3 overview-box-status">
+                440
+            </div>
+        </div>
     </div>
-    <div class="col-12 xl:col-4 md:col-6">
-        <a href="#/reporte">
-            <div class="grid grid-nogutter widget-overview-box overview-box-2hidrogeno">
-                <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/reportes.svg" alt="mirage-layout" />
-                </div>
-                <div class="col-6 overview-box-text">
-                    <h5>Reportes</h5>
-                    <span>Gestión de Alertas</span>
-                </div>
-                <div class="col-3 overview-box-status">
-                    --
-                </div>
+    <div class="col-12 xl:col-3 md:col-6">
+        <div class="grid grid-nogutter widget-overview-box overview-box-2">
+            <div class="col-3 overview-box-icon">
+                <img src="assets/layout/images/dashboard/icon-checkins.svg" alt="mirage-layout" />
             </div>
-        </a>
+            <div class="col-6 overview-box-text">
+                <h5>Check-ins</h5>
+                <span>48 new since last visit</span>
+            </div>
+            <div class="col-3 overview-box-status">
+                532
+            </div>
+        </div>
     </div>
-    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='2'"> <!--3 Ciudadano-->
-        <a href="#/heat-map">
-            <div class="grid grid-nogutter widget-overview-box overview-box-4hidrogeno">
-                <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/mapa.svg" alt="mirage-layout" />
-                </div>
-                <div class="col-6 overview-box-text">
-                    <h5>Mapa de Calor</h5>
-                    <span>Anáisis de Alertas</span>
-                </div>
-                <div class="col-3 overview-box-status">
-                    --
-                </div>
+    <div class="col-12 xl:col-3 md:col-6">
+        <div class="grid grid-nogutter widget-overview-box overview-box-3">
+            <div class="col-3 overview-box-icon">
+                <img src="assets/layout/images/dashboard/icon-filessynced.svg" alt="mirage-layout" />
             </div>
-        </a>
-    </div>     
-    <div class="col-12 xl:col-4 md:col-6">
-        <a href="" (click)="signout()">
-            <div class="grid grid-nogutter widget-overview-box overview-box-3hidrogeno">
-                <div class="col-3 overview-box-icon">
-                    <img src="assets/layout/images/dashboard/salir.svg" alt="mirage-layout" />
-                </div>
-                <div class="col-6 overview-box-text">
-                    <h5>Cerrar Sesión</h5>
-                    <span>Salir de la App</span>
-                </div>
-                <div class="col-3 overview-box-status">
-                    --
-                </div>
+            <div class="col-6 overview-box-text">
+                <h5>Files Synced</h5>
+                <span>32,56 / 250 GB</span>
             </div>
-        </a>
+            <div class="col-3 overview-box-status">
+                28
+            </div>
+        </div>
     </div>
-    <!--
-   
-    -->
-    <div class="col-12 lg:col-12 ">
+    <div class="col-12 xl:col-3 md:col-6">
+        <div class="grid grid-nogutter widget-overview-box overview-box-4">
+            <div class="col-3 overview-box-icon">
+                <img src="assets/layout/images/dashboard/icon-usersonline.png" alt="mirage-layout" />
+            </div>
+            <div class="col-6 overview-box-text">
+                <h5>Users Online</h5>
+                <span>72 new user this week</span>
+            </div>
+            <div class="col-3 overview-box-status">
+                256
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6 ">
         <div class="grid flex-column grid-nogutter">
-            <!--<img src="assets/media/images/banner_news5.png" width="100%" style="border-radius: 0.5%;"/>-->
-<!--             <div class="col-12 widget-news">
+            <div class="col-12 ">
+                <div class="card widget-statistics">
+                    <div class="grid">
+                        <div class="col-6 md:col-8">
+                            <h5>Statistics</h5>
+                        </div>
+                        <div class="col-6 md:col-4 dropdown">
+                            <p-dropdown [options]="dropdownYears" [(ngModel)]="selectedYear"></p-dropdown>
+                        </div>
+                    </div>
+                    <p-chart id="dashboard-chart" type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+                </div>
+            </div>
+            <div class="col-12 widget-news">
                 <div class="news-row" [ngStyle]="{'transform': activeNews === 1 ? 'translate3d(0px, 0px, 0px)':activeNews === 2
                 ?'translate3d(-100%, 0px, 0px)':'translate3d(-200%, 0px, 0px)'}">
-                     <div class="card news news-1 active-news">
+                    <div class="card news news-1 active-news">
                         <div class="news-title">
-                            <h5>Información General</h5>
+                            <h5>NEWS</h5>
                         </div>
-                        <h6>Segundo Congreso de Hidrógeno Colombia</h6>
-                        <p>Este 20 - 21 de Abril de 2023</p>
+                        <h6>3D-printed robot hand plays the piano</h6>
+                        <p>Scientists have developed a 3D-printed robotic hand which can play simple musical
+                            phrases
+                            on the piano by just moving its wrist</p>
                         <div class="grid link">
                             <div class="col-9">
                                 <a href="">Learn more at Mirage News Central <i
                                     class="pi pi-arrow-right"></i></a>
                             </div>
                         </div>
-                    </div> 
-                     <div class="card news news-2 active-news">
-                        <div class="news-title">
-                            <h5>INFO</h5>
-                        </div>
-                        <h6>Acerca del evento</h6>
-                        <p>El 2°Congreso Internacional de Hidrógeno «Innovación, transición y vida» se llevará a cabo el 20 y 21 de Abril de 2023 en Bogotá. 
-                            Es un evento presencial de 2 días en el que se reunirán los principales actores del hidrógeno en Colombia y América Latina, 
-                            donde se abordarán las principales temáticas del desarrollo del H2 y sus derivados, tales como escenarios de demanda, 
-                            tecnologías de producción, proyectos y pilotos y los distintos marcos políticos y regulatorios pioneros en la región.</p>
-                            <div class="grid link">
-                                <div class="col-9">
-                                    <a href="https://hidrogenocolombia.com" target="_blank">
-                                        Hidrógeno Colombia | WEC <i class="pi pi-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                    </div> 
-                    <div class="card">
-                        
                     </div>
-
-                     <div class="card news news-3">
+                    <div class="card news news-2">
+                        <div class="news-title">
+                            <h5>NEWS</h5>
+                        </div>
+                        <h6>Scientists are trying to open a portal to a parallel universe</h6>
+                        <p>Does a mysterious mirror world lurk in the shadows of perceived reality? Could 2019
+                            be
+                            the year humans open the first portal to a shadowy dimension which mirrors our own
+                            world?</p>
+                        <div class="grid link">
+                            <div class="col-9">
+                                <a href="">Learn more at Independent<i class="pi pi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card news news-3">
                         <div class="news-title">
                             <h5>NEWS</h5>
                         </div>
@@ -119,43 +117,18 @@
                                 <a href="">Learn more at CNET <i class="pi pi-arrow-right"></i></a>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="link-points">
                     <div class="grid points">
-                         <div class="col-4 point point-1" [ngClass]="{'active-point': activeNews === 1}" (click)="activeNews = 1"></div>
+                        <div class="col-4 point point-1" [ngClass]="{'active-point': activeNews === 1}" (click)="activeNews = 1"></div>
                         <div class="col-4 point point-2 " [ngClass]="{'active-point': activeNews === 2}" (click)="activeNews = 2"></div>
-                         <div class="col-4 point point-3 " [ngClass]="{'active-point': activeNews === 3}" (click)="activeNews = 3"></div>
+                        <div class="col-4 point point-3 " [ngClass]="{'active-point': activeNews === 3}" (click)="activeNews = 3"></div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
-    
-<div class="login-body" [ngClass]="">
-    <!-- Contenido existente -->
-    <p-dialog header="Autorización de Uso de Datos Personales" [(visible)]="displayModal" [modal]="true" [style]="{'width': '50vw', 'text-align': 'left'}" class="modal-autorizacion">
-
-      <div class="content">
-        <p>En mi calidad de titular de datos personales, al aceptar de manera voluntaria este formulario, autorizo a Cityalert a utilizar la información que a continuación suministraré 
-            con el propósito de que sea usada para el desarrollo de la presente actividad, establecer contacto para envío de información 
-            pertinente al uso del mismo, actualizaciones y adelantar la promoción y publicidad relacionada con productos y servicios 
-            que ofrecen los asociados, promoción y publicidad de la presente actividad y actividades futuras.
-
-            Conozco la Política de Tratamiento y Protección de Datos Personales la cual puede ser consultada en el 
-            
-            <b><a href= "#">Siguiente enlace</a></b>
-        </p>
-           
-      </div>
-      <p-footer>
-        <button type="button" pButton label="No" (click)="handleAuthorization(false)" class="ui-button-secondary"></button>
-        <button type="button" pButton label="Autorizo" (click)="handleAuthorization(true)" class="ui-button-success"></button>
-        
-      </p-footer>
-    </p-dialog>
-  </div>
-    <!-- Write your comments here 
     <div class="col-12 lg:col-6">
         <div class="grid">
             <div class="col-12">
@@ -586,6 +559,7 @@
                         Library</div>
                 </div>
             </div>
+
             <div class="store-cards-container">
                 <div class="grid store-cards">
                     <div class="col-6 lg:col-3 md:col-4">
@@ -1153,7 +1127,7 @@
                 <div class="grid grid-nogutter map-info-header">
                     <div class="col-6">
                         <h6>Vondelpark</h6>
-                        <span>Bogota |Colombia</span>
+                        <span>Amsterdam | Netherlands</span>
                     </div>
                     <div class="col-6 location-change">
                         <i class="pi pi-map-maker"></i>
@@ -1179,4 +1153,3 @@
         </div>
     </div>
 </div>
---> 

@@ -1,47 +1,61 @@
-<div class="grid" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
-    <div class="col-12">
-        <div class="card px-6 py-6">
-            <span class="p-buttonset">
-                <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
-			</span>
-            <div class="report-list-container">
-                <!--<h2>Reportes de Usuario</h2>-->
-                <ul class="report-list">
-                  <li *ngFor="let report of reports" class="report-item">
-                    <div>
-                        <p-tag styleClass="mr-2" severity="info" *ngIf="report.AlertTypeId=='1'" value="Hueco o bache"></p-tag>
-                        <p-tag styleClass="mr-2" severity="Primary" *ngIf="report.AlertTypeId=='2'" value="Semáforo dañado"></p-tag>
-                        <p-tag styleClass="mr-2" severity="warning" *ngIf="report.AlertTypeId=='3'" value="Luminaria Dañada"></p-tag>
-                        <p-tag styleClass="mr-2" severity="danger" *ngIf="report.AlertTypeId=='4'" value="Alerta de seguridad"></p-tag>
-                    </div>
-                    <br>
-                    <h3>Dirección: {{ report.Address }}</h3>
-                    <p><strong>Nombre Usuario:</strong> {{ report.Notifier }}</p>
-                    <p><strong>Estado:</strong> {{ report.AlertStatusDescription }}</p>
-                    <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
-                    <!-- Botones de acciones -->
-                    <div style="display: flex; justify-content: flex-end;">
-                        <button pButton pRipple type="button" icon="pi pi-pencil" 
-                        class="p-button-rounded p-button-primary mr-2 mb-2" 
-                        (click)="openEditDialog(report)" 
-                        pTooltip="Editar" tooltipPosition="top">
-                    </button>
-                    
-                        <button pButton pRipple type="button" icon="pi pi-times" 
-                            class="p-button-rounded p-button-danger mr-2 mb-2" 
-                            (click)="deleteReport(report.Id)" 
-                            pTooltip="Eliminar" tooltipPosition="top">
-                        </button> 
-                        <button pButton pRipple type="button" icon="pi pi-clock" 
-                            class="p-button-rounded p-button-info mr-2 mb-2" 
-                            (click)="redirect(report)" 
-                            pTooltip="Historia" tooltipPosition="top">
-                        </button> 
-                    </div>
-                </li>
-                </ul>
+<div class="content-wrapper" *ngIf="roleid=='3'"> <!--3 Ciudadano-->
+    <div style="text-align: center;">
+        <span class="p-buttonset">
+            <button pButton pRipple class="button-xs" label="Atrás" icon="pi pi-times" type="button" (click)="GoBack()"></button>
+            <button pButton pRipple class="button-xs" label="Registrado" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
+            <button pButton pRipple class="button-xs" label="Revisión" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
+            <button pButton pRipple class="button-xs" label="Finalizado" icon="pi pi-check" type="button" (click)="LoadReport(3)" [disabled]="!isFinalizado"></button>
+        </span>
+    </div>
+    <div class="report-list-container" >
+        <!--<h2>Reportes de Usuario</h2>-->
+        <ul class="report-list">
+            <li *ngFor="let report of reports" class="report-item px-12">
+            <table border="0" width="100%">
+                <tr>
+                    <td width="60%">
+                        <div>
+                            <p-chip label="HUECO O BACHE" icon="pi pi-map-marker" *ngIf="report.AlertTypeId=='1'" styleClass="m-1"></p-chip>
+                            <p-chip label="SEMÁFORO DAÑADO" icon="pi pi-map-marker" *ngIf="report.AlertTypeId=='2'" styleClass="m-1"></p-chip>
+                            <p-chip label="LUMINARIA DAÑADA" icon="pi pi-map-marker" *ngIf="report.AlertTypeId=='3'" styleClass="m-1"></p-chip>
+                            <p-chip label="ALERTA DE SEGURIDAD" icon="pi pi-map-marker" *ngIf="report.AlertTypeId=='4'" styleClass="m-1"></p-chip>
+                        </div>
+                    </td>
+                    <td width="40%" style="text-align: right;">
+                        <div>
+                            <span [class]="'customer-badge'" [style.background-color]="obtenerColor(report.AlertStatusDescription)" style="font-size: 12px; font-weight: normal;">{{ report.AlertStatusDescription }}</span>
+                        </div>
+                    </td>
+                </tr>
+
+
+            </table>
+            <br>
+            <h3>Dirección: {{ report.Address }}</h3>
+            <p><strong>Nombre Usuario:</strong> {{ report.Notifier }}</p>
+            <!--<p><strong>Estado: </strong> <span [class]="'customer-badge'" [style.background-color]="obtenerColor(report.AlertStatusDescription)" style="font-size: 12px; font-weight: normal;">{{ report.AlertStatusDescription }}</span></p>-->
+            <p><strong>Comentarios:</strong> {{ report.Comments }}</p>
+            <p><strong>Fecha:</strong> {{ report.CreatedAt | date: 'yyyy/MM/dd HH:mm' }}</p>
+            <!-- Botones de acciones -->
+            <div style="display: flex; justify-content: flex-end;">
+                <button pButton pRipple type="button" icon="pi pi-pencil" 
+                class="p-button-rounded p-button-primary mr-2 mb-2" 
+                (click)="openEditDialog(report)" 
+                pTooltip="Editar" tooltipPosition="top" *ngIf="!isRegistrado || !isAsignado">
+                </button>
+                <button pButton pRipple type="button" icon="pi pi-times" 
+                    class="p-button-rounded p-button-danger mr-2 mb-2" 
+                    (click)="deleteReport(report.Id)" 
+                    pTooltip="Eliminar" tooltipPosition="top" *ngIf="!isRegistrado">
+                </button> 
+                <button pButton pRipple type="button" icon="pi pi-clock" 
+                    class="p-button-rounded p-button-info mr-2 mb-2" 
+                    (click)="redirect(report)" 
+                    pTooltip="Historia" tooltipPosition="top">
+                </button> 
             </div>
-        </div>
+        </li>
+        </ul>
     </div>
 </div>
 
@@ -52,17 +66,17 @@
             <span class="p-buttonset">
                 <button pButton pRipple label="Volver" icon="pi pi-times" type="button" (click)="GoBack()"></button>
 				<button pButton pRipple label="Registrados" icon="pi pi-desktop" type="button" (click)="LoadReport(1)" [disabled]="!isRegistrado"></button>
-				<button pButton pRipple label="Asignados" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
+				<button pButton pRipple label="Mis Asignados" icon="pi pi-user" type="button" (click)="LoadReport(2)" [disabled]="!isAsignado"></button>
                 <button pButton pRipple label="Finalizados" icon="pi pi-check" type="button" (click)="LoadReport(3)" [disabled]="!isFinalizado"></button>
 			</span>
             <br>
             <p-toast></p-toast>
             <p-table #dt [value]="reports" [columns]="cols" responsiveLayout="scroll" 
-                [rows]="10" [globalFilterFields]="['CreatedAt','Address','Comments']"
+                [rows]="10" [globalFilterFields]="['CreatedAt','Address','AlertStatusDescription','Comments']"
                 [paginator]="true" [rowsPerPageOptions]="[10,20,50,100]" [showCurrentPageReport]="true" 
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
                 [(selection)]="selectedRows" selectionMode="multiple" [rowHover]="true" dataKey="Id"
-                [loading]="carga" loadingIcon="pi pi-spin pi-spinner"
+                [loading]="loading" loadingIcon="pi pi-spin pi-spinner"
                 [sortField]="'CreatedAt'" [sortOrder]="-1">
                 
                 <ng-template pTemplate="caption">
@@ -82,7 +96,9 @@
                         </th>
                         <th pSortableColumn="CreatedAt">Fecha Creación <p-sortIcon field="CreatedAt"></p-sortIcon></th>
                         <th pSortableColumn="Address">Dirección <p-sortIcon field="Address"></p-sortIcon></th>
+                        <th pSortableColumn="Notifier">Nombre Usuario <p-sortIcon field="Notifier"></p-sortIcon></th>
                         <th pSortableColumn="Comments">Observaciones <p-sortIcon field="Comments"></p-sortIcon></th>
+                        <th pSortableColumn="AlertStatusDescription">Estado <p-sortIcon field="AlertStatusDescription"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
@@ -99,11 +115,19 @@
                         <td style="width:20%; min-width:10rem;">
                             <span class="p-column-title">Dirección</span>
                             {{ report.Address }}
-                        </td>                        
+                        </td>
+                        <td style="width:20%; min-width:10rem;">
+                            <span class="p-column-title">Nombre Usuario</span>
+                            {{ report.Notifier }}
+                        </td>                     
                         <td style="width:20%; min-width:10rem;">
                             <span class="p-column-title">Observaciones</span>
                             {{ report.Comments }}
                         </td>
+                        <td style="width:10%; min-width:10rem;">
+                            <span class="p-column-title">Estado</span>
+                            <span [class]="'customer-badge'" [style.background-color]="obtenerColor(report.AlertStatusDescription)" style="font-size: 12px; font-weight: normal;">{{ report.AlertStatusDescription }}</span>
+                        </td> 
                         <td style="text-align: right;">
                             <div class="flex" style="margin-left: auto; width: fit-content;">
                                 <button pButton pRipple type="button" icon="pi pi-pencil" 
@@ -152,6 +176,18 @@
         </div>
     </ng-template>
 </p-dialog>
+<div *ngIf="loading" class="spinner-overlay">
+    <div class="spinner">
+        <span class="ball-1"></span>
+        <span class="ball-2"></span>
+        <span class="ball-3"></span>
+        <span class="ball-4"></span>
+        <span class="ball-5"></span>
+        <span class="ball-6"></span>
+        <span class="ball-7"></span>
+        <span class="ball-8"></span> 
+    </div>
+</div>
 
 
   
