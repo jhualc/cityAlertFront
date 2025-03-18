@@ -12,6 +12,7 @@ export class AppLoginComponent implements OnInit {
   hasError: boolean = false;
   hasErrorText: string = '';
   dark: boolean;
+  isPasswordVisible: boolean = false;
   
   constructor(
     private fb: FormBuilder,
@@ -44,6 +45,10 @@ export class AppLoginComponent implements OnInit {
         ]),
       ],
     });
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   submit(): void {

@@ -15,7 +15,7 @@
             </div>
         </a>    
     </div>
-    <div class="col-12 xl:col-4 md:col-6">
+    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid!='4'">
         <a href="#/reporte">
             <div class="grid grid-nogutter widget-overview-box overview-box-2hidrogeno">
                 <div class="col-3 overview-box-icon">
@@ -31,7 +31,7 @@
             </div>
         </a>
     </div>
-    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='2'"> <!--3 Ciudadano-->
+    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='2'"> <!--2 Analista-->
         <a href="#/heat-map">
             <div class="grid grid-nogutter widget-overview-box overview-box-4hidrogeno">
                 <div class="col-3 overview-box-icon">
@@ -46,7 +46,23 @@
                 </div>
             </div>
         </a>
-    </div>     
+    </div> 
+    <div class="col-12 xl:col-4 md:col-6" *ngIf="roleid=='4'"> <!--24 Super Admin-->
+        <a href="#/pages/register">
+            <div class="grid grid-nogutter widget-overview-box overview-box-4hidrogeno">
+                <div class="col-3 overview-box-icon">
+                    <img src="assets/layout/images/non-avatar.svg" style="height:40px;" alt="mirage-layout" />
+                </div>
+                <div class="col-6 overview-box-text">
+                    <h5>Registrar Usuarios</h5>
+                    <span>Crear Analistas</span>
+                </div>
+                <div class="col-3 overview-box-status">
+                    --
+                </div>
+            </div>
+        </a>
+    </div>   
     <div class="col-12 xl:col-4 md:col-6">
         <a href="" (click)="signout()">
             <div class="grid grid-nogutter widget-overview-box overview-box-3hidrogeno">

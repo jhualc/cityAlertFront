@@ -22,9 +22,9 @@ export class AppMenuComponent implements OnInit {
             {label: 'Registrar Alerta', icon: 'pi pi-fw pi-plus-circle', routerLink: ['/inicio']},
             {label: 'Reporte Alertas', icon: 'pi pi-fw pi-chart-line', routerLink: ['/reporte']},
             {label: 'Mapa de Calor', icon: 'pi pi-fw pi-share-alt', routerLink: ['/heat-map']},
+            {label: 'Registrar Usuario', icon: 'pi pi-fw pi-user-plus', routerLink: ['pages/register']},
             {label: 'Acerca de', icon: 'pi pi-fw pi-info-circle', routerLink: ['pages/acerca']},
             {label: 'Cerrar Sesión', icon: 'pi pi-fw pi-sign-out', routerLink: ['/login']},
-            
            // 
 /*             {
                 label: 'Agenda', icon: 'pi pi-fw pi-star-fill', routerLink: ['/uikit'],
@@ -158,6 +158,10 @@ export class AppMenuComponent implements OnInit {
                   if (index !== -1) {
                     this.model.splice(index, 1); // Elimina la opción "Registrar Alerta"
                   }
+                  const index2 = this.model.findIndex(p => p.label === "Registrar Usuario");
+                  if (index !== -1) {
+                    this.model.splice(index2, 1); // Elimina la opción "Registrar Usuario"
+                  }
                 } else {
                   console.warn("El modelo de menú (this.model) no está inicializado o no es un array.");
                 }
@@ -167,6 +171,28 @@ export class AppMenuComponent implements OnInit {
                   const index = this.model.findIndex(p => p.label === "Mapa de Calor");
                   if (index !== -1) {
                     this.model.splice(index, 1); // Elimina la opción "Mapa de Calor"
+                  }
+                  const index2 = this.model.findIndex(p => p.label === "Registrar Usuario");
+                  if (index !== -1) {
+                    this.model.splice(index2, 1); // Elimina la opción "Registrar Usuario"
+                  }
+                } else {
+                  console.warn("El modelo de menú (this.model) no está inicializado o no es un array.");
+                }
+              }
+              else if (role == "4") {
+                if (Array.isArray(this.model)) {
+                  const index = this.model.findIndex(p => p.label === "Registrar Alerta");
+                  if (index !== -1) {
+                    this.model.splice(index, 1); // Elimina la opción "Registrar Alerta"
+                  };
+                  const index2 = this.model.findIndex(p => p.label === "Mapa de Calor");
+                  if (index !== -1) {
+                    this.model.splice(index2, 1); // Elimina la opción "Mapa de Calor"
+                  }
+                  const index3 = this.model.findIndex(p => p.label === "Reporte Alertas");
+                  if (index !== -1) {
+                    this.model.splice(index3, 1); // Elimina la opción "Mapa de Calor"
                   }
                 } else {
                   console.warn("El modelo de menú (this.model) no está inicializado o no es un array.");
