@@ -32,9 +32,9 @@ export class RegisterComponent {
     ) {
         // Definir opciones del select
         this.options = [
-            { label: 'Administrador', value: 4 },
-            { label: 'Analista', value: 2 },
-            { label: 'Ciudadano', value: 3 }
+           
+            { label: 'Analista', value: 2 }
+       
         ];
     }
 

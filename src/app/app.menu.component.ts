@@ -24,7 +24,7 @@ export class AppMenuComponent implements OnInit {
             {label: 'Mapa de Calor', icon: 'pi pi-fw pi-share-alt', routerLink: ['/heat-map']},
             {label: 'Acerca de', icon: 'pi pi-fw pi-info-circle', routerLink: ['pages/acerca']},
             {label: 'Cerrar Sesión', icon: 'pi pi-fw pi-sign-out', routerLink: ['/login']},
-            {label: 'Registrar Usuario', icon: 'pi pi-fw pi-user-plus', routerLink: ['pages/register']},
+            
            // 
 /*             {
                 label: 'Agenda', icon: 'pi pi-fw pi-star-fill', routerLink: ['/uikit'],
@@ -140,6 +140,7 @@ export class AppMenuComponent implements OnInit {
               const userString = localStorage.getItem("user");
               const role = localStorage.getItem("role");
               this.user = userString ? JSON.parse(userString) : null;
+              
           
               if (this.user?.perfil === null || this.user?.perfil === "Invitado") {
                 if (Array.isArray(this.model)) {

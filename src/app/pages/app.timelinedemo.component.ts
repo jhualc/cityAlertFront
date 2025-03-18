@@ -83,48 +83,59 @@ export class AppTimelineDemoComponent implements OnInit {
       fetchTimelineData(alertId: number) {
         const alertsEndpoint = `https://cityalertapi-dev.azurewebsites.net/alerts/${alertId}`;
         const statusesEndpoint = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
-      
+    
         console.log("Calling endpoint:", alertsEndpoint);
-      
+    
         // Obtener los estados de alerta
         this.http.get<any>(statusesEndpoint).subscribe(statusesResponse => {
-          if (statusesResponse.Success && statusesResponse.Data.length > 0) {
-            this.alertStatuses = statusesResponse.Data;
-      
-            // Obtener los datos de la alerta
-            this.http.get<any>(alertsEndpoint).subscribe(alertsResponse => {
-              console.log("alertsResponse::", alertsResponse);
-      
-              if (alertsResponse.Success && alertsResponse.Data) {
-                const trackingData = alertsResponse.Data.Tracking; // Acceder al array de Tracking
-      
-                // Mapear los datos de Tracking para customEvents
-                this.customEvents = trackingData.map((tracking: any) => {
-                  const statusName = this.getAlertStatusName(tracking.AlertStatusId); // Obtener el nombre del estado
-                  const color = this.getIconColor(statusName);
-
-                  console.log("Color::", color);
-                  return {
-                    //status: `${tracking.Tracker} (${statusName})`, // Mostrar Tracker y Estado
-                    status: `${tracking.Tracker}`, // Mostrar Tracker 
-                    statusonly: `${statusName}`, //Mostrar estado
-                    date: new Date(tracking.RegistrationDate).toLocaleString(), // Formato de fecha
-                    icon: this.getIcon(statusName), 
-                    color: color, 
-                    comments: tracking.Comments // Comentarios
-                  };
+            if (statusesResponse.Success && statusesResponse.Data.length > 0) {
+                this.alertStatuses = statusesResponse.Data;
+    
+                // Obtener los datos de la alerta
+                this.http.get<any>(alertsEndpoint).subscribe(alertsResponse => {
+                    console.log("alertsResponse::", alertsResponse);
+    
+                    if (alertsResponse.Success && alertsResponse.Data) {
+                        const alertData = alertsResponse.Data;
+                        let trackingData = alertData.Tracking || [];
+    
+                        this.customEvents = [];
+    
+                        // ✅ Si hay tracking data, tomamos el primer registro directamente desde Tracking[]
+                        if (trackingData.length > 0) {
+                            this.customEvents = trackingData.map((tracking, index) => {
+                                const statusName = this.getAlertStatusName(tracking.AlertStatusId);
+                                const color = this.getIconColor(statusName);
+    
+                                // ✅ Si es el primer valor y el estado es = 1, tomar el comentario desde el objeto raíz
+                                const comments = (index === 0 && tracking.AlertStatusId === 1) 
+                                    ? alertData.Comments 
+                                    : tracking.Comments || '';
+    
+                                return {
+                                    status: `${tracking.Tracker}`,
+                                    statusonly: `${statusName}`,
+                                    date: new Date(tracking.RegistrationDate).toLocaleString(),
+                                    icon: this.getIcon(statusName),
+                                    color: color,
+                                    comments: comments
+                                };
+                            });
+                        }
+    
+                        console.log("✅ customEvents:", this.customEvents); // Verifica los eventos procesados
+                    }
+                }, error => {
+                    console.error("❌ Error fetching alert details:", error);
                 });
-      
-                console.log("customEvents:", this.customEvents); // Imprime los eventos procesados
-              }
-            }, error => {
-              console.error("Error fetching alert details:", error);
-            });
-          }
+            }
         }, error => {
-          console.error("Error fetching alert statuses:", error);
+            console.error("❌ Error fetching alert statuses:", error);
         });
-      }
+    }
+    
+    
+    
       
       getIcon(alertstatusType: string): string {
         const iconMap: { [key: string]: string } = {
