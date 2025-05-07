@@ -97,6 +97,7 @@ import {AppErrorComponent} from './pages/app.error.component';
 import {AppAccessdeniedComponent} from './pages/app.accessdenied.component';
 import {AppLoginComponent} from './pages/app.login.component';
 import {AppRegisterComponent} from './pages/app.register.component';
+import {AppActivateComponent} from './pages/app.activate.component';
 import {AppCrudComponent} from './pages/app.crud.component';
 import {AppCalendarComponent} from './pages/app.calendar.component';
 import {AppTimelineDemoComponent} from './pages/app.timelinedemo.component';
@@ -335,6 +336,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 
         AuthComponent,
         AppRegisterComponent,
+        AppActivateComponent,
         RegisterComponent,
         ChatPanelComponent,
         ChatPanelBodyComponent,
