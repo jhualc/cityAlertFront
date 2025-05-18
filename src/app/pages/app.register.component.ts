@@ -62,29 +62,42 @@ const data = {
 
 console.log("data::", data);
 
-  this.authService.register(data)
-    .subscribe((resp: any) => {
+this.authService.register(data)
+  .subscribe({
+    next: (resp: any) => {
       console.log(resp);
-      if(!resp.error && resp){
+      if (resp.Success && resp) {
         swal.fire({
-          title: 'Registro!', 
+          title: '¡Registro!', 
           text: 'El usuario se ha registrado correctamente.', 
           icon: 'success',
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#86B444'
         });
         this.route.navigate(['login']);
-      }else{
-          swal.fire({
-            title: 'Registro!',
-            text: resp.error.email[0], 
-            icon: 'error',
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#4F91CE'
-          });
-          
+      } else {
+        swal.fire({
+          title: 'Registro!',
+          text: resp.Message, 
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#4F91CE'
+        });
       }
-    })
+    },
+    error: (err) => {
+      console.error('Error al registrar:', err.error.Message);
+
+      swal.fire({
+        title: '¡Registro!',
+        text: err.error.Message,
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#4F91CE'
+      });
+    }
+  });
+
   }
 
 }
