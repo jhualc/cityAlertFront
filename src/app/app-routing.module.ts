@@ -40,6 +40,7 @@ import { LocationPickerComponent } from './demo/view/location-picker/location-pi
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
 import { DashboardOldDemoComponent } from './demo/view/dashboard_old.component';
+import { MapRouteComponent } from './view/dijkstra/dijkstra/dijkstra.component';
 
 
 
@@ -75,6 +76,7 @@ export const routes: Routes = [
             {path: 'inicio', component: LocationPickerComponent},
             {path: 'reporte', component: ReportListComponent},
             {path: 'heat-map', component: HeatmapComponent},
+            {path: 'routes-map', component: MapRouteComponent},
             {path: 'dash', component: DashboardDemoComponent},
             {path: 'uikit/register', component: FormLayoutDemoComponent},
             {path: 'uikit/floatlabel', component: FloatLabelDemoComponent},

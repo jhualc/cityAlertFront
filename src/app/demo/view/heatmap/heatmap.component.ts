@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import 'leaflet.heat'; // Importar el complemento de mapas de calor
+import 'leaflet.heat'; 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({

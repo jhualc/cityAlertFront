@@ -183,6 +183,9 @@ import { LocationPickerComponent } from './demo/view/location-picker/location-pi
 import { ReportListComponent } from './demo/view/report-list/report-list.component';
 import { HeatmapComponent } from './demo/view/heatmap/heatmap.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { RutasComponent } from './view/rutas/rutas.component';
+import { MapRouteComponent } from './view/dijkstra/dijkstra/dijkstra.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 
@@ -287,7 +290,8 @@ import { TimelineComponent } from './timeline/timeline.component';
         MatFormFieldModule,
         MatInputModule,
         MatNativeDateModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        LeafletModule
         
     ],
     declarations: [
@@ -350,7 +354,9 @@ import { TimelineComponent } from './timeline/timeline.component';
         LocationPickerComponent,
         ReportListComponent,
         HeatmapComponent,
-        TimelineComponent
+        TimelineComponent,
+        RutasComponent,
+        MapRouteComponent
     ],
     providers: [authInterceptorProviders,
         {provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -35,7 +35,7 @@ export class AuthService {
       id: data.UserId
     };
 
-    localStorage.setItem(this.tokenKey, data.Token);
+    localStorage.setItem(this.tokenKey, data.Token.AccessToken);
     localStorage.setItem(this.useridKey, JSON.stringify(jsonObject));
     localStorage.setItem(this.roleidKey, data.RoleId);
     localStorage.setItem(this.usernameKey, data.User);
