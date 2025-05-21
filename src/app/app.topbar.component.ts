@@ -112,10 +112,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 								<i class="topbar-icon pi pi-home"></i>
 							</a>
 						</li>					
-						<li #message class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === message}">
+						<li #message class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === message}" *ngIf='!issuperadmin'>
 							<!-- <a href="#" (click)="appMain.onTopbarItemClick($event,message)"> -->
 							<a (click)="irAPaginaDestino('reporte')">
 								<i class="topbar-icon pi pi-chart-line"></i>
+							</a>
+						</li>
+						<li #message class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === message}" *ngIf='issuperadmin'>
+							<!-- <a href="#" (click)="appMain.onTopbarItemClick($event,message)"> -->
+							<a (click)="irAPaginaDestino('pages/register')">
+								<i class="topbar-icon pi pi-user-plus"></i>
 							</a>
 						</li>
 						<li #gift class="topbar-item" [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === gift}">
@@ -269,17 +275,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AppTopBarComponent {
 	activeItem: number;
 	user: any = null;
+	issuperadmin: boolean = false;
 	//back: string = URL_FILESERVER + "/storage/";
+	
 	back: string = "/assets/layout/images/"
 	constructor(
 	  public appMain: AppMainComponent,
 	  private route: Router,
 	  private authService: AuthService
+
+
 	) {
 	  if (this.authService.isLogin()) {
 		try {
 			const username = authService.getUserName();
 			const perfil = authService.getRoleName();
+			const role = localStorage.getItem("role");
+
+			if (role == "4") {
+			 this.issuperadmin = true;
+			}
+
 		/*
 		const userString = localStorage.getItem("user");
 		  	this.user = userString

@@ -15,8 +15,9 @@
                         <i class="pi pi-at"></i>
                     </div>
                     <div class="login-input-wrapper">
-                        <input type="password" formControlName= "password" pInputText id="password" placeholder="Password / Contraseña">
-                        <i class="pi pi-eye"></i>
+                        <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName= "password" pInputText id="password" placeholder="Password / Contraseña">
+                        <i class="pi" [ngClass]="isPasswordVisible ? 'pi-eye-slash' : 'pi-eye'"
+                            (click)="togglePasswordVisibility()"></i>
                     </div>
                     <ng-container *ngIf="hasError">
                             <p class="text-danger text-center"><small>{{hasErrorText}}</small></p>
