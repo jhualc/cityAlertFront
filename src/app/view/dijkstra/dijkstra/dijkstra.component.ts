@@ -8,6 +8,7 @@ import { lastValueFrom } from 'rxjs';
 
 
 import { Icon } from 'leaflet';
+import { environment } from 'src/environments/environment';
 
 delete (Icon.Default.prototype as any)._getIconUrl;
 Icon.Default.mergeOptions({
@@ -42,7 +43,7 @@ export class MapRouteComponent implements OnInit {
     center: L.latLng(4.60971, -74.08175)
   };
 
-  private alertsUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+  private alertsUrl = environment.URL_BACKEND + '/alerts';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

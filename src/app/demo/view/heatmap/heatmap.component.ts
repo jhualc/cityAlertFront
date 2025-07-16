@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.heat'; 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-heatmap',
@@ -10,7 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class HeatmapComponent implements OnInit {
   private map!: L.Map;
   private heatmapData: [number, number, number][] = [];
-  private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
+  private apiUrl = environment.URL_BACKEND + '/alerts/all';
   private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFuYWxpc3RhQGNvbSIsIm5hbWVpZCI6IjI2Iiwicm9sZSI6IkFuYWxpc3RhIiwibmJmIjoxNzM0NjM2NjYxLCJleHAiOjE3MzQ2NDAyNjEsImlhdCI6MTczNDYzNjY2MSwiaXNzIjoiU3VwZXJhQ2l0eUFsZXJ0IiwiYXVkIjoiU3VwZXJhQ2l0eUFsZXJ0In0.WBp4KX1fCS_hY64GU05mdf9V02lxtFmnGKb8Q4_4gNI'; // Sustituye esto con tu token real
 
   constructor(private http: HttpClient) {}

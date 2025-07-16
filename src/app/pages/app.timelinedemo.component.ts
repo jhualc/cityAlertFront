@@ -3,6 +3,7 @@ import {BreadcrumbService} from '../breadcrumb.service';
 import {PrimeIcons} from 'primeng/api';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
     templateUrl: './app.timelinedemo.component.html',
@@ -81,8 +82,8 @@ export class AppTimelineDemoComponent implements OnInit {
       }
     
       fetchTimelineData(alertId: number) {
-        const alertsEndpoint = `https://cityalertapi-dev.azurewebsites.net/alerts/${alertId}`;
-        const statusesEndpoint = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
+        const alertsEndpoint =  environment.URL_BACKEND + `/alerts/${alertId}`;
+        const statusesEndpoint = environment.URL_BACKEND + '/data/alertstatuses';
     
         console.log("Calling endpoint:", alertsEndpoint);
     

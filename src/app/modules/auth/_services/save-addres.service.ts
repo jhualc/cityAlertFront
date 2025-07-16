@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaveAddresService {
 
-  private saveAddresUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+  private saveAddresUrl = environment.URL_BACKEND + '/alerts';
 
   constructor(private http: HttpClient ) { }
 

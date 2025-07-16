@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs'; // Para convertir Observable en Promesa
 import { Location } from '@angular/common';
 import swal from 'sweetalert2'
+import { environment } from 'src/environments/environment';
 
 interface Report {
   UserId: number;
@@ -59,11 +60,11 @@ export class ReportListComponent implements OnInit {
     'Observación': '#ffaa4a'
   };
 
-  private apiUrlAll = 'https://cityalertapi-dev.azurewebsites.net/alerts/all';
-  private apiUrlUser = 'https://cityalertapi-dev.azurewebsites.net/alerts';
-  private statusUrl = 'https://cityalertapi-dev.azurewebsites.net/data/alertstatuses';
-  private deleteUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts';
-  private updateUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts/tracking';
+  private apiUrlAll = environment.URL_BACKEND + '/alerts/all';
+  private apiUrlUser = environment.URL_BACKEND + '/alerts';
+  private statusUrl = environment.URL_BACKEND + '/data/alertstatuses';
+  private deleteUrl = environment.URL_BACKEND + '/alerts';
+  private updateUrl = environment.URL_BACKEND + '/alerts/tracking';
 
   // 📌 Definir las opciones del select en el componente TypeScript
   statusOptions = [

@@ -9,6 +9,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-location-picker',
@@ -171,7 +172,7 @@ export class LocationPickerComponent implements OnInit {
 
   getAddressFromCoordinates(lat: number, lng: number): Observable<string> {
     this.loading = true;
-    const url = `https://cityalertapi-dev.azurewebsites.net/geo/addresses?lat=${lat}&lon=${lng}`;
+    const url = environment.URL_BACKEND + `/geo/addresses?lat=${lat}&lon=${lng}`;
     const token = this.authService.getToken();
     
     const headers = new HttpHeaders({

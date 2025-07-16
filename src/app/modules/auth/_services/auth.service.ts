@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://cityalertapi-dev.azurewebsites.net/auth'; 
-  private registryUrl = 'https://cityalertapi-dev.azurewebsites.net/users';// URL base de la API
+  private apiUrl = environment.URL_BACKEND + '/auth'; 
+  private registryUrl = environment.URL_BACKEND + '/users';// URL base de la API
   private tokenKey = 'auth_token'; // Clave para almacenar el token
   private useridKey= 'user';
   private roleidKey= 'role';

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportServiceService {
-  private baseUrl = 'https://cityalertapi-dev.azurewebsites.net/alerts';
+  private baseUrl = environment.URL_BACKEND + '/alerts';
 
   constructor(private http: HttpClient) {}
 
