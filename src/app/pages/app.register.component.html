@@ -52,8 +52,9 @@
                             <small><span *ngIf="usr_password.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
                         </div>                         
                         <div class="login-input-wrapper">
-                            <input type="password" formControlName="usr_password" pInputText id="usr_password" placeholder="Contraseña">
-                            <i class="pi pi-key"></i>
+                            <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="usr_password" pInputText id="usr_password" placeholder="Contraseña">
+                            <i class="pi" [ngClass]="isPasswordVisible ? 'pi-eye-slash' : 'pi-eye'"
+                            (click)="togglePasswordVisibility()"></i>
                         </div>  
                     </div>
 
@@ -64,8 +65,9 @@
                             <small><span *ngIf="usr_password_confirm.hasError('maxlength')" class="text-danger">Máximo 200 caracteres </span></small>
                         </div>                         
                         <div class="login-input-wrapper">
-                            <input type="password" formControlName="usr_password_confirm" pInputText id="usr_password_confirm" placeholder="Confirmar Contraseña">
-                            <i class="pi pi-key"></i>
+                            <input [type]="isPasswordConfirmVisible ? 'text' : 'password'" formControlName="usr_password_confirm" pInputText id="usr_password_confirm" placeholder="Confirmar Contraseña">
+                            <i class="pi" [ngClass]="isPasswordConfirmVisible ? 'pi-eye-slash' : 'pi-eye'"
+                            (click)="togglePasswordConfirmVisibility()"></i>
                         </div>  
                     </div>
 

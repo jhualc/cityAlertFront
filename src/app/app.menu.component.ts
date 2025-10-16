@@ -22,7 +22,7 @@ export class AppMenuComponent implements OnInit {
             {label: 'Registrar Alerta', icon: 'pi pi-fw pi-plus-circle', routerLink: ['/inicio']},
             {label: 'Reporte Alertas', icon: 'pi pi-fw pi-chart-line', routerLink: ['/reporte']},
             {label: 'Mapa de Calor', icon: 'pi pi-fw pi-share-alt', routerLink: ['/heat-map']},
-             {label: 'Rutas', icon: 'pi pi-fw pi-share-alt', routerLink: ['/routes-map']},
+            //{label: 'Rutas', icon: 'pi pi-fw pi-share-alt', routerLink: ['/routes-map']},
             {label: 'Registrar Usuario', icon: 'pi pi-fw pi-user-plus', routerLink: ['pages/register']},
             {label: 'Acerca de', icon: 'pi pi-fw pi-info-circle', routerLink: ['pages/acerca']},
             {label: 'Cerrar Sesión', icon: 'pi pi-fw pi-sign-out', routerLink: ['/login']},

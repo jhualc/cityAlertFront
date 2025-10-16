@@ -21,6 +21,8 @@ export class AppRegisterComponent {
   generica = 'rHJ7$p583YL@';
   dark: boolean;
   checked: boolean;
+  isPasswordVisible: boolean = false;
+  isPasswordConfirmVisible: boolean = false;
 
   constructor( private fb: FormBuilder,
     private authService: AuthService,
@@ -47,6 +49,14 @@ initForm(){
   }) 
 }
 
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+    togglePasswordConfirmVisibility() {
+    this.isPasswordConfirmVisible = !this.isPasswordConfirmVisible;
+  }
+
 submit(){
   
   console.log("ingreso registro");
@@ -61,6 +71,8 @@ const data = {
 }
 
 console.log("data::", data);
+
+
 
 this.authService.register(data)
   .subscribe({

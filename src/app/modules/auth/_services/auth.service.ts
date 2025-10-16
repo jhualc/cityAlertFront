@@ -83,7 +83,7 @@ export class AuthService {
   //Servicio para activar el usuario
   activateUser(code: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.registryUrl+"/activate"}`, code, { headers });
+    return this.http.post(`${this.registryUrl+"/secureLink"}`, code, { headers });
   }
 
 

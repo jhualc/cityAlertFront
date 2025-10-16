@@ -47,7 +47,7 @@ import { MapRouteComponent } from './view/dijkstra/dijkstra/dijkstra.component';
 export const routes: Routes = [
     {path: 'login', component: AppLoginComponent},
     {path: 'register', component: AppRegisterComponent},
-    {path: 'activate/:id', component: AppActivateComponent},
+    {path: 'ActivateUser/:id', component: AppActivateComponent},
     
 /*
     {
